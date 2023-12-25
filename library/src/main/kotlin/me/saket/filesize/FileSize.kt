@@ -88,7 +88,14 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
     @PublishedApi internal const val BytesPerGb: Long = 1_000L * BytesPerMb
 
     inline val Number.bytes: FileSize
-      get() = FileSize(bytes = this.toLong())
+      get() {
+        if (this is Double) {
+          // Double#bytes is already a compilation error. This runtime error prevents
+          // developers from casting doubles as Numbers to bypass the compilation error.
+          error(PrecisionLossErrorMessage)
+        }
+        return FileSize(bytes = this.toLong())
+      }
 
     inline val Number.kilobytes: FileSize
       get() = FileSize(bytes = BytesPerKb) * this
@@ -99,13 +106,13 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
     inline val Number.gigabytes: FileSize
       get() = FileSize(bytes = BytesPerGb) * this
 
-    @Deprecated(
-      message = "FileSize provides precision at the byte level. Representing a fractional Double value as bytes may " +
-        "lead to precision loss. It is recommended to convert the value to a whole number before using FileSize.",
-      level = DeprecationLevel.ERROR,
-    )
+    @Deprecated(PrecisionLossErrorMessage, level = DeprecationLevel.ERROR)
     @Suppress("DeprecatedCallableAddReplaceWith")
     val Double.bytes: FileSize
       get() = error("unreachable")
+
+    @PublishedApi internal const val PrecisionLossErrorMessage = "FileSize provides precision at the byte level. " +
+      "Representing a fractional Double value as bytes may lead to precision loss. It is recommended to convert the " +
+      "value to a whole number before using FileSize."
   }
 }

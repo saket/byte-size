@@ -53,4 +53,11 @@ class FileSizeTest {
     assertFailure { 1_000_000_000_000.gigabytes }.hasMessage("long overflow")
     assertFailure { 1_000_000.gigabytes * 1_000_000.gigabytes }.hasMessage("long overflow")
   }
+
+  @Test fun `throw when Double#bytes is called`() {
+    val number: Double = 2.4
+    assertFailure {
+      (number as Number).bytes
+    }.hasMessage(FileSize.PrecisionLossErrorMessage)
+  }
 }
