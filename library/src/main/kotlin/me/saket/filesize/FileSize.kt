@@ -1,5 +1,6 @@
 package me.saket.filesize
 
+import dev.drewhamilton.poko.Poko
 import kotlin.math.roundToLong
 
 /**
@@ -15,8 +16,8 @@ import kotlin.math.roundToLong
  * println(cacheSize * 2)  // "1.02 GB"
  *```
  */
-@JvmInline
-value class FileSize(val bytes: Long): Comparable<FileSize> {
+@Poko
+class FileSize(val bytes: Long): Comparable<FileSize> {
 
   val inWholeKilobytes: Long
     get() = bytes / BytesPerKb

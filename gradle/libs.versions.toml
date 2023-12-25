@@ -4,11 +4,13 @@ mavenPublish = "0.25.3" # https://github.com/vanniktech/gradle-maven-publish-plu
 dokka = "1.9.0" # https://github.com/kotlin/dokka/releases
 junit = "4.13.2"
 truth = "1.2.0" # https://github.com/google/truth/releases
+poko = "0.15.1" # https://github.com/drewhamilton/poko/releases
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
+poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
 
 [libraries]
 junit = { module = "junit:junit", version.ref = "junit" }
