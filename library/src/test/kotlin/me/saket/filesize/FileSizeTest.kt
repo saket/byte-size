@@ -1,6 +1,8 @@
 package me.saket.filesize
 
+import assertk.assertFailure
 import assertk.assertThat
+import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
 import me.saket.filesize.FileSize.Companion.bytes
 import me.saket.filesize.FileSize.Companion.gigabytes
@@ -39,5 +41,16 @@ class FileSizeTest {
     assertThat(512.255.megabytes.toString()).isEqualTo("512.26 MB")
     assertThat(345.999.kilobytes.toString()).isEqualTo("346 KB")
     assertThat(678.99999.gigabytes.toString()).isEqualTo("679 GB")
+  }
+
+  @Test fun `throw if calculation of a large file-size results in an overflow`() {
+    FileSize(bytes = Long.MAX_VALUE).let {
+      assertThat(it.inWholeBytes).isEqualTo(Long.MAX_VALUE)
+      assertFailure { it + 1.bytes }.hasMessage("long overflow")
+    }
+
+    assertFailure { 10_000_000_000.gigabytes }.hasMessage("long overflow")
+    assertFailure { 1_000_000_000_000.gigabytes }.hasMessage("long overflow")
+    assertFailure { 1_000_000.gigabytes * 1_000_000.gigabytes }.hasMessage("long overflow")
   }
 }

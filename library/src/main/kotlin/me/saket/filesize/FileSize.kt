@@ -34,23 +34,23 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
   override operator fun compareTo(other: FileSize): Int =
     bytes.compareTo(other.bytes)
 
-  operator fun plus(other: FileSize) =
-    FileSize(bytes = this.bytes + other.bytes)
+  operator fun plus(other: FileSize): FileSize =
+    FileSize(bytes = Math.addExact(this.bytes, other.bytes))
 
-  operator fun minus(other: FileSize) =
-    FileSize(bytes = this.bytes - other.bytes)
+  operator fun minus(other: FileSize): FileSize =
+    FileSize(bytes = Math.subtractExact(this.bytes, other.bytes))
 
-  operator fun times(other: FileSize) =
-    FileSize(bytes = this.bytes * other.bytes)
+  operator fun times(other: FileSize): FileSize =
+    this * other.bytes
 
   operator fun times(other: Number): FileSize {
     val result = when (other) {
-      is Byte -> bytes * other
-      is Short -> bytes * other
-      is Int -> bytes * other
-      is Long -> bytes * other
-      is Float -> (bytes * other).roundToLong()
-      is Double -> (bytes * other).roundToLong()
+      is Byte -> Math.multiplyExact(bytes, other.toLong())
+      is Short -> Math.multiplyExact(bytes, other.toLong())
+      is Int -> Math.multiplyExact(bytes, other.toLong())
+      is Long -> Math.multiplyExact(bytes, other)
+      is Float -> Math.multiplyExact(bytes, other.roundToLong())
+      is Double -> Math.multiplyExact(bytes, other.roundToLong())
       else -> error("Unsupported type: ${other::class.java}")
     }
     return FileSize(bytes = result)
