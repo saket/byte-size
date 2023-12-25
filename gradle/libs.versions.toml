@@ -2,15 +2,13 @@
 minSdk = "21"
 compileSdk = "34"
 kotlin = "1.9.20"
-agp = "8.1.4"
 mavenPublish = "0.25.3" # https://github.com/vanniktech/gradle-maven-publish-plugin/releases
 dokka = "1.9.0" # https://github.com/kotlin/dokka/releases
 junit = "4.13.2"
 truth = "1.2.0" # https://github.com/google/truth/releases
 
 [plugins]
-android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
 

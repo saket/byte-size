@@ -1,27 +1,16 @@
 plugins {
-  alias(libs.plugins.android.library)
-  alias(libs.plugins.kotlin.android)
+  id("java-library")
+  alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.mavenPublish)
-}
-
-android {
-  namespace = "me.saket.filesize"
-
-  defaultConfig {
-    minSdk = libs.versions.minSdk.get().toInt()
-    compileSdk = libs.versions.compileSdk.get().toInt()
-  }
-  java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(11))
-  }
-  lint {
-    abortOnError = true
-  }
 }
 
 dependencies {
   testImplementation(libs.junit)
   testImplementation(libs.truth)
+}
+
+java {
+  toolchain.languageVersion.set(JavaLanguageVersion.of(11))
 }
 
 // Used on CI to prevent publishing of non-snapshot versions.
