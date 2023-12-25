@@ -7,7 +7,7 @@ plugins {
 
 dependencies {
   testImplementation(libs.junit)
-  testImplementation(libs.truth)
+  testImplementation(libs.assertk)
 }
 
 java {

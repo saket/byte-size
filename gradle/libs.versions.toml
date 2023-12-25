@@ -3,7 +3,6 @@ kotlin = "1.9.20"
 mavenPublish = "0.25.3" # https://github.com/vanniktech/gradle-maven-publish-plugin/releases
 dokka = "1.9.0" # https://github.com/kotlin/dokka/releases
 junit = "4.13.2"
-truth = "1.2.0" # https://github.com/google/truth/releases
 poko = "0.15.1" # https://github.com/drewhamilton/poko/releases
 
 [plugins]
@@ -14,4 +13,4 @@ poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
 
 [libraries]
 junit = { module = "junit:junit", version.ref = "junit" }
-truth = { module = "com.google.truth:truth", version.ref = "truth" }
+assertk = "com.willowtreeapps.assertk:assertk:0.28.0" # https://github.com/willowtreeapps/assertk/releases
