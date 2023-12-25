@@ -6,7 +6,6 @@ import me.saket.filesize.FileSize.Companion.gigabytes
 import me.saket.filesize.FileSize.Companion.kilobytes
 import me.saket.filesize.FileSize.Companion.megabytes
 import org.junit.Test
-import kotlin.time.Duration.Companion.seconds
 
 class FileSizeTest {
   @Test fun `unit conversions`() {
@@ -19,7 +18,10 @@ class FileSizeTest {
   @Test fun `basic math operations`() {
     assertThat(3.megabytes + 200.kilobytes).isEqualTo(3.2.megabytes)
     assertThat(6.gigabytes * 3.2).isEqualTo(19.2.gigabytes)
+    assertThat(6.gigabytes * 3.2.toFloat()).isEqualTo(19.2.gigabytes)
     assertThat(1.megabytes / 2).isEqualTo(500.kilobytes)
+    assertThat(1.megabytes / 2.toShort()).isEqualTo(500.kilobytes)
+    assertThat(1.megabytes / 2.toByte()).isEqualTo(500.kilobytes)
     assertThat(7.gigabytes - 500.megabytes).isEqualTo(6_500.megabytes)
   }
 

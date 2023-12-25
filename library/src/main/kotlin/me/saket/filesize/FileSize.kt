@@ -40,26 +40,34 @@ class FileSize(val bytes: Long): Comparable<FileSize> {
   operator fun times(other: FileSize) =
     FileSize(bytes = this.bytes * other.bytes)
 
-  operator fun times(other: Int) =
-    FileSize(bytes = this.bytes * other)
-
-  operator fun times(other: Float) =
-    FileSize(bytes = (this.bytes * other).roundToLong())
-
-  operator fun times(other: Double) =
-    FileSize(bytes = (this.bytes * other).roundToLong())
+  operator fun times(other: Number): FileSize {
+    val result = when (other) {
+      is Byte -> bytes * other
+      is Short -> bytes * other
+      is Int -> bytes * other
+      is Long -> bytes * other
+      is Float -> (bytes * other).roundToLong()
+      is Double -> (bytes * other).roundToLong()
+      else -> error("Unsupported type: ${other::class.java}")
+    }
+    return FileSize(bytes = result)
+  }
 
   operator fun div(other: FileSize) =
     FileSize(bytes = this.bytes / other.bytes)
 
-  operator fun div(other: Int) =
-    FileSize(bytes = this.bytes / other)
-
-  operator fun div(other: Float) =
-    FileSize(bytes = (this.bytes / other).roundToLong())
-
-  operator fun div(other: Double) =
-    FileSize(bytes = (this.bytes / other).roundToLong())
+  operator fun div(other: Number): FileSize {
+    val result = when (other) {
+      is Byte -> bytes / other
+      is Short -> bytes / other
+      is Int -> bytes / other
+      is Long -> bytes / other
+      is Float -> (bytes / other).roundToLong()
+      is Double -> (bytes / other).roundToLong()
+      else -> error("Unsupported type: ${other::class.java}")
+    }
+    return FileSize(bytes = result)
+  }
 
   override fun toString(): String {
     return when {
@@ -76,38 +84,17 @@ class FileSize(val bytes: Long): Comparable<FileSize> {
     @PublishedApi internal const val BytesPerMb: Long = 1_000L * BytesPerKb
     @PublishedApi internal const val BytesPerGb: Long = 1_000L * BytesPerMb
 
-    inline val Int.bytes: FileSize
+    inline val Number.bytes: FileSize
       get() = FileSize(bytes = this.toLong())
 
-    inline val Long.bytes: FileSize
-      get() = FileSize(bytes = this)
+    inline val Number.kilobytes: FileSize
+      get() = FileSize(bytes = BytesPerKb) * this
 
-    inline val Int.kilobytes: FileSize
-      get() = FileSize(bytes = this * BytesPerKb)
+    inline val Number.megabytes: FileSize
+      get() = FileSize(bytes = BytesPerMb) * this
 
-    inline val Double.kilobytes: FileSize
-      get() = FileSize(bytes = (this * BytesPerKb).toLong())
-
-    inline val Long.kilobytes: FileSize
-      get() = FileSize(bytes = (this * BytesPerKb))
-
-    inline val Int.megabytes: FileSize
-      get() = FileSize(bytes = this * BytesPerMb)
-
-    inline val Double.megabytes: FileSize
-      get() = FileSize(bytes = (this * BytesPerMb).toLong())
-
-    inline val Long.megabytes: FileSize
-      get() = FileSize(bytes = (this * BytesPerMb))
-
-    inline val Int.gigabytes: FileSize
-      get() = FileSize(bytes = this * BytesPerGb)
-
-    inline val Double.gigabytes: FileSize
-      get() = FileSize(bytes = (this * BytesPerGb).toLong())
-
-    inline val Long.gigabytes: FileSize
-      get() = FileSize(bytes = (this * BytesPerGb))
+    inline val Number.gigabytes: FileSize
+      get() = FileSize(bytes = BytesPerGb) * this
 
     @Deprecated(
       message = "FileSize provides precision at the byte level. Representing a fractional Double value as bytes may " +
