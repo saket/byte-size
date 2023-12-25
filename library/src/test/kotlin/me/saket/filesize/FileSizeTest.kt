@@ -1,6 +1,7 @@
 package me.saket.filesize
 
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import me.saket.filesize.FileSize.Companion.bytes
 import me.saket.filesize.FileSize.Companion.gigabytes
 import me.saket.filesize.FileSize.Companion.kilobytes
