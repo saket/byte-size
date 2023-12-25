@@ -17,7 +17,10 @@ import kotlin.math.roundToLong
  *```
  */
 @Poko
-class FileSize(val bytes: Long): Comparable<FileSize> {
+class FileSize(private val bytes: Long) : Comparable<FileSize> {
+
+  val inWholeBytes: Long
+    get() = bytes
 
   val inWholeKilobytes: Long
     get() = bytes / BytesPerKb
