@@ -21,7 +21,7 @@ class FileSizeTest {
   @Test fun `basic math operations`() {
     assertThat(3.megabytes + 200.kilobytes).isEqualTo(3.2.megabytes)
     assertThat(6.gigabytes * 3.2).isEqualTo(19.2.gigabytes)
-    assertThat(6.gigabytes * 3.2.toFloat()).isEqualTo(19.2.gigabytes)
+    assertThat(6.gigabytes * 3.2f).isEqualTo(19.2.gigabytes)
     assertThat(1.megabytes / 2).isEqualTo(500.kilobytes)
     assertThat(1.megabytes / 2.toShort()).isEqualTo(500.kilobytes)
     assertThat(1.megabytes / 2.toByte()).isEqualTo(500.kilobytes)
@@ -44,6 +44,9 @@ class FileSizeTest {
   }
 
   @Test fun `throw if calculation of a large file-size results in an overflow`() {
+    assertFailure { FileSize(bytes = Long.MAX_VALUE) * 2.0f }.hasMessage("BigInteger out of long range")
+    assertFailure { FileSize(bytes = Long.MAX_VALUE) * 2.0 }.hasMessage("BigInteger out of long range")
+
     FileSize(bytes = Long.MAX_VALUE).let {
       assertThat(it.inWholeBytes).isEqualTo(Long.MAX_VALUE)
       assertFailure { it + 1.bytes }.hasMessage("long overflow")

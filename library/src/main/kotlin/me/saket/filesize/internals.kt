@@ -1,5 +1,6 @@
 package me.saket.filesize
 
+import java.math.BigDecimal
 import kotlin.math.pow
 
 internal fun Long.toStringAsFixed(): String {
@@ -35,4 +36,18 @@ private fun Double.toStringAsFixed(digits: Int): String {
     // based string representation
     rounded.toInt().toString()
   }
+}
+
+internal fun multiplyExact(a: Long, b: Double): Long {
+  return BigDecimal.valueOf(a)
+    .multiply(BigDecimal.valueOf(b))
+    .toBigInteger()
+    .longValueExact()
+}
+
+internal fun multiplyExact(a: Long, b: Float): Long {
+  return BigDecimal.valueOf(a)
+    .multiply(BigDecimal(b.toString()))
+    .toBigInteger()
+    .longValueExact()
 }
