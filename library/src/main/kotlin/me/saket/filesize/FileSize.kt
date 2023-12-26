@@ -49,7 +49,8 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
       is Byte,
       is Short,
       is Int,
-      is Long -> Math.multiplyExact(bytes, other.toLong())
+      is Long,
+      -> Math.multiplyExact(bytes, other.toLong())
       is Float -> multiplyExact(bytes, other)
       is Double -> multiplyExact(bytes, other)
       else -> error("Unsupported type: ${other::class.java}")
@@ -85,7 +86,9 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
   @Suppress("ConstPropertyName")
   companion object {
     @PublishedApi internal const val BytesPerKb: Long = 1_000L
+
     @PublishedApi internal const val BytesPerMb: Long = 1_000L * BytesPerKb
+
     @PublishedApi internal const val BytesPerGb: Long = 1_000L * BytesPerMb
 
     inline val Number.bytes: FileSize

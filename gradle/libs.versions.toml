@@ -10,7 +10,9 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+spotless = "com.diffplug.spotless:6.23.3"
 
 [libraries]
 junit = { module = "junit:junit", version.ref = "junit" }
 assertk = "com.willowtreeapps.assertk:assertk:0.28.0" # https://github.com/willowtreeapps/assertk/releases
+ktlint = "com.pinterest.ktlint:ktlint-cli:1.1.0"
