@@ -8,13 +8,14 @@ import kotlin.math.roundToLong
  *
  * Example usage:
  *
- * ```
+ * ```kotlin
  * val cacheSize = 512.megabytes
  * println(cacheSize.toString())          // "512 MB"
  * println(cacheSize.inWholeBytes)        // "512000000"
  * println(cacheSize + 88_000.kilobytes)  // "600 MB"
  * println(cacheSize * 2)                 // "1.02 GB"
  * println(cacheSize < 1.gigabytes)       // "true"
+ * println(cacheSize == 0.5.gibibytes)    // "true"
  * ```
  */
 @Poko
@@ -26,11 +27,20 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
   val inWholeKilobytes: Long
     get() = bytes / BytesPerKb
 
+  val inWholeKibibytes: Long
+    get() = bytes / BytesPerKib
+
   val inWholeMegabytes: Long
     get() = bytes / BytesPerMb
 
+  val inWholeMebibytes: Long
+    get() = bytes / BytesPerMib
+
   val inWholeGigabytes: Long
     get() = bytes / BytesPerGb
+
+  val inwholeGibibytes: Long
+    get() = bytes / BytesPerGib
 
   override operator fun compareTo(other: FileSize): Int =
     bytes.compareTo(other.bytes)
@@ -75,18 +85,21 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
 
   override fun toString(): String {
     return when {
-      bytes < 1_000 -> "${bytes.toStringAsFixed()} bytes"
-      bytes < 1_000_000 -> "${(bytes / 1_000.0).toStringAsFixed()} KB"
-      bytes < 1_000_000_000 -> "${(bytes / 1_000_000.0).toStringAsFixed()} MB"
-      else -> "${(bytes / 1_000_000_000.0).toStringAsFixed()} GB"
+      bytes < BytesPerKb -> "${bytes.toStringAsFixed()} bytes"
+      bytes < BytesPerMb -> "${(bytes / 1_000.0).toStringAsFixed()} KB"
+      bytes < BytesPerGb -> "${(bytes / 1_000_000.0).toStringAsFixed()} MB"
+      else -> "${(bytes / BytesPerGb.toDouble()).toStringAsFixed()} GB"
     }
   }
 
   @Suppress("ConstPropertyName")
   companion object {
     @PublishedApi internal const val BytesPerKb: Long = 1_000L
+    @PublishedApi internal const val BytesPerKib: Long = 1024L
     @PublishedApi internal const val BytesPerMb: Long = 1_000L * BytesPerKb
+    @PublishedApi internal const val BytesPerMib: Long = 1024L * BytesPerKib
     @PublishedApi internal const val BytesPerGb: Long = 1_000L * BytesPerMb
+    @PublishedApi internal const val BytesPerGib: Long = 1024L * BytesPerMib
 
     inline val Number.bytes: FileSize
       get() {
@@ -101,11 +114,20 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
     inline val Number.kilobytes: FileSize
       get() = FileSize(bytes = BytesPerKb) * this
 
+    inline val Number.kibibytes: FileSize
+      get() = FileSize(bytes = BytesPerKib) * this
+
     inline val Number.megabytes: FileSize
       get() = FileSize(bytes = BytesPerMb) * this
 
+    inline val Number.mebibytes: FileSize
+      get() = FileSize(bytes = BytesPerMib) * this
+
     inline val Number.gigabytes: FileSize
       get() = FileSize(bytes = BytesPerGb) * this
+
+    inline val Number.gibibytes: FileSize
+      get() = FileSize(bytes = BytesPerGib) * this
 
     @Deprecated(PrecisionLossErrorMessage, level = DeprecationLevel.ERROR)
     @Suppress("DeprecatedCallableAddReplaceWith")

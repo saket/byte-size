@@ -5,17 +5,23 @@ import assertk.assertThat
 import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
 import me.saket.filesize.FileSize.Companion.bytes
+import me.saket.filesize.FileSize.Companion.gibibytes
 import me.saket.filesize.FileSize.Companion.gigabytes
 import me.saket.filesize.FileSize.Companion.kilobytes
+import me.saket.filesize.FileSize.Companion.mebibytes
 import me.saket.filesize.FileSize.Companion.megabytes
 import org.junit.Test
 
 class FileSizeTest {
   @Test fun `unit conversions`() {
     assertThat(2_000.bytes.inWholeKilobytes).isEqualTo(2)
+    assertThat(2048.bytes.inWholeKibibytes).isEqualTo(2)
     assertThat(3.2.gigabytes.inWholeMegabytes).isEqualTo(3_200)
+    assertThat(3.2.gibibytes.inWholeMebibytes).isEqualTo(3_276)
     assertThat(1.gigabytes.inWholeGigabytes).isEqualTo(1)
+    assertThat(1.gibibytes.inwholeGibibytes).isEqualTo(1)
     assertThat(512.megabytes.inWholeGigabytes).isEqualTo(0)
+    assertThat(512.mebibytes == 0.5.gibibytes).isEqualTo(true)
   }
 
   @Test fun `basic math operations`() {
