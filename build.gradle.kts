@@ -1,13 +1,4 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
-
-buildscript {
-  repositories {
-    google()
-    mavenCentral()
-  }
-}
 
 plugins {
   alias(libs.plugins.kotlin.jvm) apply false
@@ -33,9 +24,13 @@ allprojects {
     }
   }
 
-  tasks.withType<KotlinJvmCompile>().configureEach {
-    compilerOptions {
-      jvmTarget.set(JvmTarget.JVM_11)
+  // Configure Java to use our chosen language level. Kotlin will automatically pick this up.
+  // See https://kotlinlang.org/docs/gradle-configure-project.html#gradle-java-toolchains-support
+  plugins.withType<JavaBasePlugin>().configureEach {
+    extensions.configure<JavaPluginExtension> {
+      toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+      }
     }
   }
 }

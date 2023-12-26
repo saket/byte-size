@@ -1,6 +1,5 @@
 pluginManagement {
   repositories {
-    google()
     mavenCentral()
     gradlePluginPortal()
   }
@@ -8,12 +7,13 @@ pluginManagement {
 
 dependencyResolutionManagement {
   repositories {
-    google()
     mavenCentral()
   }
 }
 
-include ':library'
+include(
+  ":library",
+)
 
 rootProject.name = "file-size"
-enableFeaturePreview('TYPESAFE_PROJECT_ACCESSORS')
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
