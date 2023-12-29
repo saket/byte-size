@@ -19,4 +19,3 @@ include(
 )
 
 rootProject.name = "file-size"
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
