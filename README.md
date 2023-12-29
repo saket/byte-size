@@ -1,7 +1,7 @@
 # file-size
 
 ```groovy
-implementation "me.saket.filesize:filesize:1.1.0"
+implementation "me.saket.filesize:filesize:1.2.0"
 ```
 
 ```kotlin
