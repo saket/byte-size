@@ -18,8 +18,8 @@ metalava {
 
 // Used on CI to prevent publishing of non-snapshot versions.
 tasks.register("throwIfVersionIsNotSnapshot") {
-  val libraryVersion = providers.gradleProperty("VERSION_NAME").orNull.orEmpty()
+  val libraryVersion = properties["VERSION_NAME"] as String
   check(libraryVersion.endsWith("SNAPSHOT")) {
-    "Project isn't using a snapshot version = $libraryVersion"
+    "Project isn't using a snapshot version = '$libraryVersion'"
   }
 }
