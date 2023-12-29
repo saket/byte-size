@@ -1,0 +1,37 @@
+// Signature format: 4.0
+package me.saket.filesize {
+
+  @dev.drewhamilton.poko.Poko public final class FileSize {
+    ctor public FileSize(long bytes);
+    method public static inline me.saket.filesize.FileSize bytes(Number);
+    method public operator int compareTo(me.saket.filesize.FileSize other);
+    method public operator me.saket.filesize.FileSize div(Number other);
+    method public operator me.saket.filesize.FileSize div(me.saket.filesize.FileSize other);
+    method public static inline me.saket.filesize.FileSize gigabytes(Number);
+    method public long inWholeBytes();
+    method public long inWholeGigabytes();
+    method public long inWholeKilobytes();
+    method public long inWholeMegabytes();
+    method public static inline me.saket.filesize.FileSize kilobytes(Number);
+    method public static inline me.saket.filesize.FileSize megabytes(Number);
+    method public operator me.saket.filesize.FileSize minus(me.saket.filesize.FileSize other);
+    method public operator me.saket.filesize.FileSize plus(me.saket.filesize.FileSize other);
+    method public operator me.saket.filesize.FileSize times(Number other);
+    method public operator me.saket.filesize.FileSize times(me.saket.filesize.FileSize other);
+    method public String toString();
+    property public final long inWholeBytes;
+    property public final long inWholeGigabytes;
+    property public final long inWholeKilobytes;
+    property public final long inWholeMegabytes;
+    field public static final me.saket.filesize.FileSize.Companion Companion;
+  }
+
+  public static final class FileSize.Companion {
+    method public inline me.saket.filesize.FileSize bytes(Number);
+    method public inline me.saket.filesize.FileSize gigabytes(Number);
+    method public inline me.saket.filesize.FileSize kilobytes(Number);
+    method public inline me.saket.filesize.FileSize megabytes(Number);
+  }
+
+}
+

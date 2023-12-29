@@ -3,6 +3,7 @@ plugins {
   alias(libs.plugins.mavenPublish) apply false
   alias(libs.plugins.dokka) apply false
   alias(libs.plugins.poko) apply false
+  alias(libs.plugins.metalava) apply false
 }
 
 allprojects {

@@ -4,12 +4,14 @@ mavenPublish = "0.25.3" # https://github.com/vanniktech/gradle-maven-publish-plu
 dokka = "1.9.0" # https://github.com/kotlin/dokka/releases
 junit = "4.13.2"
 poko = "0.15.1" # https://github.com/drewhamilton/poko/releases
+metalava = "0.3.5"  # https://github.com/tylerbwong/metalava-gradle/releases
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+metalava = { id = "me.tylerbwong.gradle.metalava", version.ref = "metalava" }
 
 [libraries]
 junit = { module = "junit:junit", version.ref = "junit" }
