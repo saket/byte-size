@@ -3,7 +3,9 @@
 package me.saket.filesize
 
 import dev.drewhamilton.poko.Poko
-import kotlin.math.roundToLong
+import kotlin.jvm.JvmName
+import kotlin.jvm.JvmStatic
+import kotlin.jvm.JvmSynthetic
 
 /**
  * Represents a file size with byte-level precision.
@@ -42,41 +44,23 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
     bytes.compareTo(other.bytes)
 
   operator fun plus(other: FileSize): FileSize =
-    FileSize(bytes = Math.addExact(this.bytes, other.bytes))
+    FileSize(bytes = this.bytes.addExact(other.bytes))
 
   operator fun minus(other: FileSize): FileSize =
-    FileSize(bytes = Math.subtractExact(this.bytes, other.bytes))
+    FileSize(bytes = this.bytes.subtractExact(other.bytes))
 
   operator fun times(other: FileSize): FileSize =
     this * other.bytes
 
   operator fun times(other: Number): FileSize {
-    val result = when (other) {
-      is Byte,
-      is Short,
-      is Int,
-      is Long -> Math.multiplyExact(bytes, other.toLong())
-      is Float -> multiplyExact(bytes, other)
-      is Double -> multiplyExact(bytes, other)
-      else -> error("Unsupported type: ${other::class.java}")
-    }
-    return FileSize(bytes = result)
+    return FileSize(bytes = bytes.multiplyExact(other))
   }
 
   operator fun div(other: FileSize): FileSize =
     this / other.bytes
 
   operator fun div(other: Number): FileSize {
-    val result = when (other) {
-      is Byte -> bytes / other
-      is Short -> bytes / other
-      is Int -> bytes / other
-      is Long -> bytes / other
-      is Float -> (bytes / other).roundToLong()
-      is Double -> (bytes / other).roundToLong()
-      else -> error("Unsupported type: ${other::class.java}")
-    }
-    return FileSize(bytes = result)
+    return FileSize(bytes = bytes.divideExact(other))
   }
 
   override fun toString(): String {
@@ -97,10 +81,10 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
     @get:JvmName("bytes")
     inline val Number.bytes: FileSize
       get() {
-        if (this is Double) {
+        if (this.isDecimal()) {
           // Double#bytes is already a compilation error. This runtime error prevents
           // developers from casting doubles as Numbers to bypass the compilation error.
-          error(PrecisionLossErrorMessage)
+          throw FileSizePrecisionException()
         }
         return FileSize(bytes = this.toLong())
       }
@@ -124,7 +108,7 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
     @Deprecated(PrecisionLossErrorMessage, level = DeprecationLevel.ERROR)
     @Suppress("DeprecatedCallableAddReplaceWith")
     val Double.bytes: FileSize
-      get() = error(PrecisionLossErrorMessage)
+      get() = throw FileSizePrecisionException()
 
     @PublishedApi internal const val PrecisionLossErrorMessage = "FileSize provides precision at the byte level. " +
       "Representing a fractional Double value as bytes may lead to precision loss. It is recommended to convert the " +
