@@ -1,7 +1,8 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
   repositories {
     mavenCentral()
-    google()
     gradlePluginPortal()
   }
 }
@@ -9,6 +10,7 @@ pluginManagement {
 dependencyResolutionManagement {
   repositories {
     mavenCentral()
+    google()  // For metalava.
   }
 }
 
