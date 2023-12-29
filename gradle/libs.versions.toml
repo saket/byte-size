@@ -14,4 +14,3 @@ poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
 [libraries]
 junit = { module = "junit:junit", version.ref = "junit" }
 assertk = "com.willowtreeapps.assertk:assertk:0.28.0" # https://github.com/willowtreeapps/assertk/releases
-ktlint = "com.pinterest.ktlint:ktlint-cli:1.1.0"
