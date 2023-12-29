@@ -2,17 +2,17 @@
 kotlin = "1.9.20"
 mavenPublish = "0.25.3" # https://github.com/vanniktech/gradle-maven-publish-plugin/releases
 dokka = "1.9.0" # https://github.com/kotlin/dokka/releases
-junit = "4.13.2"
 poko = "0.15.1" # https://github.com/drewhamilton/poko/releases
 metalava = "0.3.5"  # https://github.com/tylerbwong/metalava-gradle/releases
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-test = { id = "org.jetbrains.kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
 metalava = { id = "me.tylerbwong.gradle.metalava", version.ref = "metalava" }
 
 [libraries]
-junit = { module = "junit:junit", version.ref = "junit" }
-assertk = "com.willowtreeapps.assertk:assertk:0.28.0" # https://github.com/willowtreeapps/assertk/releases
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
