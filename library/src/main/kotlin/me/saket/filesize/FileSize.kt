@@ -1,3 +1,5 @@
+@file:Suppress("ConstPropertyName")
+
 package me.saket.filesize
 
 import dev.drewhamilton.poko.Poko
@@ -20,15 +22,19 @@ import kotlin.math.roundToLong
 @Poko
 class FileSize(private val bytes: Long) : Comparable<FileSize> {
 
+  @get:JvmName("inWholeBytes")
   val inWholeBytes: Long
     get() = bytes
 
+  @get:JvmName("inWholeKilobytes")
   val inWholeKilobytes: Long
     get() = bytes / BytesPerKb
 
+  @get:JvmName("inWholeMegabytes")
   val inWholeMegabytes: Long
     get() = bytes / BytesPerMb
 
+  @get:JvmName("inWholeGigabytes")
   val inWholeGigabytes: Long
     get() = bytes / BytesPerGb
 
@@ -82,12 +88,13 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
     }
   }
 
-  @Suppress("ConstPropertyName")
   companion object {
     @PublishedApi internal const val BytesPerKb: Long = 1_000L
     @PublishedApi internal const val BytesPerMb: Long = 1_000L * BytesPerKb
     @PublishedApi internal const val BytesPerGb: Long = 1_000L * BytesPerMb
 
+    @JvmStatic
+    @get:JvmName("bytes")
     inline val Number.bytes: FileSize
       get() {
         if (this is Double) {
@@ -98,19 +105,26 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
         return FileSize(bytes = this.toLong())
       }
 
+    @JvmStatic
+    @get:JvmName("kilobytes")
     inline val Number.kilobytes: FileSize
       get() = FileSize(bytes = BytesPerKb) * this
 
+    @JvmStatic
+    @get:JvmName("megabytes")
     inline val Number.megabytes: FileSize
       get() = FileSize(bytes = BytesPerMb) * this
 
+    @JvmStatic
+    @get:JvmName("gigabytes")
     inline val Number.gigabytes: FileSize
       get() = FileSize(bytes = BytesPerGb) * this
 
+    @get:JvmSynthetic
     @Deprecated(PrecisionLossErrorMessage, level = DeprecationLevel.ERROR)
     @Suppress("DeprecatedCallableAddReplaceWith")
     val Double.bytes: FileSize
-      get() = error("unreachable")
+      get() = error(PrecisionLossErrorMessage)
 
     @PublishedApi internal const val PrecisionLossErrorMessage = "FileSize provides precision at the byte level. " +
       "Representing a fractional Double value as bytes may lead to precision loss. It is recommended to convert the " +
