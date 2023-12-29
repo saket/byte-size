@@ -8,7 +8,7 @@ internal fun Long.toStringAsFixed(): String {
 }
 
 internal fun Double.toStringAsFixed(): String {
-  return this.removeSuffix(".0")
+  return this.toStringAsFixed(digits = 2).removeSuffix(".0")
 }
 
 /**
