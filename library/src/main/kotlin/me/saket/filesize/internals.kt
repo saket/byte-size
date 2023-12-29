@@ -8,8 +8,7 @@ internal fun Long.toStringAsFixed(): String {
 }
 
 internal fun Double.toStringAsFixed(): String {
-  val string = this.toStringAsFixed(digits = 2)
-  return if (string.endsWith(".0")) string.substringBeforeLast(".") else string
+  return this.removeSuffix(".0")
 }
 
 /**
