@@ -3,7 +3,7 @@ package me.saket.filesize
 import kotlin.math.roundToLong
 
 @PublishedApi
-internal actual fun Number.isDecimal(): Boolean = this is Double
+internal actual fun Number.isDecimal(): Boolean = this is Double || this is Float
 
 internal actual fun Long.divideExact(other: Number): Long {
   return when (other) {
