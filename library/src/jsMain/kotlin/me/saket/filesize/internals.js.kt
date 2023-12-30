@@ -4,7 +4,7 @@ package me.saket.filesize
 @Suppress("UNUSED_VARIABLE")
 internal actual fun Number.isDecimal(): Boolean {
   val thisNum = this //js() can only accept const strings; create a temporary variable to reference `this`
-  return js("thisNum % 1 != 0") as Boolean
+  return js("thisNum % 1 != 0").unsafeCast<Boolean>()
 }
 
 internal actual fun Long.addExact(other: Long): Long {
