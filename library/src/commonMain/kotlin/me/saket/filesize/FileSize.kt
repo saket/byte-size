@@ -111,7 +111,7 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
       get() = throw FileSizePrecisionException()
 
     @PublishedApi internal const val PrecisionLossErrorMessage = "FileSize provides precision at the byte level. " +
-      "Representing a fractional Double value as bytes may lead to precision loss. It is recommended to convert the " +
+      "Representing a fractional Double/Floa value as bytes may lead to precision loss. It is recommended to convert the " +
       "value to a whole number before using FileSize."
   }
 }
