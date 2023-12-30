@@ -33,5 +33,9 @@ package me.saket.filesize {
     method public inline me.saket.filesize.FileSize megabytes(Number);
   }
 
+  public final class FileSizePrecisionException {
+    ctor public FileSizePrecisionException();
+  }
+
 }
 
