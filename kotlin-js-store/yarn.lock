@@ -1046,10 +1046,10 @@ jest-worker@^27.4.5:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
-js-big-decimal@2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/js-big-decimal/-/js-big-decimal-2.0.4.tgz#eca611e5a917130e7b08f0d35eaa1b49dd12ea41"
-  integrity sha512-y2IkNqwCqJyUVkiW/ddqxDAzCojoIKKBHIXBGEprtEs+93Zk64Y2ZWHt1MzTRM+ASpKdOurYLcss4BX25bkGyQ==
+js-big-decimal@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/js-big-decimal/-/js-big-decimal-1.4.1.tgz#e79423a1d06e55a390547d75233ff289c3dd8820"
+  integrity sha512-lEE6kXojqv1/ky/H0nTTg5gi+1g+V6O94T2GPpZTGayXGeYIC6f6PszckNsEa7S2+qgas9ZOEkONMryxXVKWwQ==
 
 js-yaml@4.1.0:
   version "4.1.0"

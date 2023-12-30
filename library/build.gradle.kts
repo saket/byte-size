@@ -39,7 +39,7 @@ kotlin {
 
     jsMain {
       dependencies {
-        implementation(npm("js-big-decimal", "2.0.4"))
+        implementation(npm("js-big-decimal", "1.4.1"))
       }
     }
     jvmMain {
