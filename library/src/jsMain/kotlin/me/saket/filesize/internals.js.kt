@@ -10,27 +10,23 @@ internal actual fun Number.isDecimal(): Boolean {
 internal actual fun Long.addExact(other: Long): Long {
   return BigDecimal(this.toString())
     .add(BigDecimal(other))
-    .round()
     .toLong()
 }
 internal actual fun Long.subtractExact(other: Long): Long {
   return BigDecimal(this.toString())
     .subtract(BigDecimal(other))
-    .round()
     .toLong()
 }
 
 internal actual fun Long.multiplyExact(other: Number): Long {
   return BigDecimal(this)
     .multiply(BigDecimal(other))
-    .round()
     .toLong()
 }
 
 internal actual fun Long.divideExact(other: Number): Long {
   return BigDecimal(this.toString())
     .divide(BigDecimal(other))
-    .round()
     .toLong()
 }
 
@@ -56,7 +52,7 @@ private external class BigDecimal(value: dynamic) {
 
 private fun BigDecimal.toLong(): Long {
   return try {
-    getValue().toLong()
+    round().getValue().toLong()
   } catch (e: NumberFormatException) {
     throw ArithmeticException(e.message)
   }
