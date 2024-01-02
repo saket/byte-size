@@ -12,7 +12,7 @@ allprojects {
   plugins.withType<JavaBasePlugin>().configureEach {
     extensions.configure<JavaPluginExtension> {
       toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
+        languageVersion = JavaLanguageVersion.of(11)
       }
     }
   }
