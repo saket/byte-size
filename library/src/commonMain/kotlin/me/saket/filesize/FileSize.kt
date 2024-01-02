@@ -2,10 +2,10 @@
 
 package me.saket.filesize
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import dev.drewhamilton.poko.Poko
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
-import kotlin.jvm.JvmSynthetic
 
 /**
  * Represents a file size with byte-level precision.
@@ -22,53 +22,54 @@ import kotlin.jvm.JvmSynthetic
  * ```
  */
 @Poko
-class FileSize(private val bytes: Long) : Comparable<FileSize> {
+class FileSize(private val bytes: BigDecimal) : Comparable<FileSize> {
+
+  constructor(bytes: Long): this(BigDecimal.fromLong(bytes))
 
   @get:JvmName("inWholeBytes")
   val inWholeBytes: Long
-    get() = bytes
+    get() = bytes.longValue(exactRequired = true)
 
   @get:JvmName("inWholeKilobytes")
   val inWholeKilobytes: Long
-    get() = bytes / BytesPerKb
+    get() = inWholeBytes / BytesPerKb
 
   @get:JvmName("inWholeMegabytes")
   val inWholeMegabytes: Long
-    get() = bytes / BytesPerMb
+    get() = inWholeBytes / BytesPerMb
 
   @get:JvmName("inWholeGigabytes")
   val inWholeGigabytes: Long
-    get() = bytes / BytesPerGb
+    get() = inWholeBytes / BytesPerGb
+
 
   override operator fun compareTo(other: FileSize): Int =
     bytes.compareTo(other.bytes)
 
   operator fun plus(other: FileSize): FileSize =
-    FileSize(bytes = this.bytes.addExact(other.bytes))
+    FileSize(bytes = bytes + other.bytes)
 
   operator fun minus(other: FileSize): FileSize =
-    FileSize(bytes = this.bytes.subtractExact(other.bytes))
+    FileSize(bytes = bytes - other.bytes)
 
   operator fun times(other: FileSize): FileSize =
-    this * other.bytes
+    this * other.inWholeBytes
 
-  operator fun times(other: Number): FileSize {
-    return FileSize(bytes = bytes.multiplyExact(other))
-  }
+  operator fun times(other: Number): FileSize =
+    FileSize(bytes = bytes * BigNumber(other))
 
   operator fun div(other: FileSize): FileSize =
-    this / other.bytes
+    this / other.inWholeBytes
 
-  operator fun div(other: Number): FileSize {
-    return FileSize(bytes = bytes.divideExact(other))
-  }
+  operator fun div(other: Number): FileSize =
+    FileSize(bytes = bytes / BigNumber(other))
 
   override fun toString(): String {
     return when {
-      bytes < 1_000 -> "${bytes.toStringAsFixed()} bytes"
-      bytes < 1_000_000 -> "${(bytes / 1_000.0).toStringAsFixed()} KB"
-      bytes < 1_000_000_000 -> "${(bytes / 1_000_000.0).toStringAsFixed()} MB"
-      else -> "${(bytes / 1_000_000_000.0).toStringAsFixed()} GB"
+      bytes < 1_000 -> "${inWholeBytes.toStringAsFixed()} bytes"
+      bytes < 1_000_000 -> "${(inWholeBytes / 1_000.0).toStringAsFixed()} KB"
+      bytes < 1_000_000_000 -> "${(inWholeBytes / 1_000_000.0).toStringAsFixed()} MB"
+      else -> "${(inWholeBytes / 1_000_000_000.0).toStringAsFixed()} GB"
     }
   }
 
@@ -80,38 +81,22 @@ class FileSize(private val bytes: Long) : Comparable<FileSize> {
     @JvmStatic
     @get:JvmName("bytes")
     inline val Number.bytes: FileSize
-      get() {
-        if (this.isDecimal()) {
-          // Double#bytes is already a compilation error. This runtime error prevents
-          // developers from casting doubles as Numbers to bypass the compilation error.
-          throw FileSizePrecisionException()
-        }
-        return FileSize(bytes = this.toLong())
-      }
+      get() = FileSize(BigNumber(this))
 
     @JvmStatic
     @get:JvmName("kilobytes")
     inline val Number.kilobytes: FileSize
-      get() = FileSize(bytes = BytesPerKb) * this
+      get() = FileSize(BigNumber(this) * BytesPerKb)
 
     @JvmStatic
     @get:JvmName("megabytes")
     inline val Number.megabytes: FileSize
-      get() = FileSize(bytes = BytesPerMb) * this
+      get() = FileSize(BigNumber(this) * BytesPerMb)
 
     @JvmStatic
     @get:JvmName("gigabytes")
     inline val Number.gigabytes: FileSize
-      get() = FileSize(bytes = BytesPerGb) * this
+      get() = FileSize(BigNumber(this) * BytesPerGb)
 
-    @get:JvmSynthetic
-    @Deprecated(PrecisionLossErrorMessage, level = DeprecationLevel.ERROR)
-    @Suppress("DeprecatedCallableAddReplaceWith")
-    val Double.bytes: FileSize
-      get() = throw FileSizePrecisionException()
-
-    @PublishedApi internal const val PrecisionLossErrorMessage = "FileSize provides precision at the byte level. " +
-      "Representing a fractional Double/Floa value as bytes may lead to precision loss. It is recommended to convert the " +
-      "value to a whole number before using FileSize."
   }
 }

@@ -3,10 +3,10 @@ kotlin = "1.9.20"
 mavenPublish = "0.25.3" # https://github.com/vanniktech/gradle-maven-publish-plugin/releases
 dokka = "1.9.0" # https://github.com/kotlin/dokka/releases
 poko = "0.15.1" # https://github.com/drewhamilton/poko/releases
-metalava = "0.3.5"  # https://github.com/tylerbwong/metalava-gradle/releases
+metalava = "0.3.5" # https://github.com/tylerbwong/metalava-gradle/releases
+bignum = "0.3.8" #https://github.com/ionspin/kotlin-multiplatform-bignum/releases
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-test = { id = "org.jetbrains.kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
@@ -16,3 +16,4 @@ metalava = { id = "me.tylerbwong.gradle.metalava", version.ref = "metalava" }
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+bignum = { group = "com.ionspin.kotlin", name = "bignum", version.ref = "bignum" }

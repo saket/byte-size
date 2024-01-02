@@ -14,8 +14,13 @@ kotlin {
   macosArm64()
   macosX64()
 
+  linuxX64()
+  linuxArm64()
+
+  mingwX64()
+
   js(IR) {
-    useEsModules()
+    useCommonJs()
     browser {
       testTask {
         useKarma {
@@ -33,20 +38,10 @@ kotlin {
         implementation(libs.kotlin.test)
       }
     }
-    val nonJsMain by creating {
-      dependsOn(commonMain.get())
-    }
-
-    jsMain {
+    commonMain {
       dependencies {
-        implementation(npm("js-big-decimal", "1.4.1"))
+        api(libs.bignum)
       }
-    }
-    jvmMain {
-      dependsOn(nonJsMain)
-    }
-    appleMain {
-      dependsOn(nonJsMain)
     }
   }
 }
