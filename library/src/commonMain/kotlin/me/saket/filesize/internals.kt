@@ -1,5 +1,6 @@
 package me.saket.filesize
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import kotlin.math.pow
 
 internal fun Long.toStringAsFixed(): String {
@@ -12,6 +13,7 @@ internal fun Double.toStringAsFixed(): String {
 
 /**
  * Copied from [compose-ui](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-geometry/src/commonMain/kotlin/androidx/compose/ui/geometry/GeometryUtils.kt;drc=f246f23593ca89113a9023f61a32cdc7db09e99e).
+ * TODO: maybe migrate to [BigDecimal.toPlainString]?
  */
 private fun Double.toStringAsFixed(digits: Int): String {
   val pow = 10f.pow(digits)
@@ -37,13 +39,14 @@ private fun Double.toStringAsFixed(digits: Int): String {
 }
 
 @PublishedApi
-internal expect fun Number.isDecimal(): Boolean
-
-internal expect fun Long.addExact(other: Long): Long
-
-internal expect fun Long.subtractExact(other: Long): Long
-
-internal expect fun Long.multiplyExact(other: Number): Long
-
-internal expect fun Long.divideExact(other: Number): Long
-
+internal fun BigNumber(num: Number): BigDecimal {
+  return when (num) {
+    is Double -> BigDecimal.fromDouble(num)
+    is Float -> BigDecimal.fromFloat(num)
+    is Byte -> BigDecimal.fromByte(num)
+    is Short -> BigDecimal.fromShort(num)
+    is Int -> BigDecimal.fromInt(num)
+    is Long -> BigDecimal.fromLong(num)
+    else -> error("Unsupported type: ${num::class}")
+  }
+}
