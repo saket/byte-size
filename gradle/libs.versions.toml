@@ -5,6 +5,7 @@ dokka = "1.9.0" # https://github.com/kotlin/dokka/releases
 poko = "0.15.1" # https://github.com/drewhamilton/poko/releases
 metalava = "0.3.5" # https://github.com/tylerbwong/metalava-gradle/releases
 bignum = "0.3.8" #https://github.com/ionspin/kotlin-multiplatform-bignum/releases
+assertk = "0.28.0" #https://github.com/willowtreeapps/assertk/releases
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -17,3 +18,4 @@ metalava = { id = "me.tylerbwong.gradle.metalava", version.ref = "metalava" }
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 bignum = { group = "com.ionspin.kotlin", name = "bignum", version.ref = "bignum" }
+assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version.ref="assertk" }
