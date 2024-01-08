@@ -9,6 +9,10 @@ import me.saket.filesize.FileSize.Companion.kilobytes
 import me.saket.filesize.FileSize.Companion.megabytes
 
 class FileSizeTest {
+  @Test fun canary() {
+    assertThat(FileSize(bytes = 1_000).inWholeBytes).isEqualTo(1_000)
+  }
+
   @Test
   fun unit_conversions() {
     assertThat(2_000.bytes.inWholeKilobytes).isEqualTo(2)
