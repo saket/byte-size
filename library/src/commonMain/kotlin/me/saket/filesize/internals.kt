@@ -39,7 +39,7 @@ private fun Double.toStringAsFixed(digits: Int): String {
 }
 
 @PublishedApi
-internal fun BigNumber(num: Number): BigDecimal {
+internal fun BigDecimal(num: Number): BigDecimal {
   return when (num) {
     is Double -> BigDecimal.fromDouble(num)
     is Float -> BigDecimal.fromFloat(num)

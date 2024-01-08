@@ -55,13 +55,13 @@ class FileSize(private val bytes: BigDecimal) : Comparable<FileSize> {
     this * other.inWholeBytes
 
   operator fun times(other: Number): FileSize =
-    FileSize(bytes = bytes * BigNumber(other))
+    FileSize(bytes = bytes * BigDecimal(other))
 
   operator fun div(other: FileSize): FileSize =
     this / other.inWholeBytes
 
   operator fun div(other: Number): FileSize =
-    FileSize(bytes = bytes / BigNumber(other))
+    FileSize(bytes = bytes / BigDecimal(other))
 
   override fun toString(): String {
     return when {
@@ -80,21 +80,21 @@ class FileSize(private val bytes: BigDecimal) : Comparable<FileSize> {
     @JvmStatic
     @get:JvmName("bytes")
     inline val Number.bytes: FileSize
-      get() = FileSize(BigNumber(this))
+      get() = FileSize(BigDecimal(this))
 
     @JvmStatic
     @get:JvmName("kilobytes")
     inline val Number.kilobytes: FileSize
-      get() = FileSize(BigNumber(this) * BytesPerKb)
+      get() = FileSize(BigDecimal(this) * BytesPerKb)
 
     @JvmStatic
     @get:JvmName("megabytes")
     inline val Number.megabytes: FileSize
-      get() = FileSize(BigNumber(this) * BytesPerMb)
+      get() = FileSize(BigDecimal(this) * BytesPerMb)
 
     @JvmStatic
     @get:JvmName("gigabytes")
     inline val Number.gigabytes: FileSize
-      get() = FileSize(BigNumber(this) * BytesPerGb)
+      get() = FileSize(BigDecimal(this) * BytesPerGb)
   }
 }
