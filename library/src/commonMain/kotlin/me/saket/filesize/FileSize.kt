@@ -42,7 +42,6 @@ class FileSize(private val bytes: BigDecimal) : Comparable<FileSize> {
   val inWholeGigabytes: Long
     get() = inWholeBytes / BytesPerGb
 
-
   override operator fun compareTo(other: FileSize): Int =
     bytes.compareTo(other.bytes)
 
@@ -97,6 +96,5 @@ class FileSize(private val bytes: BigDecimal) : Comparable<FileSize> {
     @get:JvmName("gigabytes")
     inline val Number.gigabytes: FileSize
       get() = FileSize(BigNumber(this) * BytesPerGb)
-
   }
 }

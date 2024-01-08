@@ -1,8 +1,6 @@
 package me.saket.filesize
 
-import assertk.assertFailure
 import assertk.assertThat
-import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
 import kotlin.test.Test
 import me.saket.filesize.FileSize.Companion.bytes
@@ -11,7 +9,6 @@ import me.saket.filesize.FileSize.Companion.kilobytes
 import me.saket.filesize.FileSize.Companion.megabytes
 
 class FileSizeTest {
-
   @Test
   fun unit_conversions() {
     assertThat(2_000.bytes.inWholeKilobytes).isEqualTo(2)
@@ -50,19 +47,4 @@ class FileSizeTest {
     assertThat(345.999.kilobytes.toString()).isEqualTo("346 KB")
     assertThat(678.99999.gigabytes.toString()).isEqualTo("679 GB")
   }
-
-//  @Test
-//  fun throw_if_calculation_of_a_large_filesize_results_in_an_overflow() {
-//    assertFailure { FileSize(bytes = Long.MAX_VALUE) * 2.0f }.hasMessage("Cannot convert to long and provide exact value")
-//    assertFailure { FileSize(bytes = Long.MAX_VALUE) * 2.0 }.hasMessage("Cannot convert to long and provide exact value")
-//
-//    FileSize(bytes = Long.MAX_VALUE).let {
-//      assertThat(it.inWholeBytes).isEqualTo(Long.MAX_VALUE)
-//      assertFailure { it + 1.bytes }.hasMessage("Cannot convert to long and provide exact value")
-//    }
-//
-//    assertFailure { 10_000_000_000.gigabytes }.hasMessage("Cannot convert to long and provide exact value")
-//    assertFailure { 1_000_000_000_000.gigabytes }.hasMessage("Cannot convert to long and provide exact value")
-//    assertFailure { 1_000_000.gigabytes * 1_000_000.gigabytes }.hasMessage("Cannot convert to long and provide exact value")
-//  }
 }

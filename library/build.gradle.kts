@@ -6,19 +6,16 @@ plugins {
 }
 
 kotlin {
+  applyDefaultHierarchyTemplate()
   jvm()
-
   iosX64()
   iosSimulatorArm64()
   iosArm64()
   macosArm64()
   macosX64()
-
   linuxX64()
   linuxArm64()
-
   mingwX64()
-
   js(IR) {
     useCommonJs()
     browser {
@@ -30,18 +27,16 @@ kotlin {
     }
   }
 
-  applyDefaultHierarchyTemplate()
-
   sourceSets {
+    commonMain {
+      dependencies {
+        api(libs.bignum)
+      }
+    }
     commonTest {
       dependencies {
         implementation(libs.kotlin.test)
         implementation(libs.assertk)
-      }
-    }
-    commonMain {
-      dependencies {
-        api(libs.bignum)
       }
     }
   }
