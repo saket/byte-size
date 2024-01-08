@@ -30,7 +30,7 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        api(libs.bignum)
+        implementation(libs.bignum)
       }
     }
     commonTest {

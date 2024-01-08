@@ -22,7 +22,9 @@ import kotlin.jvm.JvmStatic
  * ```
  */
 @Poko
-class FileSize(private val bytes: BigDecimal) : Comparable<FileSize> {
+class FileSize @PublishedApi internal constructor(
+  private val bytes: BigDecimal
+) : Comparable<FileSize> {
 
   constructor(bytes: Long): this(BigDecimal.fromLong(bytes))
 
