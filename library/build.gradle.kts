@@ -1,7 +1,6 @@
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.mavenPublish)
-  alias(libs.plugins.poko)
   alias(libs.plugins.metalava)
 }
 
@@ -30,7 +29,7 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
-        implementation(libs.bignum)
+        implementation(libs.kmpMath)
       }
     }
     commonTest {

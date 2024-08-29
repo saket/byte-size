@@ -1,21 +1,22 @@
-package me.saket.filesize
+package me.saket.bytesize
 
+import assertk.assertFailure
 import assertk.assertThat
+import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
+import assertk.assertions.messageContains
 import kotlin.test.Test
-import me.saket.filesize.FileSize.Companion.bytes
-import me.saket.filesize.FileSize.Companion.gigabytes
-import me.saket.filesize.FileSize.Companion.kilobytes
-import me.saket.filesize.FileSize.Companion.megabytes
 
-class FileSizeTest {
+class ByteSizeTest {
+
   @Test fun canary() {
-    assertThat(FileSize(bytes = 1_000).inWholeBytes).isEqualTo(1_000)
+    assertThat(ByteSize(bytes = 1_000).inWholeBytes).isEqualTo(1_000)
   }
 
   @Test
   fun unit_conversions() {
     assertThat(2_000.bytes.inWholeKilobytes).isEqualTo(2)
+    assertThat(345.999.kilobytes.inWholeKilobytes).isEqualTo(345)
     assertThat(3.2.gigabytes.inWholeMegabytes).isEqualTo(3_200)
     assertThat(1.gigabytes.inWholeGigabytes).isEqualTo(1)
     assertThat(512.megabytes.inWholeGigabytes).isEqualTo(0)
@@ -26,7 +27,7 @@ class FileSizeTest {
     assertThat(3.megabytes + 200.kilobytes).isEqualTo(3.2.megabytes)
     assertThat(7.gigabytes - 500.megabytes).isEqualTo(6_500.megabytes)
     assertThat(6.gigabytes * 3.2).isEqualTo(19.2.gigabytes)
-    assertThat(6.gigabytes * 3.2f).isEqualTo(19.2.gigabytes)
+    assertThat((6.gigabytes * 3.2f).toString()).isEqualTo(19.2.gigabytes.toString())  // Convert to string to ignore precision error.
     assertThat(6.gigabytes * 3.bytes).isEqualTo(18.gigabytes)
     assertThat(6.gigabytes * 3f.bytes).isEqualTo(18.gigabytes)
     assertThat(1.megabytes / 2).isEqualTo(500.kilobytes)
@@ -50,5 +51,39 @@ class FileSizeTest {
     assertThat(512.255.megabytes.toString()).isEqualTo("512.26 MB")
     assertThat(345.999.kilobytes.toString()).isEqualTo("346 KB")
     assertThat(678.99999.gigabytes.toString()).isEqualTo("679 GB")
+  }
+
+  @Test fun throw_an_error_if_multiplication_will_cause_an_overflow() {
+    assertFailure {
+      1_000_000_000_000_000L.bytes * 1e308
+    }.hasMessage("Multiplication resulted in overflow")
+
+    assertFailure {
+      1_000_000_000L.bytes * Float.MAX_VALUE
+    }.messageContains("Double value out of Long range")
+
+    assertFailure {
+      1_000_000_000L.bytes * Double.MAX_VALUE
+    }.hasMessage("Multiplication resulted in overflow")
+  }
+
+  @Test fun throw_an_error_when_multiplication_is_performed_with_infinity() {
+    assertFailure {
+      1_000_000_000L.bytes * Float.POSITIVE_INFINITY
+    }.hasMessage("Multiplication resulted in overflow")
+
+    assertFailure {
+      1_000_000_000L.bytes * Double.POSITIVE_INFINITY
+    }.hasMessage("Multiplication resulted in overflow")
+  }
+
+  @Test fun throw_an_error_when_multiplication_is_performed_with_NaN() {
+    assertFailure {
+      1_000_000_000L.bytes * Float.NaN
+    }.hasMessage("Cannot convert NaN to Long")
+
+    assertFailure {
+      1_000_000_000L.bytes * Double.NaN
+    }.hasMessage("Cannot convert NaN to Long")
   }
 }

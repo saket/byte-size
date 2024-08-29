@@ -2,20 +2,17 @@
 kotlin = "1.9.22"
 mavenPublish = "0.25.3" # https://github.com/vanniktech/gradle-maven-publish-plugin/releases
 dokka = "1.9.0" # https://github.com/kotlin/dokka/releases
-poko = "0.15.1" # https://github.com/drewhamilton/poko/releases
 metalava = "0.3.5" # https://github.com/tylerbwong/metalava-gradle/releases
-bignum = "0.3.8" #https://github.com/ionspin/kotlin-multiplatform-bignum/releases
-assertk = "0.28.0" #https://github.com/willowtreeapps/assertk/releases
+assertk = "0.28.1" #https://github.com/willowtreeapps/assertk/releases
+kmpMath = "1.1" # https://github.com/erikc5000/javamath2kmp/releases
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlin-test = { id = "org.jetbrains.kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
-poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
 metalava = { id = "me.tylerbwong.gradle.metalava", version.ref = "metalava" }
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-bignum = { group = "com.ionspin.kotlin", name = "bignum", version.ref = "bignum" }
-assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version.ref="assertk" }
+assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref="assertk" }
+kmpMath = { module = "dev.erikchristensen.javamath2kmp:javamath2kmp", version.ref = "kmpMath" }

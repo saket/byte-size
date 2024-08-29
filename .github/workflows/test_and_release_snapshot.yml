@@ -30,7 +30,7 @@ jobs:
     name: Deploy snapshot
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    if: github.repository == 'saket/file-size' && github.ref == 'refs/heads/trunk'
+    if: github.repository == 'saket/byte-size' && github.ref == 'refs/heads/trunk'
     needs: [ build ]
     steps:
       - uses: actions/checkout@v3

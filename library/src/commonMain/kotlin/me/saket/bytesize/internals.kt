@@ -1,6 +1,5 @@
-package me.saket.filesize
+package me.saket.bytesize
 
-import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import kotlin.math.pow
 
 internal fun Long.toStringAsFixed(): String {
@@ -13,7 +12,6 @@ internal fun Double.toStringAsFixed(): String {
 
 /**
  * Copied from [compose-ui](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-geometry/src/commonMain/kotlin/androidx/compose/ui/geometry/GeometryUtils.kt;drc=f246f23593ca89113a9023f61a32cdc7db09e99e).
- * TODO: maybe migrate to [BigDecimal.toPlainString]?
  */
 private fun Double.toStringAsFixed(digits: Int): String {
   val pow = 10f.pow(digits)
@@ -39,14 +37,21 @@ private fun Double.toStringAsFixed(digits: Int): String {
 }
 
 @PublishedApi
-internal fun BigDecimal(num: Number): BigDecimal {
-  return when (num) {
-    is Double -> BigDecimal.fromDouble(num)
-    is Float -> BigDecimal.fromFloat(num)
-    is Byte -> BigDecimal.fromByte(num)
-    is Short -> BigDecimal.fromShort(num)
-    is Int -> BigDecimal.fromInt(num)
-    is Long -> BigDecimal.fromLong(num)
-    else -> error("Unsupported type: ${num::class}")
+internal fun Long.timesExact(other: Double): Double {
+  return (this * other).also {
+    if (it.isInfinite()) {
+      throw ArithmeticException("Multiplication resulted in overflow")
+    }
+  }
+}
+
+@PublishedApi
+internal fun Double.toLongOrThrow(): Long {
+  if (isNaN() || isInfinite()) {
+    throw ArithmeticException("Cannot convert $this to Long")
+  } else if (this < Long.MIN_VALUE || this > Long.MAX_VALUE) {
+    throw ArithmeticException("Double value out of Long range: $this")
+  } else {
+    return toLong()
   }
 }

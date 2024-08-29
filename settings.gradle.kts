@@ -18,4 +18,4 @@ include(
   ":library",
 )
 
-rootProject.name = "file-size"
+rootProject.name = "byte-size"
