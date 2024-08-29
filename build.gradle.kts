@@ -5,15 +5,3 @@ plugins {
   alias(libs.plugins.poko) apply false
   alias(libs.plugins.metalava) apply false
 }
-
-allprojects {
-  // Configure Java to use our chosen language level. Kotlin will automatically pick this up.
-  // See https://kotlinlang.org/docs/gradle-configure-project.html#gradle-java-toolchains-support
-  plugins.withType<JavaBasePlugin>().configureEach {
-    extensions.configure<JavaPluginExtension> {
-      toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-      }
-    }
-  }
-}
