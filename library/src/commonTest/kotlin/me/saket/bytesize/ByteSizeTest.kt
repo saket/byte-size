@@ -4,13 +4,21 @@ import assertk.assertFailure
 import assertk.assertThat
 import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
+import assertk.assertions.isNull
 import assertk.assertions.messageContains
 import kotlin.test.Test
+import me.saket.bytesize.ByteSize.Companion.BytesPerGb
 
 class ByteSizeTest {
 
   @Test fun canary() {
     assertThat(ByteSize(bytes = 1_000).inWholeBytes).isEqualTo(1_000)
+  }
+
+  @Test fun max_value() {
+    val max = ByteSize(Long.MAX_VALUE)
+    assertThat(max.inWholeBytes).isEqualTo(Long.MAX_VALUE)
+    assertThat(max.toString()).isEqualTo("9.2233718E9 GB")
   }
 
   @Test
