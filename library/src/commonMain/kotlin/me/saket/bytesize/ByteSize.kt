@@ -10,21 +10,24 @@ import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
 import kotlin.math.roundToLong
 
-// TODO: verify java compatibility. use @JvmName if needed.
 @JvmInline
 value class ByteSize(
   @PublishedApi internal val bytes: Long,
 ) : Comparable<ByteSize> {
 
+  @get:JvmName("inWholeBytes")
   inline val inWholeBytes: Long
     get() = bytes
 
+  @get:JvmName("inWholeKilobytes")
   inline val inWholeKilobytes: Long
     get() = inWholeBytes / BytesPerKb
 
+  @get:JvmName("inWholeMegabytes")
   inline val inWholeMegabytes: Long
     get() = inWholeBytes / BytesPerMb
 
+  @get:JvmName("inWholeGigabytes")
   inline val inWholeGigabytes: Long
     get() = inWholeBytes / BytesPerGb
 
