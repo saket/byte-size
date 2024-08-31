@@ -19,9 +19,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-      - uses: gradle/gradle-build-action@v2
-        with:
-          gradle-home-cache-cleanup: true
+      - uses: gradle/actions/setup-gradle@v3
 
       - name: Run unit tests
         run: ./gradlew build
