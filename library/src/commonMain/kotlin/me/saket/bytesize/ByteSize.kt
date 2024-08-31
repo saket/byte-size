@@ -1,4 +1,4 @@
-@file:Suppress("ConstPropertyName")
+@file:Suppress("ConstPropertyName", "INAPPLICABLE_JVM_NAME")
 
 package me.saket.bytesize
 
@@ -82,6 +82,7 @@ value class ByteSize(
   }
 
   companion object {
+    @get:JvmSynthetic
     val Zero: ByteSize get() = ByteSize(0L)
 
     @PublishedApi internal const val BytesPerKb: Long = 1_000L
@@ -90,7 +91,7 @@ value class ByteSize(
   }
 }
 
-@get:JvmName("bytes")
+@get:JvmSynthetic
 inline val Number.bytes: ByteSize
   get() {
     if (this is Double) {
@@ -101,15 +102,15 @@ inline val Number.bytes: ByteSize
     return ByteSize(bytes = this.toLong())
   }
 
-@get:JvmName("kilobytes")
+@get:JvmSynthetic
 inline val Number.kilobytes: ByteSize
   get() = ByteSize(bytes = ByteSize.BytesPerKb) * this
 
-@get:JvmName("megabytes")
+@get:JvmSynthetic
 inline val Number.megabytes: ByteSize
   get() = ByteSize(bytes = ByteSize.BytesPerMb) * this
 
-@get:JvmName("gigabytes")
+@get:JvmSynthetic
 inline val Number.gigabytes: ByteSize
   get() = ByteSize(bytes = ByteSize.BytesPerGb) * this
 
