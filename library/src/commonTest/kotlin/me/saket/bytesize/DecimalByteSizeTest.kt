@@ -4,26 +4,25 @@ import assertk.assertFailure
 import assertk.assertThat
 import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
-import assertk.assertions.isNull
 import assertk.assertions.messageContains
 import kotlin.test.Test
-import me.saket.bytesize.ByteSize.Companion.BytesPerGb
 
-class ByteSizeTest {
+class DecimalByteSizeTest {
 
   @Test fun canary() {
-    assertThat(ByteSize(bytes = 1_000).inWholeBytes).isEqualTo(1_000)
+    assertThat(DecimalByteSize(bytes = 1_000).inWholeBytes).isEqualTo(1_000)
+    assertThat(1.megabytes.inWholeBytes).isEqualTo(1_000)
   }
 
   @Test fun max_value() {
-    val max = ByteSize(Long.MAX_VALUE)
+    val max = DecimalByteSize(Long.MAX_VALUE)
     assertThat(max.inWholeBytes).isEqualTo(Long.MAX_VALUE)
     assertThat(max.toString()).isEqualTo("9.2233718E9 GB")
   }
 
   @Test
   fun unit_conversions() {
-    assertThat(2_000.bytes.inWholeKilobytes).isEqualTo(2)
+    assertThat(2_000.decimalBytes.inWholeKilobytes).isEqualTo(2)
     assertThat(345.999.kilobytes.inWholeKilobytes).isEqualTo(345)
     assertThat(3.2.gigabytes.inWholeMegabytes).isEqualTo(3_200)
     assertThat(1.gigabytes.inWholeGigabytes).isEqualTo(1)
@@ -36,17 +35,17 @@ class ByteSizeTest {
     assertThat(7.gigabytes - 500.megabytes).isEqualTo(6_500.megabytes)
     assertThat(6.gigabytes * 3.2).isEqualTo(19.2.gigabytes)
     assertThat((6.gigabytes * 3.2f).toString()).isEqualTo(19.2.gigabytes.toString())  // Convert to string to ignore precision error.
-    assertThat(6.gigabytes * 3.bytes).isEqualTo(18.gigabytes)
-    assertThat(6.gigabytes * 3f.bytes).isEqualTo(18.gigabytes)
+    assertThat(6.gigabytes * 3.decimalBytes).isEqualTo(18.gigabytes)
+    assertThat(6.gigabytes * 3f.decimalBytes).isEqualTo(18.gigabytes)
     assertThat(1.megabytes / 2).isEqualTo(500.kilobytes)
     assertThat(1.megabytes / 2.toShort()).isEqualTo(500.kilobytes)
     assertThat(1.megabytes / 2.toByte()).isEqualTo(500.kilobytes)
-    assertThat(1.megabytes / 2.bytes).isEqualTo(500.kilobytes)
+    assertThat(1.megabytes / 2.decimalBytes).isEqualTo(500.kilobytes)
   }
 
   @Test
   fun trim_empty_decimals_from_toString() {
-    assertThat(200.bytes.toString()).isEqualTo("200 bytes")
+    assertThat(200.decimalBytes.toString()).isEqualTo("200 bytes")
     assertThat(345.kilobytes.toString()).isEqualTo("345 KB")
     assertThat(678.megabytes.toString()).isEqualTo("678 MB")
     assertThat(987.gigabytes.toString()).isEqualTo("987 GB")
@@ -63,35 +62,35 @@ class ByteSizeTest {
 
   @Test fun throw_an_error_if_multiplication_will_cause_an_overflow() {
     assertFailure {
-      1_000_000_000_000_000L.bytes * 1e308
+      1_000_000_000_000_000L.decimalBytes * 1e308
     }.hasMessage("Multiplication resulted in overflow")
 
     assertFailure {
-      1_000_000_000L.bytes * Float.MAX_VALUE
+      1_000_000_000L.decimalBytes * Float.MAX_VALUE
     }.messageContains("Double value out of Long range")
 
     assertFailure {
-      1_000_000_000L.bytes * Double.MAX_VALUE
+      1_000_000_000L.decimalBytes * Double.MAX_VALUE
     }.hasMessage("Multiplication resulted in overflow")
   }
 
   @Test fun throw_an_error_when_multiplication_is_performed_with_infinity() {
     assertFailure {
-      1_000_000_000L.bytes * Float.POSITIVE_INFINITY
+      1_000_000_000L.decimalBytes * Float.POSITIVE_INFINITY
     }.hasMessage("Multiplication resulted in overflow")
 
     assertFailure {
-      1_000_000_000L.bytes * Double.POSITIVE_INFINITY
+      1_000_000_000L.decimalBytes * Double.POSITIVE_INFINITY
     }.hasMessage("Multiplication resulted in overflow")
   }
 
   @Test fun throw_an_error_when_multiplication_is_performed_with_NaN() {
     assertFailure {
-      1_000_000_000L.bytes * Float.NaN
+      1_000_000_000L.decimalBytes * Float.NaN
     }.hasMessage("Cannot convert NaN to Long")
 
     assertFailure {
-      1_000_000_000L.bytes * Double.NaN
+      1_000_000_000L.decimalBytes * Double.NaN
     }.hasMessage("Cannot convert NaN to Long")
   }
 }
