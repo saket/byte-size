@@ -10,23 +10,27 @@ import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
 import kotlin.math.roundToLong
 import me.saket.bytesize.ByteSize.Companion.BytesPerGB
-import me.saket.bytesize.ByteSize.Companion.BytesPerGib
+import me.saket.bytesize.ByteSize.Companion.BytesPerGiB
 import me.saket.bytesize.ByteSize.Companion.BytesPerKB
-import me.saket.bytesize.ByteSize.Companion.BytesPerKib
+import me.saket.bytesize.ByteSize.Companion.BytesPerKiB
 import me.saket.bytesize.ByteSize.Companion.BytesPerMB
-import me.saket.bytesize.ByteSize.Companion.BytesPerMib
+import me.saket.bytesize.ByteSize.Companion.BytesPerMiB
 
-// todo: doc
+// todo: doc + mention .binaryBytes
 // todo: @JvmName required?
 inline fun BinaryByteSize(bytes: Number): ByteSize {
-  check(bytes !is Float && bytes !is Double) { PrecisionLossErrorMessage }
+  if (bytes.hasFractionalPart()) {
+    error(PrecisionLossErrorMessage)
+  }
   return ByteSize(packValue(bytes.toLong(), DataStorageUnit.BinaryBytes))
 }
 
-// todo: doc
+// todo: doc + mention .decimalBytes
 // todo: @JvmName required?
 inline fun DecimalByteSize(bytes: Number): ByteSize {
-  check(bytes !is Float && bytes !is Double) { PrecisionLossErrorMessage }
+  if (bytes.hasFractionalPart()) {
+    error(PrecisionLossErrorMessage)
+  }
   return ByteSize(packValue(bytes.toLong(), DataStorageUnit.DecimalBytes))
 }
 
@@ -44,27 +48,33 @@ value class ByteSize @PublishedApi internal constructor(
     get() = unpackBytesValue(packedValue)
 
   @get:JvmName("inWholeKilobytes")
-  inline val inWholeKilobytes: Long
-    get() = inWholeBytes / BytesPerKB
+  inline val inWholeKilobytes: Long get() = inWholeBytes / BytesPerKB
+
+  @get:JvmName("inWholeKibibytes")
+  inline val inWholeKibibytes: Long get() = inWholeBytes / BytesPerKiB
 
   @get:JvmName("inWholeMegabytes")
-  inline val inWholeMegabytes: Long
-    get() = inWholeBytes / BytesPerMB
+  inline val inWholeMegabytes: Long get() = inWholeBytes / BytesPerMB
+
+  @get:JvmName("inWholeMebibytes")
+  inline val inWholeMebibytes: Long get() = inWholeBytes / BytesPerMiB
 
   @get:JvmName("inWholeGigabytes")
-  inline val inWholeGigabytes: Long
-    get() = inWholeBytes / BytesPerGB
+  inline val inWholeGigabytes: Long get() = inWholeBytes / BytesPerGB
+
+  @get:JvmName("inWholeGibibytes")
+  inline val inWholeGibibytes: Long get() = inWholeBytes / BytesPerGiB
 
   override operator fun compareTo(other: ByteSize): Int {
-    // todo: this should be using the packed value somehow
     return inWholeBytes.compareTo(other.inWholeBytes)
   }
 
-  inline operator fun plus(other: ByteSize): ByteSize =
-    ByteSize(inWholeBytes.plusExact(other.inWholeBytes))
+  inline operator fun plus(other: ByteSize): ByteSize {
+    return copy(inWholeBytes.plusExact(other.inWholeBytes))
+  }
 
   inline operator fun minus(other: ByteSize): ByteSize {
-    return ByteSize(inWholeBytes.minusExact(other.inWholeBytes))
+    return copy(inWholeBytes.minusExact(other.inWholeBytes))
   }
 
   inline operator fun times(other: ByteSize): ByteSize =
@@ -81,7 +91,7 @@ value class ByteSize @PublishedApi internal constructor(
       is Double -> inWholeBytes.timesExact(other).toLongOrThrow()
       else -> error("Unsupported number: ${other::class}")
     }
-    return ByteSize(packValue(result, storageUnit))
+    return copy(result)
   }
 
   inline operator fun div(other: ByteSize): ByteSize =
@@ -97,15 +107,30 @@ value class ByteSize @PublishedApi internal constructor(
       is Double -> (inWholeBytes / other).roundToLong()
       else -> error("Unsupported number: ${other::class}")
     }
-    return ByteSize(packValue(result, storageUnit))
+    return copy(result)
+  }
+
+  @PublishedApi
+  internal inline fun copy(bytes: Long): ByteSize {
+    return ByteSize(packValue(bytes, storageUnit))
   }
 
   override fun toString(): String {
-    return when {
-      inWholeBytes < BytesPerKB -> "${inWholeBytes.toStringAsFixed()} bytes"
-      inWholeBytes < BytesPerMB -> "${(inWholeBytes / BytesPerKB.toDouble()).toStringAsFixed()} KB"
-      inWholeBytes < BytesPerGB -> "${(inWholeBytes / BytesPerMB.toDouble()).toStringAsFixed()} MB"
-      else -> "${(inWholeBytes / BytesPerGB.toDouble()).toStringAsFixed()} GB"
+    return when (storageUnit) {
+      DataStorageUnit.BinaryBytes -> when {
+        inWholeBytes < BytesPerKiB -> "${inWholeBytes.toStringAsFixed()} bytes"
+        inWholeBytes < BytesPerMiB -> "${(inWholeBytes / BytesPerKiB.toDouble()).toStringAsFixed()} KiB"
+        inWholeBytes < BytesPerGiB -> "${(inWholeBytes / BytesPerMiB.toDouble()).toStringAsFixed()} MiB"
+        else -> "${(inWholeBytes / BytesPerGiB.toDouble()).toStringAsFixed()} GiB"
+      }
+      DataStorageUnit.DecimalBytes -> when {
+        inWholeBytes < BytesPerKB -> "${inWholeBytes.toStringAsFixed()} bytes"
+        inWholeBytes < BytesPerMB -> "${(inWholeBytes / BytesPerKB.toDouble()).toStringAsFixed()} KB"
+        inWholeBytes < BytesPerGB -> "${(inWholeBytes / BytesPerMB.toDouble()).toStringAsFixed()} MB"
+        else -> "${(inWholeBytes / BytesPerGB.toDouble()).toStringAsFixed()} GB"
+      }
+      DataStorageUnit.BinaryBits -> error("unsupported")
+      DataStorageUnit.DecimalBits -> error("unsupported")
     }
   }
 
@@ -114,9 +139,9 @@ value class ByteSize @PublishedApi internal constructor(
     @PublishedApi internal const val BytesPerMB: Long = 1000L * BytesPerKB
     @PublishedApi internal const val BytesPerGB: Long = 1000L * BytesPerMB
 
-    @PublishedApi internal const val BytesPerKib: Long = 1024L
-    @PublishedApi internal const val BytesPerMib: Long = 1024L * BytesPerKib
-    @PublishedApi internal const val BytesPerGib: Long = 1024L * BytesPerMib
+    @PublishedApi internal const val BytesPerKiB: Long = 1024L
+    @PublishedApi internal const val BytesPerMiB: Long = 1024L * BytesPerKiB
+    @PublishedApi internal const val BytesPerGiB: Long = 1024L * BytesPerMiB
   }
 }
 
@@ -142,7 +167,7 @@ inline val Number.kilobytes: ByteSize
 
 @get:JvmSynthetic
 inline val Number.kibibytes: ByteSize
-  get() = BinaryByteSize(BytesPerKib) * this
+  get() = BinaryByteSize(BytesPerKiB) * this
 
 @get:JvmSynthetic
 inline val Number.megabytes: ByteSize
@@ -150,14 +175,14 @@ inline val Number.megabytes: ByteSize
 
 @get:JvmSynthetic
 inline val Number.mebibytes: ByteSize
-  get() = BinaryByteSize(BytesPerMib) * this
+  get() = BinaryByteSize(BytesPerMiB) * this
 
 @get:JvmSynthetic
 inline val Number.gigabytes: ByteSize
   get() = DecimalByteSize(BytesPerGB) * this
 
 inline val Number.gibibytes: ByteSize
-  get() = BinaryByteSize(BytesPerGib) * this
+  get() = BinaryByteSize(BytesPerGiB) * this
 
 @PublishedApi
 internal const val PrecisionLossErrorMessage =

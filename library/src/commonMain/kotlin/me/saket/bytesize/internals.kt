@@ -55,3 +55,12 @@ internal fun Double.toLongOrThrow(): Long {
     return toLong()
   }
 }
+
+@PublishedApi
+internal fun Number.hasFractionalPart(): Boolean {
+  return when (this) {
+    is Float -> this % 1 != 0f
+    is Double -> this % 1 != 0.0
+    else -> false
+  }
+}
