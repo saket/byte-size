@@ -1,6 +1,8 @@
 package me.saket.bytesize
 
+import assertk.assertFailure
 import assertk.assertThat
+import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
@@ -72,5 +74,25 @@ class BinaryByteSizeTest {
   @Test fun comparison_with_decimal_bytes() {
     assertThat(1.gibibytes > 1.gigabytes).isTrue()
     assertThat(5.mebibytes < 5.megabytes).isFalse()
+  }
+
+  @Test fun throw_an_error_if_binaryBytes_is_used_for_a_fractional_number() {
+    assertFailure {
+      // Float#binaryBytes is a compilation error.
+      // Bypass it by casting it to a generic number.
+      (500.50f as Number).binaryBytes
+    }.hasMessage(PrecisionLossErrorMessage)
+
+    assertFailure {
+      (500.50 as Number).binaryBytes
+    }.hasMessage(PrecisionLossErrorMessage)
+
+    assertFailure {
+      BinaryByteSize(500.50f)
+    }.hasMessage(PrecisionLossErrorMessage)
+
+    assertFailure {
+      BinaryByteSize(500.50)
+    }.hasMessage(PrecisionLossErrorMessage)
   }
 }

@@ -154,9 +154,45 @@ inline val Number.bytes: ByteSize
 inline val Number.decimalBytes: ByteSize
   get() = DecimalByteSize(this)
 
+@Deprecated(
+  message = PrecisionLossErrorMessage,
+  replaceWith = ReplaceWith("toInt().decimalBytes"),
+  level = DeprecationLevel.ERROR,
+)
+@get:JvmSynthetic
+inline val Float.decimalBytes: Nothing
+  get() = error(PrecisionLossErrorMessage)
+
+@Deprecated(
+  message = PrecisionLossErrorMessage,
+  replaceWith = ReplaceWith("toLong().decimalBytes"),
+  level = DeprecationLevel.ERROR,
+)
+@get:JvmSynthetic
+inline val Double.decimalBytes: Nothing
+  get() = error(PrecisionLossErrorMessage)
+
 @get:JvmSynthetic
 inline val Number.binaryBytes: ByteSize
   get() = BinaryByteSize(this)
+
+@Deprecated(
+  message = PrecisionLossErrorMessage,
+  replaceWith = ReplaceWith("toInt().binaryBytes"),
+  level = DeprecationLevel.ERROR,
+)
+@get:JvmSynthetic
+inline val Float.binaryBytes: Nothing
+  get() = error(PrecisionLossErrorMessage)
+
+@Deprecated(
+  message = PrecisionLossErrorMessage,
+  replaceWith = ReplaceWith("toLong().binaryBytes"),
+  level = DeprecationLevel.ERROR,
+)
+@get:JvmSynthetic
+inline val Double.binaryBytes: Nothing
+  get() = error(PrecisionLossErrorMessage)
 
 @get:JvmSynthetic
 inline val Number.kilobytes: ByteSize

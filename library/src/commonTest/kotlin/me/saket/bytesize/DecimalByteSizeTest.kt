@@ -128,4 +128,24 @@ class DecimalByteSizeTest {
       1_000_000_000L.decimalBytes * Double.NaN
     }.hasMessage("Cannot convert NaN to Long")
   }
+
+  @Test fun throw_an_error_if_decimalBytes_is_used_for_a_fractional_number() {
+    assertFailure {
+      // Float#decimalBytes is a compilation error.
+      // Bypass it by casting it to a generic number.
+      (500.50f as Number).decimalBytes
+    }.hasMessage(PrecisionLossErrorMessage)
+
+    assertFailure {
+      (500.50 as Number).decimalBytes
+    }.hasMessage(PrecisionLossErrorMessage)
+
+    assertFailure {
+      DecimalByteSize(500.50f)
+    }.hasMessage(PrecisionLossErrorMessage)
+
+    assertFailure {
+      DecimalByteSize(500.50)
+    }.hasMessage(PrecisionLossErrorMessage)
+  }
 }
