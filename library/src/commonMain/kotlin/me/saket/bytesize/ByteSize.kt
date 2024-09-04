@@ -77,9 +77,6 @@ value class ByteSize @PublishedApi internal constructor(
     return copy(inWholeBytes.minusExact(other.inWholeBytes))
   }
 
-  inline operator fun times(other: ByteSize): ByteSize =
-    this * other.inWholeBytes
-
   inline operator fun times(other: Number): ByteSize {
     val result: Long = when (other) {
       is Byte,
@@ -94,8 +91,8 @@ value class ByteSize @PublishedApi internal constructor(
     return copy(result)
   }
 
-  inline operator fun div(other: ByteSize): ByteSize =
-    this / other.inWholeBytes
+  inline operator fun div(other: ByteSize): Double =
+    this.inWholeBytes.toDouble() / other.inWholeBytes
 
   inline operator fun div(other: Number): ByteSize {
     val result: Long = when (other) {

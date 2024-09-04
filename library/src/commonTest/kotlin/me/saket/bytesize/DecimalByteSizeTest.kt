@@ -47,12 +47,10 @@ class DecimalByteSizeTest {
     assertThat(7.gigabytes - 500.megabytes).isEqualTo(6_500.megabytes)
     assertThat(6.gigabytes * 3.2).isEqualTo(19.2.gigabytes)
     assertThat((6.gigabytes * 3.2f).toString()).isEqualTo(19.2.gigabytes.toString())  // Convert to string to ignore precision error.
-    assertThat(6.gigabytes * 3.decimalBytes).isEqualTo(18.gigabytes)
-    assertThat(6.gigabytes * 3f.decimalBytes).isEqualTo(18.gigabytes)
     assertThat(1.megabytes / 2).isEqualTo(500.kilobytes)
     assertThat(1.megabytes / 2.toShort()).isEqualTo(500.kilobytes)
     assertThat(1.megabytes / 2.toByte()).isEqualTo(500.kilobytes)
-    assertThat(1.megabytes / 2.decimalBytes).isEqualTo(500.kilobytes)
+    assertThat(1.megabytes / 2.decimalBytes).isEqualTo(500_000.0)
   }
 
   @Test

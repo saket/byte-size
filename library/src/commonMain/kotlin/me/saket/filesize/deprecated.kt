@@ -30,9 +30,6 @@ class FileSize constructor(val bytes: Long) : Comparable<Any> {
   operator fun minus(other: Any): Nothing = error("unreachable")
 
   @Deprecated("FileSize has been renamed to ByteSize", level = DeprecationLevel.ERROR)
-  operator fun times(other: Any): Nothing = error("unreachable")
-
-  @Deprecated("FileSize has been renamed to ByteSize", level = DeprecationLevel.ERROR)
   operator fun times(other: Number): Nothing = error("unreachable")
 
   @Deprecated("FileSize has been renamed to ByteSize", level = DeprecationLevel.ERROR)
