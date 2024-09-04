@@ -5,6 +5,7 @@ import assertk.assertThat
 import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
+import assertk.assertions.isInstanceOf
 import assertk.assertions.isTrue
 import assertk.assertions.messageContains
 import kotlin.test.Test
@@ -19,17 +20,10 @@ class DecimalByteSizeTest {
     assertThat(1.gigabytes.inWholeMegabytes).isEqualTo(1_000)
   }
 
-  @Test fun measurement_unit() {
-    assertThat(1.decimalBytes.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
-    assertThat(1.kilobytes.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
-    assertThat(1.megabytes.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
-    assertThat(1.gigabytes.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
-  }
-
   @Test fun max_value() {
     val max = DecimalByteSize(Long.MAX_VALUE)
-    assertThat(max.inWholeBytes).isEqualTo(Long.MAX_VALUE / 2)  // Because the last 2 bits are used for storing the measurement unit.
-    assertThat(max.toString()).isEqualTo("4.6116859E9 GB")
+    assertThat(max.inWholeBytes).isEqualTo(Long.MAX_VALUE)
+    assertThat(max.toString()).isEqualTo("9.2233718E9 GB")
   }
 
   @Test
@@ -71,22 +65,22 @@ class DecimalByteSizeTest {
   }
 
   @Test fun conversion_to_binary_bytes() {
-    assertThat(700.kilobytes.inWholeKibibytes).isEqualTo(683)
-    assertThat(512.megabytes.inWholeKibibytes).isEqualTo(500_000)
-    assertThat(9.gigabytes.inWholeMebibytes).isEqualTo(8_583)
+    assertThat(700.kilobytes.asBinaryBytes().inWholeKibibytes).isEqualTo(683)
+    assertThat(512.megabytes.asBinaryBytes().inWholeKibibytes).isEqualTo(500_000)
+    assertThat(9.gigabytes.asBinaryBytes().inWholeMebibytes).isEqualTo(8_583)
   }
 
   @Test fun maths_with_binary_bytes() {
     (10.gigabytes - 3.gibibytes).let {
       assertThat(it).isEqualTo(6.778774528.gigabytes)
       assertThat(it.toString()).isEqualTo("6.78 GB")
-      assertThat(it.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
+      assertThat(it).isInstanceOf<DecimalByteSize>()
     }
 
     (5.megabytes + 500.kibibytes).let {
       assertThat(it).isEqualTo(5.512.megabytes)
       assertThat(it.toString()).isEqualTo("5.51 MB")
-      assertThat(it.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
+      assertThat(it).isInstanceOf<DecimalByteSize>()
     }
   }
 

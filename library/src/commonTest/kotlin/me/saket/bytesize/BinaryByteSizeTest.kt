@@ -5,6 +5,7 @@ import assertk.assertThat
 import assertk.assertions.hasMessage
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
+import assertk.assertions.isInstanceOf
 import assertk.assertions.isTrue
 import kotlin.test.Test
 
@@ -18,11 +19,10 @@ class BinaryByteSizeTest {
     assertThat(1.gibibytes.inWholeMebibytes).isEqualTo(1024)
   }
 
-  @Test fun measurement_unit() {
-    assertThat(1.binaryBytes.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
-    assertThat(1.kibibytes.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
-    assertThat(1.mebibytes.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
-    assertThat(1.gibibytes.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
+  @Test fun max_value() {
+    val max = BinaryByteSize(Long.MAX_VALUE)
+    assertThat(max.inWholeBytes).isEqualTo(Long.MAX_VALUE)
+    assertThat(max.toString()).isEqualTo("9.2233718E9 GiB")
   }
 
   @Test fun unit_conversions() {
@@ -41,6 +41,7 @@ class BinaryByteSizeTest {
     assertThat(1.gibibytes / 2).isEqualTo(0.5.gibibytes)
     assertThat(1.gibibytes / 2).isEqualTo(512.mebibytes)
     assertThat(3.mebibytes / 2.toShort()).isEqualTo(1_536.kibibytes)
+    assertThat(1.mebibytes / 2.binaryBytes).isEqualTo(524_288.0)
   }
 
   @Test fun format_to_string() {
@@ -52,22 +53,22 @@ class BinaryByteSizeTest {
   }
 
   @Test fun conversion_to_decimal_bytes() {
-    assertThat(256.kibibytes.inWholeKilobytes).isEqualTo(262)
-    assertThat(400.mebibytes.inWholeKilobytes).isEqualTo(419_430)
-    assertThat(8.gibibytes.inWholeMegabytes).isEqualTo(8_589)
+    assertThat(256.kibibytes.asDecimalBytes().inWholeKilobytes).isEqualTo(262)
+    assertThat(400.mebibytes.asDecimalBytes().inWholeKilobytes).isEqualTo(419_430)
+    assertThat(8.gibibytes.asDecimalBytes().inWholeMegabytes).isEqualTo(8_589)
   }
 
   @Test fun maths_with_decimal_bytes() {
     (2.gibibytes - 2.gigabytes).let {
       assertThat(it).isEqualTo(140.65136718750003.mebibytes)
       assertThat(it.toString()).isEqualTo("140.65 MiB")
-      assertThat(it.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
+      assertThat(it).isInstanceOf<BinaryByteSize>()
     }
 
     (3.mebibytes + 3.megabytes).let {
       assertThat(it).isEqualTo(5.86102294921875.mebibytes)
       assertThat(it.toString()).isEqualTo("5.86 MiB")
-      assertThat(it.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
+      assertThat(it).isInstanceOf<BinaryByteSize>()
     }
   }
 

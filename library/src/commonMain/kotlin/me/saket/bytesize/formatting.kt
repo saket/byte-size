@@ -2,10 +2,12 @@ package me.saket.bytesize
 
 import kotlin.math.pow
 
+@PublishedApi
 internal fun Long.toStringAsFixed(): String {
   return this.toDouble().toStringAsFixed()
 }
 
+@PublishedApi
 internal fun Double.toStringAsFixed(): String {
   return this.toStringAsFixed(digits = 2).removeSuffix(".0")
 }
@@ -13,7 +15,8 @@ internal fun Double.toStringAsFixed(): String {
 /**
  * Adapted from [compose-ui](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-geometry/src/commonMain/kotlin/androidx/compose/ui/geometry/GeometryUtils.kt;drc=f246f23593ca89113a9023f61a32cdc7db09e99e).
  */
-private fun Double.toStringAsFixed(digits: Int): String {
+@PublishedApi
+internal inline fun Double.toStringAsFixed(digits: Int): String {
   val pow = 10f.pow(digits)
   val shifted = this * pow // shift the given value by the corresponding power of 10
   val decimal = shifted - shifted.toLong() // obtain the decimal of the shifted value
@@ -33,34 +36,5 @@ private fun Double.toStringAsFixed(digits: Int): String {
     // If we do not have any decimal points, return the long
     // based string representation
     rounded.toLong().toString()
-  }
-}
-
-@PublishedApi
-internal fun Long.timesExact(other: Double): Double {
-  return (this * other).also {
-    if (it.isInfinite()) {
-      throw ArithmeticException("Multiplication resulted in overflow")
-    }
-  }
-}
-
-@PublishedApi
-internal fun Double.toLongOrThrow(): Long {
-  if (isNaN() || isInfinite()) {
-    throw ArithmeticException("Cannot convert $this to Long")
-  } else if (this < Long.MIN_VALUE || this > Long.MAX_VALUE) {
-    throw ArithmeticException("Double value out of Long range: $this")
-  } else {
-    return toLong()
-  }
-}
-
-@PublishedApi
-internal fun Number.hasFractionalPart(): Boolean {
-  return when (this) {
-    is Float -> this % 1 != 0f
-    is Double -> this % 1 != 0.0
-    else -> false
   }
 }
