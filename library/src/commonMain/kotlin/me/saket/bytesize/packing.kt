@@ -1,12 +1,12 @@
 package me.saket.bytesize
 
 /**
- * Packs byte size and its storage unit into a single `Long` by using the
+ * Packs byte size and its measurement unit into a single `Long` by using the
  * first 62 bits for storing the size and the last 2 for representing its
- * [DataStorageUnit].
+ * [DataMeasurementUnit].
  */
 @PublishedApi
-internal inline fun packValue(bytes: Long, unit: DataStorageUnit): Long {
+internal inline fun packValue(bytes: Long, unit: DataMeasurementUnit): Long {
   return (unit.bits.toLong() shl 62) or (bytes and 0x3FFFFFFFFFFFFFFF)
 }
 
@@ -16,12 +16,12 @@ internal inline fun unpackBytesValue(packedValue: Long): Long {
 }
 
 @PublishedApi
-internal inline fun unpackStorageUnit(packedValue: Long): DataStorageUnit {
+internal inline fun unpackMeasurementUnit(packedValue: Long): DataMeasurementUnit {
   return when (val bits = ((packedValue shr 62) and 0b11).toInt()) {
-    0b00 -> DataStorageUnit.BinaryBytes
-    0b01 -> DataStorageUnit.DecimalBytes
-    0b10 -> DataStorageUnit.BinaryBits
-    0b11 -> DataStorageUnit.DecimalBits
-    else -> error("Unknown storage unit: $bits")
+    0b00 -> DataMeasurementUnit.BinaryBytes
+    0b01 -> DataMeasurementUnit.DecimalBytes
+    0b10 -> DataMeasurementUnit.BinaryBits
+    0b11 -> DataMeasurementUnit.DecimalBits
+    else -> error("Unknown measurement unit: $bits")
   }
 }

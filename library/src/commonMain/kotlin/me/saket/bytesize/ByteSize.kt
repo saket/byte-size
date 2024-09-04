@@ -22,7 +22,7 @@ inline fun BinaryByteSize(bytes: Number): ByteSize {
   if (bytes.hasFractionalPart()) {
     error(PrecisionLossErrorMessage)
   }
-  return ByteSize(packValue(bytes.toLong(), DataStorageUnit.BinaryBytes))
+  return ByteSize(packValue(bytes.toLong(), DataMeasurementUnit.BinaryBytes))
 }
 
 // todo: doc + mention .decimalBytes
@@ -31,7 +31,7 @@ inline fun DecimalByteSize(bytes: Number): ByteSize {
   if (bytes.hasFractionalPart()) {
     error(PrecisionLossErrorMessage)
   }
-  return ByteSize(packValue(bytes.toLong(), DataStorageUnit.DecimalBytes))
+  return ByteSize(packValue(bytes.toLong(), DataMeasurementUnit.DecimalBytes))
 }
 
 @JvmInline
@@ -40,8 +40,8 @@ value class ByteSize @PublishedApi internal constructor(
 ) : Comparable<ByteSize> {
 
   @PublishedApi
-  internal inline val storageUnit: DataStorageUnit
-    get() = unpackStorageUnit(packedValue)
+  internal inline val measurementUnit: DataMeasurementUnit
+    get() = unpackMeasurementUnit(packedValue)
 
   @get:JvmName("inWholeBytes")
   inline val inWholeBytes: Long
@@ -109,25 +109,25 @@ value class ByteSize @PublishedApi internal constructor(
 
   @PublishedApi
   internal inline fun copy(bytes: Long): ByteSize {
-    return ByteSize(packValue(bytes, storageUnit))
+    return ByteSize(packValue(bytes, measurementUnit))
   }
 
   override fun toString(): String {
-    return when (storageUnit) {
-      DataStorageUnit.BinaryBytes -> when {
+    return when (measurementUnit) {
+      DataMeasurementUnit.BinaryBytes -> when {
         inWholeBytes < BytesPerKiB -> "${inWholeBytes.toStringAsFixed()} bytes"
         inWholeBytes < BytesPerMiB -> "${(inWholeBytes / BytesPerKiB.toDouble()).toStringAsFixed()} KiB"
         inWholeBytes < BytesPerGiB -> "${(inWholeBytes / BytesPerMiB.toDouble()).toStringAsFixed()} MiB"
         else -> "${(inWholeBytes / BytesPerGiB.toDouble()).toStringAsFixed()} GiB"
       }
-      DataStorageUnit.DecimalBytes -> when {
+      DataMeasurementUnit.DecimalBytes -> when {
         inWholeBytes < BytesPerKB -> "${inWholeBytes.toStringAsFixed()} bytes"
         inWholeBytes < BytesPerMB -> "${(inWholeBytes / BytesPerKB.toDouble()).toStringAsFixed()} KB"
         inWholeBytes < BytesPerGB -> "${(inWholeBytes / BytesPerMB.toDouble()).toStringAsFixed()} MB"
         else -> "${(inWholeBytes / BytesPerGB.toDouble()).toStringAsFixed()} GB"
       }
-      DataStorageUnit.BinaryBits -> error("unsupported")
-      DataStorageUnit.DecimalBits -> error("unsupported")
+      DataMeasurementUnit.BinaryBits -> error("unsupported")
+      DataMeasurementUnit.DecimalBits -> error("unsupported")
     }
   }
 

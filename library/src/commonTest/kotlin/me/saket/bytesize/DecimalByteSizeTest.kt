@@ -19,16 +19,16 @@ class DecimalByteSizeTest {
     assertThat(1.gigabytes.inWholeMegabytes).isEqualTo(1_000)
   }
 
-  @Test fun storage_unit() {
-    assertThat(1.decimalBytes.storageUnit).isEqualTo(DataStorageUnit.DecimalBytes)
-    assertThat(1.kilobytes.storageUnit).isEqualTo(DataStorageUnit.DecimalBytes)
-    assertThat(1.megabytes.storageUnit).isEqualTo(DataStorageUnit.DecimalBytes)
-    assertThat(1.gigabytes.storageUnit).isEqualTo(DataStorageUnit.DecimalBytes)
+  @Test fun measurement_unit() {
+    assertThat(1.decimalBytes.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
+    assertThat(1.kilobytes.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
+    assertThat(1.megabytes.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
+    assertThat(1.gigabytes.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
   }
 
   @Test fun max_value() {
     val max = DecimalByteSize(Long.MAX_VALUE)
-    assertThat(max.inWholeBytes).isEqualTo(Long.MAX_VALUE / 2)  // Because the last 2 bits are used for storing the storage unit.
+    assertThat(max.inWholeBytes).isEqualTo(Long.MAX_VALUE / 2)  // Because the last 2 bits are used for storing the measurement unit.
     assertThat(max.toString()).isEqualTo("4.6116859E9 GB")
   }
 
@@ -80,13 +80,13 @@ class DecimalByteSizeTest {
     (10.gigabytes - 3.gibibytes).let {
       assertThat(it).isEqualTo(6.778774528.gigabytes)
       assertThat(it.toString()).isEqualTo("6.78 GB")
-      assertThat(it.storageUnit).isEqualTo(DataStorageUnit.DecimalBytes)
+      assertThat(it.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
     }
 
     (5.megabytes + 500.kibibytes).let {
       assertThat(it).isEqualTo(5.512.megabytes)
       assertThat(it.toString()).isEqualTo("5.51 MB")
-      assertThat(it.storageUnit).isEqualTo(DataStorageUnit.DecimalBytes)
+      assertThat(it.measurementUnit).isEqualTo(DataMeasurementUnit.DecimalBytes)
     }
   }
 

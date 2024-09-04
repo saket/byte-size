@@ -16,11 +16,11 @@ class BinaryByteSizeTest {
     assertThat(1.gibibytes.inWholeMebibytes).isEqualTo(1024)
   }
 
-  @Test fun storage_unit() {
-    assertThat(1.binaryBytes.storageUnit).isEqualTo(DataStorageUnit.BinaryBytes)
-    assertThat(1.kibibytes.storageUnit).isEqualTo(DataStorageUnit.BinaryBytes)
-    assertThat(1.mebibytes.storageUnit).isEqualTo(DataStorageUnit.BinaryBytes)
-    assertThat(1.gibibytes.storageUnit).isEqualTo(DataStorageUnit.BinaryBytes)
+  @Test fun measurement_unit() {
+    assertThat(1.binaryBytes.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
+    assertThat(1.kibibytes.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
+    assertThat(1.mebibytes.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
+    assertThat(1.gibibytes.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
   }
 
   @Test fun unit_conversions() {
@@ -59,13 +59,13 @@ class BinaryByteSizeTest {
     (2.gibibytes - 2.gigabytes).let {
       assertThat(it).isEqualTo(140.65136718750003.mebibytes)
       assertThat(it.toString()).isEqualTo("140.65 MiB")
-      assertThat(it.storageUnit).isEqualTo(DataStorageUnit.BinaryBytes)
+      assertThat(it.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
     }
 
     (3.mebibytes + 3.megabytes).let {
       assertThat(it).isEqualTo(5.86102294921875.mebibytes)
       assertThat(it.toString()).isEqualTo("5.86 MiB")
-      assertThat(it.storageUnit).isEqualTo(DataStorageUnit.BinaryBytes)
+      assertThat(it.measurementUnit).isEqualTo(DataMeasurementUnit.BinaryBytes)
     }
   }
 
