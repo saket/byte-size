@@ -4,6 +4,8 @@ package me.saket.bytesize
 
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.times
 
 sealed interface ByteSize : Comparable<ByteSize> {
   @get:JvmName("inWholeBytes")
@@ -14,6 +16,14 @@ sealed interface ByteSize : Comparable<ByteSize> {
   operator fun times(other: Number): ByteSize
   operator fun div(other: ByteSize): Double
   operator fun div(other: Number): ByteSize
+}
+
+inline operator fun Number.times(other: ByteSize): ByteSize {
+  // Delegating to each override explicitly so that they can be inlined.
+  return when (other) {
+    is BinaryByteSize -> other.times(this)
+    is DecimalByteSize -> other.times(this)
+  }
 }
 
 inline fun ByteSize.asBinaryBytes(): BinaryByteSize =

@@ -84,3 +84,7 @@ value class BinaryByteSize(
     @PublishedApi internal inline val BytesPerGiB: Long get() = 1024L * BytesPerMiB
   }
 }
+
+inline operator fun Number.times(other: BinaryByteSize): BinaryByteSize {
+  return other.times(this)
+}

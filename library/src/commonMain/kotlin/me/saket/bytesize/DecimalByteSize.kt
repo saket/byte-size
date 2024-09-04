@@ -84,3 +84,7 @@ value class DecimalByteSize(
     @PublishedApi internal inline val BytesPerGB: Long get() = 1000L * BytesPerMB
   }
 }
+
+inline operator fun Number.times(other: DecimalByteSize): DecimalByteSize {
+  return other.times(this)
+}

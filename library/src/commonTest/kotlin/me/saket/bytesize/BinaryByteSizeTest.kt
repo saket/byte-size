@@ -37,6 +37,7 @@ class BinaryByteSizeTest {
     assertThat(6.mebibytes + 512.kibibytes).isEqualTo(6.5.mebibytes)
     assertThat(4.gibibytes - 700.mebibytes).isEqualTo(3_396.mebibytes)
     assertThat(7.gibibytes * 2.3).isEqualTo(16.1.gibibytes)
+    assertThat(2.3 * 7.gibibytes).isEqualTo(16.1.gibibytes)
     assertThat((7.gibibytes * 2.3f).toString()).isEqualTo(16.1.gibibytes.toString())  // Convert to string to ignore precision error.
     assertThat(1.gibibytes / 2).isEqualTo(0.5.gibibytes)
     assertThat(1.gibibytes / 2).isEqualTo(512.mebibytes)
