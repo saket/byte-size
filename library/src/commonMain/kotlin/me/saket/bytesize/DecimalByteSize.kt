@@ -84,21 +84,3 @@ value class DecimalByteSize(
     @PublishedApi internal inline val BytesPerGB: Long get() = 1000L * BytesPerMB
   }
 }
-
-@Deprecated(
-  message = PrecisionLossErrorMessage,
-  replaceWith = ReplaceWith("toInt().decimalBytes"),
-  level = DeprecationLevel.ERROR,
-)
-@get:JvmSynthetic
-val Float.decimalBytes: DecimalByteSize
-  get() = error(PrecisionLossErrorMessage)
-
-@Deprecated(
-  message = PrecisionLossErrorMessage,
-  replaceWith = ReplaceWith("toLong().decimalBytes"),
-  level = DeprecationLevel.ERROR,
-)
-@get:JvmSynthetic
-val Double.decimalBytes: DecimalByteSize
-  get() = error(PrecisionLossErrorMessage)

@@ -27,17 +27,3 @@ inline fun ByteSize.asDecimalBytes(): DecimalByteSize =
     is BinaryByteSize -> DecimalByteSize(this.bytes)
     is DecimalByteSize -> this
   }
-
-@Deprecated(
-  message = "Ambiguous unit and base. Use .decimalBytes or .binaryBytes instead.",
-  level = DeprecationLevel.ERROR,
-)
-@get:JvmSynthetic
-val Number.bytes: ByteSize
-  get() { error("unreachable code") }
-
-@PublishedApi
-internal const val PrecisionLossErrorMessage =
-  "ByteSize provides precision at the byte level. Representing a fractional value as " +
-    "bytes may lead to precision loss. It is recommended to convert the value to a whole " +
-    "number before using ByteSize."

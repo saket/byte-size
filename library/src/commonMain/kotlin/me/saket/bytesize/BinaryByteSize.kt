@@ -84,21 +84,3 @@ value class BinaryByteSize(
     @PublishedApi internal inline val BytesPerGiB: Long get() = 1024L * BytesPerMiB
   }
 }
-
-@Deprecated(
-  message = PrecisionLossErrorMessage,
-  replaceWith = ReplaceWith("toInt().binaryBytes"),
-  level = DeprecationLevel.ERROR,
-)
-@get:JvmSynthetic
-val Float.binaryBytes: BinaryByteSize
-  get() = error(PrecisionLossErrorMessage)
-
-@Deprecated(
-  message = PrecisionLossErrorMessage,
-  replaceWith = ReplaceWith("toLong().binaryBytes"),
-  level = DeprecationLevel.ERROR,
-)
-@get:JvmSynthetic
-val Double.binaryBytes: BinaryByteSize
-  get() = error(PrecisionLossErrorMessage)
