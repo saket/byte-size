@@ -5,8 +5,8 @@ package me.saket.filesize
   replaceWith = ReplaceWith("ByteSize", "me.saket.bytesize.ByteSize"),
   level = DeprecationLevel.ERROR,
 )
-@Suppress("DeprecatedCallableAddReplaceWith")
-class FileSize constructor(val bytes: Long) : Comparable<Any> {
+@Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION_ERROR")
+class FileSize constructor(val bytes: Long) : Comparable<FileSize> {
 
   @Deprecated("FileSize has been renamed to ByteSize", level = DeprecationLevel.ERROR)
   val inWholeBytes: Long get() = error("unreachable")
@@ -21,19 +21,19 @@ class FileSize constructor(val bytes: Long) : Comparable<Any> {
   val inWholeGigabytes: Long get() = error("unreachable")
 
   @Deprecated("FileSize has been renamed to ByteSize", level = DeprecationLevel.ERROR)
-  override operator fun compareTo(other: Any): Int = error("unreachable")
+  override operator fun compareTo(other: FileSize): Int = error("unreachable")
 
   @Deprecated("FileSize has been renamed to ByteSize", level = DeprecationLevel.ERROR)
-  operator fun plus(other: Any): Nothing = error("unreachable")
+  operator fun plus(other: FileSize): Nothing = error("unreachable")
 
   @Deprecated("FileSize has been renamed to ByteSize", level = DeprecationLevel.ERROR)
-  operator fun minus(other: Any): Nothing = error("unreachable")
+  operator fun minus(other: FileSize): Nothing = error("unreachable")
 
   @Deprecated("FileSize has been renamed to ByteSize", level = DeprecationLevel.ERROR)
   operator fun times(other: Number): Nothing = error("unreachable")
 
   @Deprecated("FileSize has been renamed to ByteSize", level = DeprecationLevel.ERROR)
-  operator fun div(other: Any): Nothing = error("unreachable")
+  operator fun div(other: FileSize): Nothing = error("unreachable")
 
   @Deprecated("FileSize has been renamed to ByteSize", level = DeprecationLevel.ERROR)
   operator fun div(other: Number): Nothing = error("unreachable")
