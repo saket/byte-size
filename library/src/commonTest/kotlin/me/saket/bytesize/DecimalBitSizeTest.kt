@@ -26,7 +26,7 @@ class DecimalBitSizeTest {
   @Test fun max_value() {
     val max = DecimalBitSize(Long.MAX_VALUE)
     assertThat(max.inWholeBits).isEqualTo(Long.MAX_VALUE)
-    assertThat(max.toString()).isEqualTo("9.2233718E9 Gb")
+    assertThat(max).hasToString("9.2233718E9 Gb")
   }
 
   @Test fun unit_conversions() {
@@ -43,7 +43,7 @@ class DecimalBitSizeTest {
     assertThat(12.gigabits - 1500.megabits).isEqualTo(10_500.megabits)
     assertThat(7.gigabits * 3.3).isEqualTo(23.1.gigabits)
     assertThat(3.3 * 7.gigabits).isEqualTo(23.1.gigabits)
-    assertThat((7.gigabits * 3.3f).toString()).isEqualTo(23.1.gigabits.toString())
+    assertThat((7.gigabits * 3.3f)).isApproximatelyEqualTo(23.1.gigabits)
     assertThat(1.megabits / 2).isEqualTo(500.kilobits)
     assertThat(1.megabits / 2.toShort()).isEqualTo(500.kilobits)
     assertThat(1.megabits / 2.toByte()).isEqualTo(500.kilobits)

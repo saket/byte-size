@@ -25,7 +25,7 @@ class DecimalByteSizeTest {
   @Test fun max_value() {
     val max = DecimalByteSize(Long.MAX_VALUE)
     assertThat(max.inWholeBytes).isEqualTo(Long.MAX_VALUE)
-    assertThat(max.toString()).isEqualTo("9.2233718E9 GB")
+    assertThat(max).hasToString("9.2233718E9 GB")
   }
 
   @Test
@@ -52,19 +52,19 @@ class DecimalByteSizeTest {
 
   @Test
   fun trim_empty_decimals_from_toString() {
-    assertThat(200.decimalBytes.toString()).isEqualTo("200 B")
-    assertThat(345.kilobytes.toString()).isEqualTo("345 KB")
-    assertThat(678.megabytes.toString()).isEqualTo("678 MB")
-    assertThat(987.gigabytes.toString()).isEqualTo("987 GB")
-    assertThat(9_000.gigabytes.toString()).isEqualTo("9000 GB")
+    assertThat(200.decimalBytes).hasToString("200 B")
+    assertThat(345.kilobytes).hasToString("345 KB")
+    assertThat(678.megabytes).hasToString("678 MB")
+    assertThat(987.gigabytes).hasToString("987 GB")
+    assertThat(9_000.gigabytes).hasToString("9000 GB")
   }
 
   @Test fun format_to_string() {
     assertThat(1.decimalBytes).hasToString("1 B")
-    assertThat(345.3.kilobytes.toString()).isEqualTo("345.3 KB")
-    assertThat(512.255.megabytes.toString()).isEqualTo("512.26 MB")
-    assertThat(345.999.kilobytes.toString()).isEqualTo("346 KB")
-    assertThat(678.99999.gigabytes.toString()).isEqualTo("679 GB")
+    assertThat(345.3.kilobytes).hasToString("345.3 KB")
+    assertThat(512.255.megabytes).hasToString("512.26 MB")
+    assertThat(345.999.kilobytes).hasToString("346 KB")
+    assertThat(678.99999.gigabytes).hasToString("679 GB")
   }
 
   @Test fun conversion_to_other_units() {
@@ -80,19 +80,19 @@ class DecimalByteSizeTest {
   @Test fun maths_with_other_units() {
     (10.gigabytes - 3.gibibytes).let {
       assertThat(it).isEqualTo(6.778774528.gigabytes)
-      assertThat(it.toString()).isEqualTo("6.78 GB")
+      assertThat(it).hasToString("6.78 GB")
       assertThat(it).isInstanceOf<DecimalByteSize>()
     }
 
     (5.megabytes + 500.kibibytes).let {
       assertThat(it).isEqualTo(5.512.megabytes)
-      assertThat(it.toString()).isEqualTo("5.51 MB")
+      assertThat(it).hasToString("5.51 MB")
       assertThat(it).isInstanceOf<DecimalByteSize>()
     }
 
     (13.kilobytes + 13.kilobits).let {
       assertThat(it).isApproximatelyEqualTo(14.63.kilobytes)
-      assertThat(it.toString()).isEqualTo("14.63 KB")
+      assertThat(it).hasToString("14.63 KB")
       assertThat(it).isInstanceOf<DecimalByteSize>()
     }
   }

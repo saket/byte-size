@@ -24,7 +24,7 @@ class BinaryByteSizeTest {
   @Test fun max_value() {
     val max = BinaryByteSize(Long.MAX_VALUE)
     assertThat(max.inWholeBytes).isEqualTo(Long.MAX_VALUE)
-    assertThat(max.toString()).isEqualTo("8.5899346E9 GiB")
+    assertThat(max).hasToString("8.5899346E9 GiB")
   }
 
   @Test fun unit_conversions() {
@@ -48,11 +48,11 @@ class BinaryByteSizeTest {
   }
 
   @Test fun format_to_string() {
-    assertThat(200.binaryBytes.toString()).isEqualTo("200 B")
-    assertThat(345.kibibytes.toString()).isEqualTo("345 KiB")
-    assertThat(678.mebibytes.toString()).isEqualTo("678 MiB")
-    assertThat(987.gibibytes.toString()).isEqualTo("987 GiB")
-    assertThat(9_000.gibibytes.toString()).isEqualTo("9000 GiB")
+    assertThat(200.binaryBytes).hasToString("200 B")
+    assertThat(345.kibibytes).hasToString("345 KiB")
+    assertThat(678.mebibytes).hasToString("678 MiB")
+    assertThat(987.gibibytes).hasToString("987 GiB")
+    assertThat(9_000.gibibytes).hasToString("9000 GiB")
   }
 
   @Test fun conversion_to_other_units() {
@@ -68,13 +68,13 @@ class BinaryByteSizeTest {
   @Test fun maths_with_other_units() {
     (2.gibibytes - 2.gigabytes).let {
       assertThat(it).isEqualTo(140.65136718750003.mebibytes)
-      assertThat(it.toString()).isEqualTo("140.65 MiB")
+      assertThat(it).hasToString("140.65 MiB")
       assertThat(it).isInstanceOf<BinaryByteSize>()
     }
 
     (3.mebibytes + 3.megabytes).let {
       assertThat(it).isEqualTo(5.86102294921875.mebibytes)
-      assertThat(it.toString()).isEqualTo("5.86 MiB")
+      assertThat(it).hasToString("5.86 MiB")
       assertThat(it).isInstanceOf<BinaryByteSize>()
     }
 
