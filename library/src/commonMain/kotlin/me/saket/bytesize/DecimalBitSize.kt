@@ -87,7 +87,7 @@ value class DecimalBitSize(
     return commonCompareTo(other)
   }
 
-  override fun toString(): String {
+  override inline fun toString(): String {
     return when {
       inWholeBits < BitsPerKb -> "$inWholeBits b"
       inWholeBits < BitsPerMb -> "${(inWholeBits / BitsPerKb.toDouble()).toStringAsFixed()} Kb"
