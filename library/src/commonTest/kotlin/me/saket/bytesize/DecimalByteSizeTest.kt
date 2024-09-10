@@ -3,6 +3,7 @@ package me.saket.bytesize
 import assertk.assertFailure
 import assertk.assertThat
 import assertk.assertions.hasMessage
+import assertk.assertions.hasToString
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
 import assertk.assertions.isInstanceOf
@@ -15,6 +16,7 @@ class DecimalByteSizeTest {
   @Test fun canary() {
     assertThat(DecimalByteSize(bytes = 1_000).inWholeBytes).isEqualTo(1_000)
 
+    assertThat(1.decimalBytes.inWholeBytes).isEqualTo(1)
     assertThat(1.kilobytes.inWholeBytes).isEqualTo(1_000)
     assertThat(1.megabytes.inWholeKilobytes).isEqualTo(1_000)
     assertThat(1.gigabytes.inWholeMegabytes).isEqualTo(1_000)
@@ -41,7 +43,7 @@ class DecimalByteSizeTest {
     assertThat(7.gigabytes - 500.megabytes).isEqualTo(6_500.megabytes)
     assertThat(6.gigabytes * 3.2).isEqualTo(19.2.gigabytes)
     assertThat(3.2 * 6.gigabytes).isEqualTo(19.2.gigabytes)
-    assertThat((6.gigabytes * 3.2f).toString()).isEqualTo(19.2.gigabytes.toString())  // Convert to string to ignore precision error.
+    assertThat(6.gigabytes * 3.2f).isApproximatelyEqualTo(19.2.gigabytes)
     assertThat(1.megabytes / 2).isEqualTo(500.kilobytes)
     assertThat(1.megabytes / 2.toShort()).isEqualTo(500.kilobytes)
     assertThat(1.megabytes / 2.toByte()).isEqualTo(500.kilobytes)
@@ -50,28 +52,32 @@ class DecimalByteSizeTest {
 
   @Test
   fun trim_empty_decimals_from_toString() {
-    assertThat(200.decimalBytes.toString()).isEqualTo("200 bytes")
+    assertThat(200.decimalBytes.toString()).isEqualTo("200 B")
     assertThat(345.kilobytes.toString()).isEqualTo("345 KB")
     assertThat(678.megabytes.toString()).isEqualTo("678 MB")
     assertThat(987.gigabytes.toString()).isEqualTo("987 GB")
     assertThat(9_000.gigabytes.toString()).isEqualTo("9000 GB")
   }
 
-  @Test
-  fun round_off_decimals_after_2_digits_from_toString() {
+  @Test fun format_to_string() {
+    assertThat(1.decimalBytes).hasToString("1 B")
     assertThat(345.3.kilobytes.toString()).isEqualTo("345.3 KB")
     assertThat(512.255.megabytes.toString()).isEqualTo("512.26 MB")
     assertThat(345.999.kilobytes.toString()).isEqualTo("346 KB")
     assertThat(678.99999.gigabytes.toString()).isEqualTo("679 GB")
   }
 
-  @Test fun conversion_to_binary_bytes() {
+  @Test fun conversion_to_other_units() {
     assertThat(700.kilobytes.asBinaryBytes().inWholeKibibytes).isEqualTo(683)
     assertThat(512.megabytes.asBinaryBytes().inWholeKibibytes).isEqualTo(500_000)
     assertThat(9.gigabytes.asBinaryBytes().inWholeMebibytes).isEqualTo(8_583)
+
+    assertThat(700.kilobytes.asDecimalBits()).isEqualTo(5600.kilobits)
+    assertThat(512.megabytes.asDecimalBits()).isEqualTo(4096.megabits)
+    assertThat(9.gigabytes.asDecimalBits()).isEqualTo(72.gigabits)
   }
 
-  @Test fun maths_with_binary_bytes() {
+  @Test fun maths_with_other_units() {
     (10.gigabytes - 3.gibibytes).let {
       assertThat(it).isEqualTo(6.778774528.gigabytes)
       assertThat(it.toString()).isEqualTo("6.78 GB")
@@ -83,11 +89,20 @@ class DecimalByteSizeTest {
       assertThat(it.toString()).isEqualTo("5.51 MB")
       assertThat(it).isInstanceOf<DecimalByteSize>()
     }
+
+    (13.kilobytes + 13.kilobits).let {
+      assertThat(it).isApproximatelyEqualTo(14.63.kilobytes)
+      assertThat(it.toString()).isEqualTo("14.63 KB")
+      assertThat(it).isInstanceOf<DecimalByteSize>()
+    }
   }
 
-  @Test fun comparison_with_binary_bytes() {
+  @Test fun comparison_with_other_units() {
     assertThat(1.gigabytes < 1.gibibytes).isTrue()
     assertThat(5.megabytes < 1.mebibytes).isFalse()
+
+    assertThat(1.gigabytes > 1.gigabits).isTrue()
+    assertThat(5.megabytes > 41.megabits).isFalse()
   }
 
   @Test fun throw_an_error_if_multiplication_will_cause_an_overflow() {
@@ -129,18 +144,18 @@ class DecimalByteSizeTest {
       // Float#decimalBytes is a compilation error.
       // Bypass it by casting it to a generic number.
       (500.50f as Number).decimalBytes
-    }.hasMessage(PrecisionLossErrorMessage)
+    }.hasMessage(BytePrecisionLossErrorMessage)
 
     assertFailure {
       (500.50 as Number).decimalBytes
-    }.hasMessage(PrecisionLossErrorMessage)
+    }.hasMessage(BytePrecisionLossErrorMessage)
 
     assertFailure {
       DecimalByteSize(500.50f)
-    }.hasMessage(PrecisionLossErrorMessage)
+    }.hasMessage(BytePrecisionLossErrorMessage)
 
     assertFailure {
       DecimalByteSize(500.50)
-    }.hasMessage(PrecisionLossErrorMessage)
+    }.hasMessage(BytePrecisionLossErrorMessage)
   }
 }

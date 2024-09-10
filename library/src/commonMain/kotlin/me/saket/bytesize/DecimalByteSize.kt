@@ -1,4 +1,4 @@
-@file:Suppress("ConstPropertyName", "INAPPLICABLE_JVM_NAME", "FunctionName", "OVERRIDE_BY_INLINE")
+@file:Suppress("INAPPLICABLE_JVM_NAME", "OVERRIDE_BY_INLINE")
 
 package me.saket.bytesize
 
@@ -8,6 +8,13 @@ import kotlin.jvm.JvmSynthetic
 import me.saket.bytesize.DecimalByteSize.Companion.BytesPerGB
 import me.saket.bytesize.DecimalByteSize.Companion.BytesPerKB
 import me.saket.bytesize.DecimalByteSize.Companion.BytesPerMB
+import me.saket.bytesize.internal.commonCompareTo
+import me.saket.bytesize.internal.commonDiv
+import me.saket.bytesize.internal.commonMinus
+import me.saket.bytesize.internal.commonPlus
+import me.saket.bytesize.internal.commonTimes
+import me.saket.bytesize.internal.hasFractionalPart
+import me.saket.bytesize.internal.toStringAsFixed
 
 @get:JvmSynthetic
 inline val Number.decimalBytes: DecimalByteSize
@@ -30,10 +37,10 @@ inline val Number.gigabytes: DecimalByteSize
 @JvmInline
 value class DecimalByteSize(
   @PublishedApi internal val bytes: Long,
-) : ByteSize {
+) : ByteSize, BytePrecision {
 
   constructor(bytes: Number) : this(bytes.toLong()) {
-    check(!bytes.hasFractionalPart()) { PrecisionLossErrorMessage }
+    check(!bytes.hasFractionalPart()) { BytePrecisionLossErrorMessage }
   }
 
   override inline val inWholeBytes: Long
@@ -71,7 +78,7 @@ value class DecimalByteSize(
 
   override inline fun toString(): String {
     return when {
-      inWholeBytes < BytesPerKB -> "${inWholeBytes.toStringAsFixed()} bytes"
+      inWholeBytes < BytesPerKB -> "${inWholeBytes.toStringAsFixed()} B"
       inWholeBytes < BytesPerMB -> "${(inWholeBytes / BytesPerKB.toDouble()).toStringAsFixed()} KB"
       inWholeBytes < BytesPerGB -> "${(inWholeBytes / BytesPerMB.toDouble()).toStringAsFixed()} MB"
       else -> "${(inWholeBytes / BytesPerGB.toDouble()).toStringAsFixed()} GB"

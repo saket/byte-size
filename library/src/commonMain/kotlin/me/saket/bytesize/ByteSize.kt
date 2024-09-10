@@ -1,12 +1,13 @@
-@file:Suppress("ConstPropertyName", "INAPPLICABLE_JVM_NAME", "FunctionName")
+@file:Suppress("INAPPLICABLE_JVM_NAME")
 
 package me.saket.bytesize
 
 import kotlin.jvm.JvmName
+import me.saket.bytesize.internal.BitsPerByte
 
 sealed interface ByteSize : Comparable<ByteSize> {
   @get:JvmName("inWholeBytes")
-  val inWholeBytes: Long
+  val inWholeBytes: Long  // todo: verify JVM interop for sub-classes
 
   operator fun plus(other: ByteSize): ByteSize
   operator fun minus(other: ByteSize): ByteSize
@@ -19,16 +20,24 @@ inline operator fun Number.times(other: ByteSize): ByteSize =
   when (other) {
     is BinaryByteSize -> this.times(other)
     is DecimalByteSize -> this.times(other)
+    is DecimalBitSize -> this.times(other)
   }
 
 inline fun ByteSize.asBinaryBytes(): BinaryByteSize =
-  when (this) {
-    is BinaryByteSize -> this
-    is DecimalByteSize -> BinaryByteSize(this.bytes)
-  }
+  if (this is BinaryByteSize) this else BinaryByteSize(this.inWholeBytes)
 
 inline fun ByteSize.asDecimalBytes(): DecimalByteSize =
-  when (this) {
-    is BinaryByteSize -> DecimalByteSize(this.bytes)
-    is DecimalByteSize -> this
-  }
+  if (this is DecimalByteSize) this else DecimalByteSize(this.inWholeBytes)
+
+inline fun ByteSize.asDecimalBits(): DecimalBitSize =
+  if (this is DecimalBitSize) this else DecimalBitSize(this.inWholeBytes * BitsPerByte)
+
+@PublishedApi
+internal sealed interface BytePrecision {
+  val inWholeBytes: Long
+}
+
+@PublishedApi
+internal sealed interface BitPrecision {
+  val inWholeBits: Long
+}

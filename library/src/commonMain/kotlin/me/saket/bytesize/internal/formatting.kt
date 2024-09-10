@@ -1,4 +1,4 @@
-package me.saket.bytesize
+package me.saket.bytesize.internal
 
 import kotlin.math.pow
 

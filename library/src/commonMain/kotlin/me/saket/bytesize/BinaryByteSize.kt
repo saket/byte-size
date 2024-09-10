@@ -1,4 +1,4 @@
-@file:Suppress("ConstPropertyName", "INAPPLICABLE_JVM_NAME", "FunctionName", "OVERRIDE_BY_INLINE")
+@file:Suppress("INAPPLICABLE_JVM_NAME", "OVERRIDE_BY_INLINE")
 
 package me.saket.bytesize
 
@@ -8,6 +8,13 @@ import kotlin.jvm.JvmSynthetic
 import me.saket.bytesize.BinaryByteSize.Companion.BytesPerGiB
 import me.saket.bytesize.BinaryByteSize.Companion.BytesPerKiB
 import me.saket.bytesize.BinaryByteSize.Companion.BytesPerMiB
+import me.saket.bytesize.internal.commonCompareTo
+import me.saket.bytesize.internal.commonDiv
+import me.saket.bytesize.internal.commonMinus
+import me.saket.bytesize.internal.commonPlus
+import me.saket.bytesize.internal.commonTimes
+import me.saket.bytesize.internal.hasFractionalPart
+import me.saket.bytesize.internal.toStringAsFixed
 
 @get:JvmSynthetic
 inline val Number.binaryBytes: BinaryByteSize
@@ -30,10 +37,10 @@ inline val Number.gibibytes: BinaryByteSize
 @JvmInline
 value class BinaryByteSize(
   @PublishedApi internal val bytes: Long,
-) : ByteSize {
+) : ByteSize, BytePrecision {
 
   constructor(bytes: Number) : this(bytes.toLong()) {
-    check(!bytes.hasFractionalPart()) { PrecisionLossErrorMessage }
+    check(!bytes.hasFractionalPart()) { BytePrecisionLossErrorMessage }
   }
 
   override inline val inWholeBytes: Long
@@ -71,7 +78,7 @@ value class BinaryByteSize(
 
   override inline fun toString(): String {
     return when {
-      inWholeBytes < BytesPerKiB -> "${inWholeBytes.toStringAsFixed()} bytes"
+      inWholeBytes < BytesPerKiB -> "${inWholeBytes.toStringAsFixed()} B"
       inWholeBytes < BytesPerMiB -> "${(inWholeBytes / BytesPerKiB.toDouble()).toStringAsFixed()} KiB"
       inWholeBytes < BytesPerGiB -> "${(inWholeBytes / BytesPerMiB.toDouble()).toStringAsFixed()} MiB"
       else -> "${(inWholeBytes / BytesPerGiB.toDouble()).toStringAsFixed()} GiB"
