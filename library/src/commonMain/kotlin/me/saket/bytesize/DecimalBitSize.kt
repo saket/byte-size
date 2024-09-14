@@ -33,7 +33,7 @@ inline val Number.megabits: DecimalBitSize
 inline val Number.gigabits: DecimalBitSize
   get() = DecimalBitSize(BitsPerGb) * this
 
-// todo: doc + mention .decimalBits
+/** Represents power-of-ten bit sizes. */
 @JvmInline
 value class DecimalBitSize(
   @PublishedApi

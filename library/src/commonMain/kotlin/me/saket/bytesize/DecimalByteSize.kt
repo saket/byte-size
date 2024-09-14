@@ -32,7 +32,7 @@ inline val Number.megabytes: DecimalByteSize
 inline val Number.gigabytes: DecimalByteSize
   get() = DecimalByteSize(BytesPerGB) * this
 
-// todo: doc + mention .decimalBytes
+/** Represents power-of-ten byte sizes. */
 @JvmInline
 value class DecimalByteSize(
   @PublishedApi

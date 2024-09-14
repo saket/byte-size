@@ -32,7 +32,7 @@ inline val Number.mebibytes: BinaryByteSize
 inline val Number.gibibytes: BinaryByteSize
   get() = BinaryByteSize(BytesPerGiB) * this
 
-// todo: doc + mention .binaryBytes
+/** Represents power-of-two byte sizes. */
 @JvmInline
 value class BinaryByteSize(
   @PublishedApi

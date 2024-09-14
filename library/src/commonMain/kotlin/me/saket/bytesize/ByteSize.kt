@@ -6,6 +6,14 @@ import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
 import me.saket.bytesize.internal.BitsPerByte
 
+/**
+ * Represents a size which can be converted into bytes.
+ *
+ * See:
+ * - [BinaryByteSize]
+ * - [DecimalByteSize]
+ * - [DecimalBitSize]
+ */
 sealed interface ByteSize : Comparable<ByteSize> {
   @get:JvmName("inWholeBytes")
   val inWholeBytes: Long
