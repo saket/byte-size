@@ -40,15 +40,3 @@ inline fun ByteSize.toDecimalBytes(): DecimalByteSize =
 
 inline fun ByteSize.toDecimalBits(): DecimalBitSize =
   if (this is DecimalBitSize) this else DecimalBitSize(this.inWholeBytes * BitsPerByte)
-
-@PublishedApi
-internal sealed interface BytePrecision {
-  @get:JvmSynthetic
-  val inWholeBytes: Long
-}
-
-@PublishedApi
-internal sealed interface BitPrecision {
-  @get:JvmSynthetic
-  val inWholeBits: Long
-}
