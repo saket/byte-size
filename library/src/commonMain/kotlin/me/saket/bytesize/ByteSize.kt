@@ -23,13 +23,13 @@ inline operator fun Number.times(other: ByteSize): ByteSize =
     is DecimalBitSize -> this.times(other)
   }
 
-inline fun ByteSize.asBinaryBytes(): BinaryByteSize =
+inline fun ByteSize.toBinaryBytes(): BinaryByteSize =
   if (this is BinaryByteSize) this else BinaryByteSize(this.inWholeBytes)
 
-inline fun ByteSize.asDecimalBytes(): DecimalByteSize =
+inline fun ByteSize.toDecimalBytes(): DecimalByteSize =
   if (this is DecimalByteSize) this else DecimalByteSize(this.inWholeBytes)
 
-inline fun ByteSize.asDecimalBits(): DecimalBitSize =
+inline fun ByteSize.toDecimalBits(): DecimalBitSize =
   if (this is DecimalBitSize) this else DecimalBitSize(this.inWholeBytes * BitsPerByte)
 
 @PublishedApi

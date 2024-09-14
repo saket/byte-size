@@ -60,13 +60,13 @@ class DecimalBitSizeTest {
   }
 
   @Test fun conversion_to_other_units() {
-    assertThat(256.kilobits.asDecimalBytes()).isEqualTo(32.kilobytes)
-    assertThat(1024.megabits.asDecimalBytes()).isEqualTo(128.megabytes)
-    assertThat(8.gigabits.asDecimalBytes()).isEqualTo(1.gigabytes)
+    assertThat(256.kilobits.toDecimalBytes()).isEqualTo(32.kilobytes)
+    assertThat(1024.megabits.toDecimalBytes()).isEqualTo(128.megabytes)
+    assertThat(8.gigabits.toDecimalBytes()).isEqualTo(1.gigabytes)
 
-    assertThat(256.kilobits.asBinaryBytes()).isEqualTo(31.25.kibibytes)
-    assertThat(1024.megabits.asBinaryBytes()).isApproximatelyEqualTo(122.07.mebibytes)
-    assertThat(9.gigabits.asBinaryBytes()).isApproximatelyEqualTo(1.05.gibibytes)
+    assertThat(256.kilobits.toBinaryBytes()).isEqualTo(31.25.kibibytes)
+    assertThat(1024.megabits.toBinaryBytes()).isApproximatelyEqualTo(122.07.mebibytes)
+    assertThat(9.gigabits.toBinaryBytes()).isApproximatelyEqualTo(1.05.gibibytes)
   }
 
   @Test fun maths_with_other_units() {
