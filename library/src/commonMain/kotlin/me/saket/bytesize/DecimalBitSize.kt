@@ -33,11 +33,12 @@ inline val Number.megabits: DecimalBitSize
 inline val Number.gigabits: DecimalBitSize
   get() = DecimalBitSize(BitsPerGb) * this
 
-// todo: doc + mention .decimalBytes
-// todo: verify java interop
+// todo: doc + mention .decimalBits
 @JvmInline
 value class DecimalBitSize(
-  @PublishedApi internal inline val bits: Long,
+  @PublishedApi
+  @get:JvmSynthetic
+  internal inline val bits: Long,
 ) : ByteSize, BitPrecision {
 
   constructor(bits: Number) : this(bits.toLong()) {
@@ -48,6 +49,7 @@ value class DecimalBitSize(
   override inline val inWholeBits: Long
     get() = bits
 
+  @get:JvmName("inWholeBytes")
   override inline val inWholeBytes: Long
     get() = bits / BitsPerByte
 
@@ -103,6 +105,7 @@ value class DecimalBitSize(
   }
 }
 
+@JvmSynthetic
 inline operator fun Number.times(other: DecimalBitSize): DecimalBitSize {
   return other.times(this)
 }

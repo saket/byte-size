@@ -33,16 +33,18 @@ inline val Number.gigabytes: DecimalByteSize
   get() = DecimalByteSize(BytesPerGB) * this
 
 // todo: doc + mention .decimalBytes
-// todo: verify java interop
 @JvmInline
 value class DecimalByteSize(
-  @PublishedApi internal val bytes: Long,
+  @PublishedApi
+  @get:JvmSynthetic
+  internal val bytes: Long,
 ) : ByteSize, BytePrecision {
 
   constructor(bytes: Number) : this(bytes.toLong()) {
     check(!bytes.hasFractionalPart()) { BytePrecisionLossErrorMessage }
   }
 
+  @get:JvmName("inWholeBytes")
   override inline val inWholeBytes: Long
     get() = bytes
 
@@ -92,6 +94,7 @@ value class DecimalByteSize(
   }
 }
 
+@JvmSynthetic
 inline operator fun Number.times(other: DecimalByteSize): DecimalByteSize {
   return other.times(this)
 }

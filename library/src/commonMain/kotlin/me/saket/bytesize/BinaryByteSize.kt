@@ -33,16 +33,18 @@ inline val Number.gibibytes: BinaryByteSize
   get() = BinaryByteSize(BytesPerGiB) * this
 
 // todo: doc + mention .binaryBytes
-// todo: verify java interop
 @JvmInline
 value class BinaryByteSize(
-  @PublishedApi internal val bytes: Long,
+  @PublishedApi
+  @get:JvmSynthetic
+  internal val bytes: Long,
 ) : ByteSize, BytePrecision {
 
   constructor(bytes: Number) : this(bytes.toLong()) {
     check(!bytes.hasFractionalPart()) { BytePrecisionLossErrorMessage }
   }
 
+  @get:JvmName("inWholeBytes")
   override inline val inWholeBytes: Long
     get() = bytes
 
@@ -92,6 +94,7 @@ value class BinaryByteSize(
   }
 }
 
+@JvmSynthetic
 inline operator fun Number.times(other: BinaryByteSize): BinaryByteSize {
   return other.times(this)
 }

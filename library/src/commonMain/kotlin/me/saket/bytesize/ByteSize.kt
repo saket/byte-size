@@ -3,11 +3,12 @@
 package me.saket.bytesize
 
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmSynthetic
 import me.saket.bytesize.internal.BitsPerByte
 
 sealed interface ByteSize : Comparable<ByteSize> {
   @get:JvmName("inWholeBytes")
-  val inWholeBytes: Long  // todo: verify JVM interop for sub-classes
+  val inWholeBytes: Long
 
   operator fun plus(other: ByteSize): ByteSize
   operator fun minus(other: ByteSize): ByteSize
@@ -34,10 +35,12 @@ inline fun ByteSize.toDecimalBits(): DecimalBitSize =
 
 @PublishedApi
 internal sealed interface BytePrecision {
+  @get:JvmSynthetic
   val inWholeBytes: Long
 }
 
 @PublishedApi
 internal sealed interface BitPrecision {
+  @get:JvmSynthetic
   val inWholeBits: Long
 }
