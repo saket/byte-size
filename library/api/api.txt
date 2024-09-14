@@ -1,37 +1,143 @@
 // Signature format: 4.0
 package me.saket.bytesize {
 
-  @kotlin.jvm.JvmInline public final value class ByteSize {
-    ctor public ByteSize(@kotlin.PublishedApi long bytes);
-    method public operator int compareTo(long other);
-    method public inline operator long div(Number other);
-    method public inline operator long div(long other);
-    method public inline long getInWholeBytes();
-    method public inline long getInWholeGigabytes();
-    method public inline long getInWholeKilobytes();
-    method public inline long getInWholeMegabytes();
-    method public inline operator long minus(long other);
-    method public inline operator long plus(long other);
-    method public inline operator long times(Number other);
-    method public inline operator long times(long other);
-    method public String toString();
-    property public final inline long inWholeBytes;
-    property public final inline long inWholeGigabytes;
-    property public final inline long inWholeKilobytes;
-    property public final inline long inWholeMegabytes;
-    field public static final me.saket.bytesize.ByteSize.Companion Companion;
+  @kotlin.jvm.JvmInline public final value class BinaryByteSize implements me.saket.bytesize.ByteSize {
+    ctor public BinaryByteSize(Number bytes);
+    ctor public BinaryByteSize(@kotlin.PublishedApi long bytes);
+    method public inline int compareTo(me.saket.bytesize.ByteSize other);
+    method public inline long div(Number other);
+    method public inline double div(me.saket.bytesize.ByteSize other);
+    method public inline long inWholeBytes();
+    method public inline long inWholeGibibytes();
+    method public inline long inWholeKibibytes();
+    method public inline long inWholeMebibytes();
+    method public inline operator me.saket.bytesize.ByteSize minus(me.saket.bytesize.ByteSize other);
+    method public inline operator long plus(me.saket.bytesize.ByteSize other);
+    method public inline long times(Number other);
+    method public inline String toString();
+    property public inline long inWholeBytes;
+    property public final inline long inWholeGibibytes;
+    property public final inline long inWholeKibibytes;
+    property public final inline long inWholeMebibytes;
+    field public static final me.saket.bytesize.BinaryByteSize.Companion Companion;
   }
 
-  public static final class ByteSize.Companion {
-    method public long getZero();
-    property public final long Zero;
+  public static final class BinaryByteSize.Companion {
+  }
+
+  public final class BinaryByteSizeKt {
+    method @kotlin.jvm.JvmSynthetic public static inline operator long times(Number, long other);
+  }
+
+  public sealed interface ByteSize {
+    method public operator me.saket.bytesize.ByteSize div(Number other);
+    method public operator double div(me.saket.bytesize.ByteSize other);
+    method public long inWholeBytes();
+    method public operator me.saket.bytesize.ByteSize minus(me.saket.bytesize.ByteSize other);
+    method public operator me.saket.bytesize.ByteSize plus(me.saket.bytesize.ByteSize other);
+    method public operator me.saket.bytesize.ByteSize times(Number other);
+    property public abstract long inWholeBytes;
   }
 
   public final class ByteSizeKt {
-    method public static inline long bytes(Number);
-    method public static inline long gigabytes(Number);
-    method public static inline long kilobytes(Number);
-    method public static inline long megabytes(Number);
+    method public static inline operator me.saket.bytesize.ByteSize times(Number, me.saket.bytesize.ByteSize other);
+    method public static inline long toBinaryBytes(me.saket.bytesize.ByteSize);
+    method public static inline long toDecimalBits(me.saket.bytesize.ByteSize);
+    method public static inline long toDecimalBytes(me.saket.bytesize.ByteSize);
+  }
+
+  @kotlin.jvm.JvmInline public final value class DecimalBitSize implements me.saket.bytesize.ByteSize {
+    ctor public DecimalBitSize(Number bits);
+    ctor public DecimalBitSize(@kotlin.PublishedApi inline long bits);
+    method public inline int compareTo(me.saket.bytesize.ByteSize other);
+    method public inline long div(Number other);
+    method public inline double div(me.saket.bytesize.ByteSize other);
+    method public inline long inWholeBits();
+    method public inline long inWholeBytes();
+    method public inline long inWholeGigabits();
+    method public inline long inWholeKilobits();
+    method public inline long inWholeMegabits();
+    method public inline long minus(me.saket.bytesize.ByteSize other);
+    method public inline long plus(me.saket.bytesize.ByteSize other);
+    method public inline long times(Number other);
+    method public inline String toString();
+    property public inline long inWholeBits;
+    property public inline long inWholeBytes;
+    property public final inline long inWholeGigabits;
+    property public final inline long inWholeKilobits;
+    property public final inline long inWholeMegabits;
+    field public static final me.saket.bytesize.DecimalBitSize.Companion Companion;
+  }
+
+  public static final class DecimalBitSize.Companion {
+  }
+
+  public final class DecimalBitSizeKt {
+    method @kotlin.jvm.JvmSynthetic public static inline operator long times(Number, long other);
+  }
+
+  @kotlin.jvm.JvmInline public final value class DecimalByteSize implements me.saket.bytesize.ByteSize {
+    ctor public DecimalByteSize(Number bytes);
+    ctor public DecimalByteSize(@kotlin.PublishedApi long bytes);
+    method public inline int compareTo(me.saket.bytesize.ByteSize other);
+    method public inline long div(Number other);
+    method public inline double div(me.saket.bytesize.ByteSize other);
+    method public inline long inWholeBytes();
+    method public inline long inWholeGigabytes();
+    method public inline long inWholeKilobytes();
+    method public inline long inWholeMegabytes();
+    method public inline operator long minus(me.saket.bytesize.ByteSize other);
+    method public inline operator long plus(me.saket.bytesize.ByteSize other);
+    method public inline long times(Number other);
+    method public inline String toString();
+    property public inline long inWholeBytes;
+    property public final inline long inWholeGigabytes;
+    property public final inline long inWholeKilobytes;
+    property public final inline long inWholeMegabytes;
+    field public static final me.saket.bytesize.DecimalByteSize.Companion Companion;
+  }
+
+  public static final class DecimalByteSize.Companion {
+  }
+
+  public final class DecimalByteSizeKt {
+    method @kotlin.jvm.JvmSynthetic public static inline operator long times(Number, long other);
+  }
+
+  public final class ErrorsKt {
+    method @Deprecated @kotlin.jvm.JvmSynthetic public static me.saket.bytesize.ByteSize ByteSize(long bytes);
+  }
+
+}
+
+package me.saket.filesize {
+
+  @Deprecated public final class FileSize {
+    ctor @Deprecated public FileSize(long bytes);
+    method @Deprecated public operator int compareTo(me.saket.filesize.FileSize other);
+    method @Deprecated public operator Void div(Number other);
+    method @Deprecated public operator Void div(me.saket.filesize.FileSize other);
+    method @Deprecated public long getBytes();
+    method @Deprecated public long getInWholeBytes();
+    method @Deprecated public long getInWholeGigabytes();
+    method @Deprecated public long getInWholeKilobytes();
+    method @Deprecated public long getInWholeMegabytes();
+    method @Deprecated public operator Void minus(me.saket.filesize.FileSize other);
+    method @Deprecated public operator Void plus(me.saket.filesize.FileSize other);
+    method @Deprecated public operator Void times(Number other);
+    property @Deprecated public final long bytes;
+    property @Deprecated public final long inWholeBytes;
+    property @Deprecated public final long inWholeGigabytes;
+    property @Deprecated public final long inWholeKilobytes;
+    property @Deprecated public final long inWholeMegabytes;
+    field @Deprecated public static final me.saket.filesize.FileSize.Companion Companion;
+  }
+
+  @Deprecated public static final class FileSize.Companion {
+    method @Deprecated public inline Void getBytes(Number);
+    method @Deprecated public inline Void getGigabytes(Number);
+    method @Deprecated public inline Void getKilobytes(Number);
+    method @Deprecated public inline Void getMegabytes(Number);
   }
 
 }
