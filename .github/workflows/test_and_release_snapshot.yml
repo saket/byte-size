@@ -2,7 +2,7 @@ name: Run tests and publish snapshot
 
 on:
   push:
-    branches: [ trunk ]
+    branches: [ trunk, saket/aug28/bytesize ]
   pull_request:
 
 jobs:
