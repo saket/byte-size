@@ -5,12 +5,6 @@ package me.saket.bytesize
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
-import me.saket.bytesize.BinaryByteSize.Companion.BytesPerGiB
-import me.saket.bytesize.BinaryByteSize.Companion.BytesPerKiB
-import me.saket.bytesize.BinaryByteSize.Companion.BytesPerMiB
-import me.saket.bytesize.DecimalByteSize.Companion.BytesPerGB
-import me.saket.bytesize.DecimalByteSize.Companion.BytesPerPB
-import me.saket.bytesize.DecimalByteSize.Companion.BytesPerTB
 import me.saket.bytesize.internal.commonCompareTo
 import me.saket.bytesize.internal.commonDiv
 import me.saket.bytesize.internal.commonMinus
@@ -91,15 +85,13 @@ value class BinaryByteSize(
       else -> "${(inWholeBytes / BytesPerPiB.toDouble()).toStringAsFixed()} PiB"
     }
   }
-
-  companion object {
-    @PublishedApi internal inline val BytesPerKiB: Long get() = 1024L
-    @PublishedApi internal inline val BytesPerMiB: Long get() = 1024L * BytesPerKiB
-    @PublishedApi internal inline val BytesPerGiB: Long get() = 1024L * BytesPerMiB
-    @PublishedApi internal inline val BytesPerTiB: Long get() = 1024L * BytesPerGiB
-    @PublishedApi internal inline val BytesPerPiB: Long get() = 1024L * BytesPerTiB
-  }
 }
+
+@PublishedApi internal inline val BytesPerKiB: Long get() = 1024L
+@PublishedApi internal inline val BytesPerMiB: Long get() = 1024L * BytesPerKiB
+@PublishedApi internal inline val BytesPerGiB: Long get() = 1024L * BytesPerMiB
+@PublishedApi internal inline val BytesPerTiB: Long get() = 1024L * BytesPerGiB
+@PublishedApi internal inline val BytesPerPiB: Long get() = 1024L * BytesPerTiB
 
 @JvmSynthetic
 inline operator fun Number.times(other: BinaryByteSize): BinaryByteSize {

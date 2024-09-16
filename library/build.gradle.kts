@@ -38,6 +38,11 @@ kotlin {
         implementation(libs.assertk)
       }
     }
+    jvmTest {
+      dependencies {
+        implementation(libs.kotlin.reflect)
+      }
+    }
   }
 }
 

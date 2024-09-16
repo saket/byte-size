@@ -14,5 +14,6 @@ metalava = { id = "me.tylerbwong.gradle.metalava", version.ref = "metalava" }
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref="assertk" }
 kmpMath = { module = "dev.erikchristensen.javamath2kmp:javamath2kmp", version.ref = "kmpMath" }

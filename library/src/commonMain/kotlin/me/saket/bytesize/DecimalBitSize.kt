@@ -5,9 +5,6 @@ package me.saket.bytesize
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
-import me.saket.bytesize.DecimalBitSize.Companion.BitsPerGb
-import me.saket.bytesize.DecimalBitSize.Companion.BitsPerKb
-import me.saket.bytesize.DecimalBitSize.Companion.BitsPerMb
 import me.saket.bytesize.internal.BitsPerByte
 import me.saket.bytesize.internal.commonCompareTo
 import me.saket.bytesize.internal.commonDiv
@@ -99,15 +96,13 @@ value class DecimalBitSize(
       else -> "${(inWholeBits / BitsPerPb.toDouble()).toStringAsFixed()} Pb"
     }
   }
-
-  companion object {
-    @PublishedApi internal inline val BitsPerKb: Long get() = 1000
-    @PublishedApi internal inline val BitsPerMb: Long get() = 1000 * BitsPerKb
-    @PublishedApi internal inline val BitsPerGb: Long get() = 1000 * BitsPerMb
-    @PublishedApi internal inline val BitsPerTb: Long get() = 1000 * BitsPerGb
-    @PublishedApi internal inline val BitsPerPb: Long get() = 1000 * BitsPerTb
-  }
 }
+
+@PublishedApi internal inline val BitsPerKb: Long get() = 1000
+@PublishedApi internal inline val BitsPerMb: Long get() = 1000 * BitsPerKb
+@PublishedApi internal inline val BitsPerGb: Long get() = 1000 * BitsPerMb
+@PublishedApi internal inline val BitsPerTb: Long get() = 1000 * BitsPerGb
+@PublishedApi internal inline val BitsPerPb: Long get() = 1000 * BitsPerTb
 
 @JvmSynthetic
 inline operator fun Number.times(other: DecimalBitSize): DecimalBitSize {
