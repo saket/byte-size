@@ -19,10 +19,6 @@ package me.saket.bytesize {
     property public final inline long inWholeGibibytes;
     property public final inline long inWholeKibibytes;
     property public final inline long inWholeMebibytes;
-    field public static final me.saket.bytesize.BinaryByteSize.Companion Companion;
-  }
-
-  public static final class BinaryByteSize.Companion {
   }
 
   public final class BinaryByteSizeKt {
@@ -66,10 +62,6 @@ package me.saket.bytesize {
     property public final inline long inWholeGigabits;
     property public final inline long inWholeKilobits;
     property public final inline long inWholeMegabits;
-    field public static final me.saket.bytesize.DecimalBitSize.Companion Companion;
-  }
-
-  public static final class DecimalBitSize.Companion {
   }
 
   public final class DecimalBitSizeKt {
@@ -94,10 +86,6 @@ package me.saket.bytesize {
     property public final inline long inWholeGigabytes;
     property public final inline long inWholeKilobytes;
     property public final inline long inWholeMegabytes;
-    field public static final me.saket.bytesize.DecimalByteSize.Companion Companion;
-  }
-
-  public static final class DecimalByteSize.Companion {
   }
 
   public final class DecimalByteSizeKt {
