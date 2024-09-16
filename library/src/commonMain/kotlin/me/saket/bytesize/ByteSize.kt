@@ -3,7 +3,6 @@
 package me.saket.bytesize
 
 import kotlin.jvm.JvmName
-import kotlin.jvm.JvmSynthetic
 import me.saket.bytesize.internal.BitsPerByte
 
 /**

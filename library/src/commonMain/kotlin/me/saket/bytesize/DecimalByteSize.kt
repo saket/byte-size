@@ -2,7 +2,6 @@
 
 package me.saket.bytesize
 
-import dev.erikchristensen.javamath2kmp.timesExact
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
@@ -15,8 +14,6 @@ import me.saket.bytesize.internal.commonMinus
 import me.saket.bytesize.internal.commonPlus
 import me.saket.bytesize.internal.commonTimes
 import me.saket.bytesize.internal.hasFractionalPart
-import me.saket.bytesize.internal.timesExact
-import me.saket.bytesize.internal.toLongOrThrow
 import me.saket.bytesize.internal.toStringAsFixed
 
 @get:JvmSynthetic
