@@ -2,6 +2,7 @@
 
 package me.saket.bytesize
 
+import dev.erikchristensen.javamath2kmp.timesExact
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
@@ -14,6 +15,8 @@ import me.saket.bytesize.internal.commonMinus
 import me.saket.bytesize.internal.commonPlus
 import me.saket.bytesize.internal.commonTimes
 import me.saket.bytesize.internal.hasFractionalPart
+import me.saket.bytesize.internal.timesExact
+import me.saket.bytesize.internal.toLongOrThrow
 import me.saket.bytesize.internal.toStringAsFixed
 
 @get:JvmSynthetic
@@ -83,7 +86,9 @@ value class DecimalByteSize(
       inWholeBytes < BytesPerKB -> "${inWholeBytes.toStringAsFixed()} B"
       inWholeBytes < BytesPerMB -> "${(inWholeBytes / BytesPerKB.toDouble()).toStringAsFixed()} KB"
       inWholeBytes < BytesPerGB -> "${(inWholeBytes / BytesPerMB.toDouble()).toStringAsFixed()} MB"
-      else -> "${(inWholeBytes / BytesPerGB.toDouble()).toStringAsFixed()} GB"
+      inWholeBytes < BytesPerTB -> "${(inWholeBytes / BytesPerGB.toDouble()).toStringAsFixed()} GB"
+      inWholeBytes < BytesPerPB -> "${(inWholeBytes / BytesPerTB.toDouble()).toStringAsFixed()} TB"
+      else -> "${(inWholeBytes / BytesPerPB.toDouble()).toStringAsFixed()} PB"
     }
   }
 
@@ -91,6 +96,8 @@ value class DecimalByteSize(
     @PublishedApi internal inline val BytesPerKB: Long get() = 1000L
     @PublishedApi internal inline val BytesPerMB: Long get() = 1000L * BytesPerKB
     @PublishedApi internal inline val BytesPerGB: Long get() = 1000L * BytesPerMB
+    @PublishedApi internal inline val BytesPerTB: Long get() = 1000L * BytesPerGB
+    @PublishedApi internal inline val BytesPerPB: Long get() = 1000L * BytesPerTB
   }
 }
 

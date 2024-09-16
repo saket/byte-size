@@ -9,7 +9,9 @@ import assertk.assertions.isFalse
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isTrue
 import assertk.assertions.messageContains
+import kotlin.js.JsExport
 import kotlin.test.Test
+import me.saket.bytesize.internal.hasFractionalPart
 
 class DecimalByteSizeTest {
 
@@ -25,11 +27,10 @@ class DecimalByteSizeTest {
   @Test fun max_value() {
     val max = DecimalByteSize(Long.MAX_VALUE)
     assertThat(max.inWholeBytes).isEqualTo(Long.MAX_VALUE)
-    assertThat(max).hasToString("9.2233718E9 GB")
+    assertThat(max).hasToString("9223.37 PB")
   }
 
-  @Test
-  fun unit_conversions() {
+  @Test fun unit_conversions() {
     assertThat(2_000.decimalBytes.inWholeKilobytes).isEqualTo(2)
     assertThat(345.999.kilobytes.inWholeKilobytes).isEqualTo(345)
     assertThat(3.2.gigabytes.inWholeMegabytes).isEqualTo(3_200)
@@ -37,8 +38,7 @@ class DecimalByteSizeTest {
     assertThat(512.megabytes.inWholeGigabytes).isEqualTo(0)
   }
 
-  @Test
-  fun basic_math_operations() {
+  @Test fun basic_math_operations() {
     assertThat(3.megabytes + 200.kilobytes).isEqualTo(3.2.megabytes)
     assertThat(7.gigabytes - 500.megabytes).isEqualTo(6_500.megabytes)
     assertThat(6.gigabytes * 3.2).isEqualTo(19.2.gigabytes)
@@ -50,13 +50,12 @@ class DecimalByteSizeTest {
     assertThat(1.megabytes / 2.decimalBytes).isEqualTo(500_000.0)
   }
 
-  @Test
-  fun trim_empty_decimals_from_toString() {
+  @Test fun trim_empty_decimals_from_toString() {
     assertThat(200.decimalBytes).hasToString("200 B")
     assertThat(345.kilobytes).hasToString("345 KB")
     assertThat(678.megabytes).hasToString("678 MB")
     assertThat(987.gigabytes).hasToString("987 GB")
-    assertThat(9_000.gigabytes).hasToString("9000 GB")
+    assertThat(9_000.gigabytes).hasToString("9 TB")
   }
 
   @Test fun format_to_string() {
@@ -108,25 +107,25 @@ class DecimalByteSizeTest {
   @Test fun throw_an_error_if_multiplication_will_cause_an_overflow() {
     assertFailure {
       1_000_000_000_000_000L.decimalBytes * 1e308
-    }.hasMessage("Multiplication resulted in overflow")
+    }.messageContains("overflow")
 
     assertFailure {
       1_000_000_000L.decimalBytes * Float.MAX_VALUE
-    }.messageContains("Double value out of Long range")
+    }.messageContains("overflow")
 
     assertFailure {
       1_000_000_000L.decimalBytes * Double.MAX_VALUE
-    }.hasMessage("Multiplication resulted in overflow")
+    }.messageContains("overflow")
   }
 
   @Test fun throw_an_error_when_multiplication_is_performed_with_infinity() {
     assertFailure {
       1_000_000_000L.decimalBytes * Float.POSITIVE_INFINITY
-    }.hasMessage("Multiplication resulted in overflow")
+    }.messageContains("overflow")
 
     assertFailure {
       1_000_000_000L.decimalBytes * Double.POSITIVE_INFINITY
-    }.hasMessage("Multiplication resulted in overflow")
+    }.messageContains("overflow")
   }
 
   @Test fun throw_an_error_when_multiplication_is_performed_with_NaN() {

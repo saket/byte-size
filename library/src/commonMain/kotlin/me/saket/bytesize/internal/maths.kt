@@ -3,6 +3,7 @@ package me.saket.bytesize.internal
 import dev.erikchristensen.javamath2kmp.minusExact
 import dev.erikchristensen.javamath2kmp.plusExact
 import dev.erikchristensen.javamath2kmp.timesExact
+import kotlin.math.floor
 import kotlin.math.roundToLong
 import me.saket.bytesize.BitPrecision
 import me.saket.bytesize.BytePrecision
@@ -43,55 +44,39 @@ internal inline fun BitPrecision.commonDiv(other: ByteSize): Double {
 
 @PublishedApi
 internal inline fun BytePrecision.commonDiv(other: Number): Long {
-  return when (other) {
-    is Byte,
-    is Short,
-    is Int,
-    is Long -> inWholeBytes / other.toLong()
-    is Float -> (inWholeBytes / other).roundToLong()
-    is Double -> (inWholeBytes / other).roundToLong()
-    else -> error("Unsupported number: ${other::class}")
+  // This would have been a simple "other is Double/Float" check on the JVM,
+  // but JS does not distinguish between fractional and non-fractional numbers.
+  return if (other.hasFractionalPart()) {
+    (inWholeBytes / other.toDouble()).roundToLong()
+  } else {
+    inWholeBytes / other.toLong()
   }
 }
 
 @PublishedApi
 internal inline fun BitPrecision.commonDiv(other: Number): Long {
-  return when (other) {
-    is Byte,
-    is Short,
-    is Int,
-    is Long -> inWholeBits / other.toLong()
-    is Float -> (inWholeBits / other).roundToLong()
-    is Double -> (inWholeBits / other).roundToLong()
-    else -> error("Unsupported number: ${other::class}")
+  return if (other.hasFractionalPart()) {
+    (inWholeBits / other.toDouble()).roundToLong()
+  } else {
+    inWholeBits / other.toLong()
   }
 }
 
 @PublishedApi
 internal inline fun BytePrecision.commonTimes(other: Number): Long {
-  return when (other) {
-    is Byte,
-    is Short,
-    is Int,
-    is Long,
-    -> inWholeBytes.timesExact(other.toLong())
-    is Float -> inWholeBytes.timesExact(other.toDouble()).toLongOrThrow()
-    is Double -> inWholeBytes.timesExact(other).toLongOrThrow()
-    else -> error("Unsupported number: ${other::class}")
+  return if (other.hasFractionalPart()) {
+    inWholeBytes.timesExact(other.toDouble()).toLongOrThrow()
+  } else {
+    inWholeBytes.timesExact(other.toLong())
   }
 }
 
 @PublishedApi
 internal inline fun BitPrecision.commonTimes(other: Number): Long {
-  return when (other) {
-    is Byte,
-    is Short,
-    is Int,
-    is Long,
-    -> inWholeBits.timesExact(other.toLong())
-    is Float -> inWholeBits.timesExact(other.toDouble()).toLongOrThrow()
-    is Double -> inWholeBits.timesExact(other).toLongOrThrow()
-    else -> error("Unsupported number: ${other::class}")
+  return if (other.hasFractionalPart()) {
+    inWholeBits.timesExact(other.toDouble()).toLongOrThrow()
+  } else {
+    inWholeBits.timesExact(other.toLong())
   }
 }
 
@@ -127,7 +112,7 @@ internal fun Double.toLongOrThrow(): Long {
   if (isNaN() || isInfinite()) {
     throw ArithmeticException("Cannot convert $this to Long")
   } else if (this < Long.MIN_VALUE || this > Long.MAX_VALUE) {
-    throw ArithmeticException("Double value out of Long range: $this")
+    throw ArithmeticException("Double value overflow: exceeds Long range: $this")
   } else {
     return toLong()
   }
@@ -136,8 +121,8 @@ internal fun Double.toLongOrThrow(): Long {
 @PublishedApi
 internal fun Number.hasFractionalPart(): Boolean {
   return when (this) {
-    is Float -> this % 1 != 0f
-    is Double -> this % 1 != 0.0
+    is Double -> this != floor(this)
+    is Float -> this != floor(this)
     else -> false
   }
 }

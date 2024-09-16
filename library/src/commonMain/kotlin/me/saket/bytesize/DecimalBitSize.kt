@@ -94,7 +94,9 @@ value class DecimalBitSize(
       inWholeBits < BitsPerKb -> "$inWholeBits b"
       inWholeBits < BitsPerMb -> "${(inWholeBits / BitsPerKb.toDouble()).toStringAsFixed()} Kb"
       inWholeBits < BitsPerGb -> "${(inWholeBits / BitsPerMb.toDouble()).toStringAsFixed()} Mb"
-      else -> "${(inWholeBits / BitsPerGb.toDouble()).toStringAsFixed()} Gb"
+      inWholeBits < BitsPerTb -> "${(inWholeBits / BitsPerGb.toDouble()).toStringAsFixed()} Gb"
+      inWholeBits < BitsPerPb -> "${(inWholeBits / BitsPerTb.toDouble()).toStringAsFixed()} Tb"
+      else -> "${(inWholeBits / BitsPerPb.toDouble()).toStringAsFixed()} Pb"
     }
   }
 
@@ -102,6 +104,8 @@ value class DecimalBitSize(
     @PublishedApi internal inline val BitsPerKb: Long get() = 1000
     @PublishedApi internal inline val BitsPerMb: Long get() = 1000 * BitsPerKb
     @PublishedApi internal inline val BitsPerGb: Long get() = 1000 * BitsPerMb
+    @PublishedApi internal inline val BitsPerTb: Long get() = 1000 * BitsPerGb
+    @PublishedApi internal inline val BitsPerPb: Long get() = 1000 * BitsPerTb
   }
 }
 
