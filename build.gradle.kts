@@ -11,7 +11,7 @@ plugins {
 allprojects {
   tasks.withType<KotlinJvmCompile>().configureEach {
     compilerOptions {
-      jvmTarget.set(JvmTarget.JVM_11)
+      jvmTarget.set(JvmTarget.JVM_1_8)
     }
   }
 }
