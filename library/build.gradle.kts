@@ -49,8 +49,10 @@ metalava {
 
 // Used on CI to prevent publishing of non-snapshot versions.
 tasks.register("throwIfVersionIsNotSnapshot") {
-  val libraryVersion = properties["VERSION_NAME"] as String
-  check(libraryVersion.endsWith("SNAPSHOT")) {
-    "Project isn't using a snapshot version = '$libraryVersion'"
+  doLast {
+    val libraryVersion = properties["VERSION_NAME"] as String
+    check(libraryVersion.endsWith("SNAPSHOT")) {
+      "Project isn't using a snapshot version = '$libraryVersion'"
+    }
   }
 }
