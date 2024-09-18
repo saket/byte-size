@@ -98,35 +98,3 @@ package me.saket.bytesize {
 
 }
 
-package me.saket.filesize {
-
-  @Deprecated public final class FileSize {
-    ctor @Deprecated public FileSize(long bytes);
-    method @Deprecated public operator int compareTo(me.saket.filesize.FileSize other);
-    method @Deprecated public operator Void div(Number other);
-    method @Deprecated public operator Void div(me.saket.filesize.FileSize other);
-    method @Deprecated public long getBytes();
-    method @Deprecated public long getInWholeBytes();
-    method @Deprecated public long getInWholeGigabytes();
-    method @Deprecated public long getInWholeKilobytes();
-    method @Deprecated public long getInWholeMegabytes();
-    method @Deprecated public operator Void minus(me.saket.filesize.FileSize other);
-    method @Deprecated public operator Void plus(me.saket.filesize.FileSize other);
-    method @Deprecated public operator Void times(Number other);
-    property @Deprecated public final long bytes;
-    property @Deprecated public final long inWholeBytes;
-    property @Deprecated public final long inWholeGigabytes;
-    property @Deprecated public final long inWholeKilobytes;
-    property @Deprecated public final long inWholeMegabytes;
-    field @Deprecated public static final me.saket.filesize.FileSize.Companion Companion;
-  }
-
-  @Deprecated public static final class FileSize.Companion {
-    method @Deprecated public inline Void getBytes(Number);
-    method @Deprecated public inline Void getGigabytes(Number);
-    method @Deprecated public inline Void getKilobytes(Number);
-    method @Deprecated public inline Void getMegabytes(Number);
-  }
-
-}
-
