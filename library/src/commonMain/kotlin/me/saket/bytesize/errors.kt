@@ -1,3 +1,5 @@
+@file:Suppress("unused", "UnusedReceiverParameter", "UNUSED_PARAMETER")
+
 package me.saket.bytesize
 
 import kotlin.jvm.JvmSynthetic
