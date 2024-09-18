@@ -57,6 +57,9 @@ class DecimalBitSizeTest {
     assertThat(130.megabits).hasToString("130 Mb")
     assertThat(666.gigabits).hasToString("666 Gb")
     assertThat(123_456.gigabits).hasToString("123.46 Tb")
+
+    assertThat((-1_636_186_211).decimalBits).hasToString("-1.64 Gb")
+    assertThat((-666).gigabits).hasToString("-666 Gb")
   }
 
   @Test fun conversion_to_other_units() {

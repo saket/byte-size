@@ -5,6 +5,7 @@ package me.saket.bytesize
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
+import kotlin.math.abs
 import me.saket.bytesize.internal.commonCompareTo
 import me.saket.bytesize.internal.commonDiv
 import me.saket.bytesize.internal.commonMinus
@@ -76,13 +77,15 @@ value class BinaryByteSize(
     commonCompareTo(other)
 
   override inline fun toString(): String {
+    val sign = if (inWholeBytes < 0) "-" else ""
+    val bytes = abs(inWholeBytes)
     return when {
-      inWholeBytes < BytesPerKiB -> "${inWholeBytes.toStringAsFixed()} B"
-      inWholeBytes < BytesPerMiB -> "${(inWholeBytes / BytesPerKiB.toDouble()).toStringAsFixed()} KiB"
-      inWholeBytes < BytesPerGiB -> "${(inWholeBytes / BytesPerMiB.toDouble()).toStringAsFixed()} MiB"
-      inWholeBytes < BytesPerTiB -> "${(inWholeBytes / BytesPerGiB.toDouble()).toStringAsFixed()} GiB"
-      inWholeBytes < BytesPerPiB -> "${(inWholeBytes / BytesPerTiB.toDouble()).toStringAsFixed()} TiB"
-      else -> "${(inWholeBytes / BytesPerPiB.toDouble()).toStringAsFixed()} PiB"
+      bytes < BytesPerKiB -> "$sign${bytes.toStringAsFixed()} B"
+      bytes < BytesPerMiB -> "$sign${(bytes / BytesPerKiB.toDouble()).toStringAsFixed()} KiB"
+      bytes < BytesPerGiB -> "$sign${(bytes / BytesPerMiB.toDouble()).toStringAsFixed()} MiB"
+      bytes < BytesPerTiB -> "$sign${(bytes / BytesPerGiB.toDouble()).toStringAsFixed()} GiB"
+      bytes < BytesPerPiB -> "$sign${(bytes / BytesPerTiB.toDouble()).toStringAsFixed()} TiB"
+      else -> "$sign${(bytes / BytesPerPiB.toDouble()).toStringAsFixed()} PiB"
     }
   }
 }

@@ -53,6 +53,9 @@ class BinaryByteSizeTest {
     assertThat(678.mebibytes).hasToString("678 MiB")
     assertThat(987.gibibytes).hasToString("987 GiB")
     assertThat(9_000.gibibytes).hasToString("8.79 TiB")
+
+    assertThat((-1_636_186_211).binaryBytes).hasToString("-1.52 GiB")
+    assertThat((-345).kibibytes).hasToString("-345 KiB")
   }
 
   @Test fun conversion_to_other_units() {
