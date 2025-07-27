@@ -1,4 +1,4 @@
-@file:Suppress("INAPPLICABLE_JVM_NAME", "OVERRIDE_BY_INLINE")
+@file:Suppress("INAPPLICABLE_JVM_NAME", "OVERRIDE_BY_INLINE", "NOTHING_TO_INLINE")
 
 package me.saket.bytesize
 
@@ -36,7 +36,7 @@ inline val Number.gigabits: DecimalBitSize
 value class DecimalBitSize(
   @PublishedApi
   @get:JvmSynthetic
-  internal inline val bits: Long,
+  internal val bits: Long,
 ) : ByteSize, BitPrecision {
 
   constructor(bits: Number) : this(bits.toLong()) {

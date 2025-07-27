@@ -1,4 +1,4 @@
-@file:Suppress("INAPPLICABLE_JVM_NAME")
+@file:Suppress("INAPPLICABLE_JVM_NAME", "NOTHING_TO_INLINE")
 
 package me.saket.bytesize
 
