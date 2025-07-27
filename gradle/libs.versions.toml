@@ -1,8 +1,8 @@
 [versions]
-kotlin = "1.9.25"
-mavenPublish = "0.29.0" # https://github.com/vanniktech/gradle-maven-publish-plugin/releases
-dokka = "1.9.20" # https://github.com/kotlin/dokka/releases
-metalava = "0.3.5" # https://github.com/tylerbwong/metalava-gradle/releases
+kotlin = "2.2.0"
+mavenPublish = "0.34.0" # https://github.com/vanniktech/gradle-maven-publish-plugin/releases
+dokka = "2.0.0" # https://github.com/kotlin/dokka/releases
+metalava = "0.4.0-alpha03" # https://github.com/tylerbwong/metalava-gradle/releases
 assertk = "0.28.1" #https://github.com/willowtreeapps/assertk/releases
 kmpMath = "1.1" # https://github.com/erikc5000/javamath2kmp/releases
 
