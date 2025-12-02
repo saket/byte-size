@@ -6,16 +6,17 @@ plugins {
 
 kotlin {
   applyDefaultHierarchyTemplate()
-  jvm()
-  iosX64()
-  iosSimulatorArm64()
+
+  androidNativeArm32()
+  androidNativeArm64()
+  androidNativeX86()
+  androidNativeX64()
+
   iosArm64()
-  macosArm64()
-  macosX64()
-  linuxX64()
-  linuxArm64()
-  mingwX64()
-  js(IR) {
+  iosSimulatorArm64()
+  iosX64()
+
+  js {
     useCommonJs()
     browser {
       testTask {
@@ -25,6 +26,28 @@ kotlin {
       }
     }
   }
+
+  jvm()
+
+  linuxArm64()
+  linuxX64()
+
+  macosArm64()
+  macosX64()
+
+  mingwX64()
+
+  tvosArm64()
+  tvosSimulatorArm64()
+  tvosX64()
+
+  watchosArm64()
+  watchosDeviceArm64()
+  watchosSimulatorArm64()
+  watchosX64()
+
+  wasmJs().nodejs()
+  wasmWasi().nodejs()
 
   sourceSets {
     commonMain {
