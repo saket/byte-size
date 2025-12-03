@@ -32,10 +32,10 @@ inline operator fun Number.times(other: ByteSize): ByteSize =
   }
 
 inline fun ByteSize.toBinaryBytes(): BinaryByteSize =
-  if (this is BinaryByteSize) this else BinaryByteSize(this.inWholeBytes)
+  this as? BinaryByteSize ?: BinaryByteSize(this.inWholeBytes)
 
 inline fun ByteSize.toDecimalBytes(): DecimalByteSize =
-  if (this is DecimalByteSize) this else DecimalByteSize(this.inWholeBytes)
+  this as? DecimalByteSize ?: DecimalByteSize(this.inWholeBytes)
 
 inline fun ByteSize.toDecimalBits(): DecimalBitSize =
-  if (this is DecimalBitSize) this else DecimalBitSize(this.inWholeBytes * BitsPerByte)
+  this as? DecimalBitSize ?: DecimalBitSize(this.inWholeBytes * BitsPerByte)
