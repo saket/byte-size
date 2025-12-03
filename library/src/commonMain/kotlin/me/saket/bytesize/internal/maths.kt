@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package me.saket.bytesize.internal
 
 import dev.erikchristensen.javamath2kmp.minusExact
