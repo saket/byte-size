@@ -160,4 +160,12 @@ class DecimalByteSizeTest {
       DecimalByteSize(500.50)
     }.hasMessage(BytePrecisionLossErrorMessage)
   }
+
+  @Test fun unary_minus() {
+    val twelve = 12.decimalBytes
+    val negativeTwelve = -twelve
+    assertThat(negativeTwelve).isEqualTo((-12).decimalBytes)
+    val positiveTwelve = -negativeTwelve
+    assertThat(positiveTwelve).isEqualTo(twelve)
+  }
 }

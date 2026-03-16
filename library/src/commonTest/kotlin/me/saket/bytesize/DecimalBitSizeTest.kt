@@ -113,4 +113,12 @@ class DecimalBitSizeTest {
       DecimalBitSize(123.45)
     }.hasMessage(BitPrecisionLossErrorMessage)
   }
+
+  @Test fun unary_minus() {
+    val twelve = 12.decimalBits
+    val negativeTwelve = -twelve
+    assertThat(negativeTwelve).isEqualTo((-12).decimalBits)
+    val positiveTwelve = -negativeTwelve
+    assertThat(positiveTwelve).isEqualTo(twelve)
+  }
 }
