@@ -46,7 +46,7 @@ package me.saket.bytesize {
 
   @kotlin.jvm.JvmInline public final value class DecimalBitSize implements me.saket.bytesize.ByteSize {
     ctor public DecimalBitSize(Number bits);
-    ctor public DecimalBitSize(@kotlin.PublishedApi inline long bits);
+    ctor public DecimalBitSize(@kotlin.PublishedApi long bits);
     method public inline int compareTo(me.saket.bytesize.ByteSize other);
     method public inline long div(Number other);
     method public inline double div(me.saket.bytesize.ByteSize other);
@@ -98,6 +98,17 @@ package me.saket.bytesize {
 
   public final class ErrorsKt {
     method @Deprecated @kotlin.jvm.JvmSynthetic public static me.saket.bytesize.ByteSize ByteSize(long bytes);
+    method @kotlin.jvm.JvmSynthetic public long getBinaryBytes();
+    method @kotlin.jvm.JvmSynthetic public long getBinaryBytes();
+    method @kotlin.jvm.JvmSynthetic public me.saket.bytesize.ByteSize getBytes();
+    method @kotlin.jvm.JvmSynthetic public long getDecimalBits();
+    method @kotlin.jvm.JvmSynthetic public long getDecimalBits();
+    method @kotlin.jvm.JvmSynthetic public long getDecimalBytes();
+    method @kotlin.jvm.JvmSynthetic public long getDecimalBytes();
+    property @kotlin.jvm.JvmSynthetic public long binaryBytes;
+    property @kotlin.jvm.JvmSynthetic public me.saket.bytesize.ByteSize bytes;
+    property @kotlin.jvm.JvmSynthetic public long decimalBits;
+    property @kotlin.jvm.JvmSynthetic public long decimalBytes;
   }
 
 }
