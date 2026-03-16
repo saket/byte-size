@@ -73,7 +73,7 @@ value class BinaryByteSize(
   override inline fun div(other: Number): BinaryByteSize =
     BinaryByteSize(commonDiv(other))
 
-  override operator fun unaryMinus(): BinaryByteSize =
+  override inline operator fun unaryMinus(): BinaryByteSize =
     BinaryByteSize(-bytes)
 
   override inline fun compareTo(other: ByteSize): Int =

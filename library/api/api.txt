@@ -15,7 +15,7 @@ package me.saket.bytesize {
     method public inline operator long plus(me.saket.bytesize.ByteSize other);
     method public inline long times(Number other);
     method public inline String toString();
-    method public operator long unaryMinus();
+    method public inline operator long unaryMinus();
     property public inline long inWholeBytes;
     property public final inline long inWholeGibibytes;
     property public final inline long inWholeKibibytes;
@@ -59,7 +59,7 @@ package me.saket.bytesize {
     method public inline long plus(me.saket.bytesize.ByteSize other);
     method public inline long times(Number other);
     method public inline String toString();
-    method public operator long unaryMinus();
+    method public inline operator long unaryMinus();
     property public inline long inWholeBits;
     property public inline long inWholeBytes;
     property public final inline long inWholeGigabits;
@@ -85,7 +85,7 @@ package me.saket.bytesize {
     method public inline operator long plus(me.saket.bytesize.ByteSize other);
     method public inline long times(Number other);
     method public inline String toString();
-    method public operator long unaryMinus();
+    method public inline operator long unaryMinus();
     property public inline long inWholeBytes;
     property public final inline long inWholeGigabytes;
     property public final inline long inWholeKilobytes;

@@ -83,7 +83,7 @@ value class DecimalBitSize(
     return DecimalBitSize(bits = commonDiv(other))
   }
 
-  override operator fun unaryMinus(): DecimalBitSize =
+  override inline operator fun unaryMinus(): DecimalBitSize =
     DecimalBitSize(-bits)
 
   override inline fun compareTo(other: ByteSize): Int {
