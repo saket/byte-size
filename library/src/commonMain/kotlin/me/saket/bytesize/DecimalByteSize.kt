@@ -6,6 +6,7 @@ import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 import me.saket.bytesize.internal.commonCompareTo
 import me.saket.bytesize.internal.commonDiv
 import me.saket.bytesize.internal.commonMinus
@@ -29,6 +30,10 @@ inline val Number.megabytes: DecimalByteSize
 @get:JvmSynthetic
 inline val Number.gigabytes: DecimalByteSize
   get() = DecimalByteSize(BytesPerGB) * this
+
+@get:JvmSynthetic
+inline val DecimalByteSize.absoluteValue: DecimalByteSize
+  get() = DecimalByteSize(inWholeBytes.absoluteValue)
 
 /** Represents power-of-ten byte sizes. */
 @JvmInline

@@ -50,6 +50,13 @@ class DecimalByteSizeTest {
     assertThat(1.megabytes / 2.decimalBytes).isEqualTo(500_000.0)
   }
 
+  @Test fun absolute_value() {
+    assertThat(5.megabytes.absoluteValue).isEqualTo(5.megabytes)
+    assertThat((-5).megabytes.absoluteValue).isEqualTo(5.megabytes)
+    assertThat((-5).megabytes.absoluteValue).isInstanceOf<DecimalByteSize>()
+    assertThat(0.decimalBytes.absoluteValue).isEqualTo(0.decimalBytes)
+  }
+
   @Test fun trim_empty_decimals_from_toString() {
     assertThat(200.decimalBytes).hasToString("200 B")
     assertThat(345.kilobytes).hasToString("345 KB")

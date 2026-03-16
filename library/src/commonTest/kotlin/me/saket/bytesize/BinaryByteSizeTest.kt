@@ -47,6 +47,13 @@ class BinaryByteSizeTest {
     assertThat(1.mebibytes / 2.binaryBytes).isEqualTo(524_288.0)
   }
 
+  @Test fun absolute_value() {
+    assertThat(5.mebibytes.absoluteValue).isEqualTo(5.mebibytes)
+    assertThat((-5).mebibytes.absoluteValue).isEqualTo(5.mebibytes)
+    assertThat((-5).mebibytes.absoluteValue).isInstanceOf<BinaryByteSize>()
+    assertThat(0.binaryBytes.absoluteValue).isEqualTo(0.binaryBytes)
+  }
+
   @Test fun format_to_string() {
     assertThat(200.binaryBytes).hasToString("200 B")
     assertThat(345.kibibytes).hasToString("345 KiB")
