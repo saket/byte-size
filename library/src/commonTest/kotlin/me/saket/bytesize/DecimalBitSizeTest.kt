@@ -50,6 +50,13 @@ class DecimalBitSizeTest {
     assertThat(1.megabits / 2.decimalBits).isEqualTo(500_000.0)
   }
 
+  @Test fun absolute_value() {
+    assertThat(5.megabits.absoluteValue).isEqualTo(5.megabits)
+    assertThat((-5).megabits.absoluteValue).isEqualTo(5.megabits)
+    assertThat((-5).megabits.absoluteValue).isInstanceOf<DecimalBitSize>()
+    assertThat(0.decimalBits.absoluteValue).isEqualTo(0.decimalBits)
+  }
+
   @Test fun format_to_string() {
     assertThat(4.decimalBits).hasToString("4 b")
     assertThat(430.decimalBits).hasToString("430 b")
