@@ -22,6 +22,7 @@ sealed interface ByteSize : Comparable<ByteSize> {
   operator fun times(other: Number): ByteSize
   operator fun div(other: ByteSize): Double
   operator fun div(other: Number): ByteSize
+  operator fun unaryMinus(): ByteSize
 }
 
 inline operator fun Number.times(other: ByteSize): ByteSize =

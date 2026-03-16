@@ -73,6 +73,9 @@ value class DecimalByteSize(
   override inline fun div(other: Number): DecimalByteSize =
     DecimalByteSize(commonDiv(other))
 
+  override operator fun unaryMinus(): DecimalByteSize =
+    DecimalByteSize(-bytes)
+
   override inline fun compareTo(other: ByteSize): Int =
     commonCompareTo(other)
 

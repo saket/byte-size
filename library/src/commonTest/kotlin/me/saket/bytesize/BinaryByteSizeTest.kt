@@ -115,4 +115,12 @@ class BinaryByteSizeTest {
       BinaryByteSize(500.50)
     }.hasMessage(BytePrecisionLossErrorMessage)
   }
+
+  @Test fun unary_minus() {
+    val twelve = 12.binaryBytes
+    val negativeTwelve = -twelve
+    assertThat(negativeTwelve).isEqualTo((-12).binaryBytes)
+    val positiveTwelve = -negativeTwelve
+    assertThat(positiveTwelve).isEqualTo(twelve)
+  }
 }
