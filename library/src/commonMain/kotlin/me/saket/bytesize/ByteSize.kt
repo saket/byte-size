@@ -40,3 +40,11 @@ inline fun ByteSize.toDecimalBytes(): DecimalByteSize =
 
 inline fun ByteSize.toDecimalBits(): DecimalBitSize =
   this as? DecimalBitSize ?: DecimalBitSize(this.inWholeBytes * BitsPerByte)
+
+inline val ByteSize.absoluteValue: ByteSize
+  get() =
+    when (this) {
+      is DecimalBitSize -> absoluteValue
+      is BinaryByteSize -> absoluteValue
+      is DecimalByteSize -> absoluteValue
+    }

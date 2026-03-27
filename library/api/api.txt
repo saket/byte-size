@@ -38,6 +38,7 @@ package me.saket.bytesize {
   }
 
   public final class ByteSizeKt {
+    method public static inline me.saket.bytesize.ByteSize getAbsoluteValue(me.saket.bytesize.ByteSize);
     method public static inline operator me.saket.bytesize.ByteSize times(Number, me.saket.bytesize.ByteSize other);
     method public static inline long toBinaryBytes(me.saket.bytesize.ByteSize);
     method public static inline long toDecimalBits(me.saket.bytesize.ByteSize);
