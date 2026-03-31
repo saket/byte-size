@@ -6,7 +6,7 @@ import assertk.assertions.isInstanceOf
 import kotlin.test.Test
 
 class ByteSizeTest {
-  @Test fun absolute_value_on_bytesize_preserves_the_concrete_type() {
+  @Test fun absolute_value() {
     // Note to self: these values are intentionally typed as ByteSize to exercise the interface
     // extension (ByteSize#absoluteValue). Otherwise, they'll resolve to their implementation
     // extensions (e.g., BinaryByteSize#absoluteValue).
