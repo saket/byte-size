@@ -7,8 +7,17 @@ on:
 
 jobs:
   build:
-    name: Run tests
-    runs-on: ubuntu-latest
+    name: Run tests on ${{ matrix.name }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      matrix:
+        include:
+          - name: Linux
+            runs-on: ubuntu-latest
+          - name: Apple platforms
+            runs-on: macos-latest
+          - name: Windows
+            runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v3
