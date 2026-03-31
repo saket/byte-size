@@ -51,10 +51,23 @@ jobs:
         with:
           secrets: ${{ toJSON(secrets) }}
 
-      - name: Ensure snapshot version
-        run: ./gradlew library:throwIfVersionIsNotSnapshot
+      - id: version
+        name: Check if version is a snapshot
+        run: |
+          version="$(sed -n 's/^VERSION_NAME=//p' gradle.properties)"
+          if [[ -z "$version" ]]; then
+            echo "VERSION_NAME was not found in gradle.properties" >&2
+            exit 1
+          fi
+
+          if [[ "$version" == *-SNAPSHOT ]]; then
+            echo "is_snapshot=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_snapshot=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Publish snapshot
+        if: steps.version.outputs.is_snapshot == 'true'
         run: ./gradlew clean publish --no-daemon --no-parallel --no-configuration-cache --stacktrace
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}

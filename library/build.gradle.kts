@@ -73,13 +73,3 @@ metalava {
   filename.set("api/api.txt")
   enforceCheck.set(true)
 }
-
-// Used on CI to prevent publishing of non-snapshot versions.
-tasks.register("throwIfVersionIsNotSnapshot") {
-  doLast {
-    val libraryVersion = properties["VERSION_NAME"] as String
-    check(libraryVersion.endsWith("SNAPSHOT")) {
-      "Project isn't using a snapshot version = '$libraryVersion'"
-    }
-  }
-}
