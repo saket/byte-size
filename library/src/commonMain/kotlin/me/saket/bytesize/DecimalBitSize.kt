@@ -16,27 +16,52 @@ import me.saket.bytesize.internal.commonTimes
 import me.saket.bytesize.internal.hasFractionalPart
 import me.saket.bytesize.internal.toStringAsFixed
 
+/**
+ * Creates a [DecimalBitSize] from a raw number of bits.
+ *
+ * Fractional values are rejected.
+ */
 @get:JvmSynthetic
 inline val Number.decimalBits: DecimalBitSize
   get() = DecimalBitSize(this)
 
+/**
+ * Returns a [DecimalBitSize] equal to this number of kilobits.
+ *
+ * `1.kilobits` is `1000.decimalBits`.
+ */
 @get:JvmSynthetic
 inline val Number.kilobits: DecimalBitSize
   get() = DecimalBitSize(BitsPerKb) * this
 
+/**
+ * Returns a [DecimalBitSize] equal to this number of megabits.
+ *
+ * `1.megabits` is `1000.kilobits`.
+ */
 @get:JvmSynthetic
 inline val Number.megabits: DecimalBitSize
   get() = DecimalBitSize(BitsPerMb) * this
 
+/**
+ * Returns a [DecimalBitSize] equal to this number of gigabits.
+ *
+ * `1.gigabits` is `1000.megabits`.
+ */
 @get:JvmSynthetic
 inline val Number.gigabits: DecimalBitSize
   get() = DecimalBitSize(BitsPerGb) * this
 
+/** Returns this size without its sign. */
 @get:JvmSynthetic
 inline val DecimalBitSize.absoluteValue: DecimalBitSize
   get() = DecimalBitSize(inWholeBits.absoluteValue)
 
-/** Represents power-of-ten bit sizes. */
+/**
+ * Represents a bit size in SI units.
+ *
+ * This type is typically used for network-style units such as Kb, Mb, and Gb.
+ */
 @JvmInline
 value class DecimalBitSize(
   @PublishedApi
@@ -52,6 +77,7 @@ value class DecimalBitSize(
   override inline val inWholeBits: Long
     get() = bits
 
+  /** Returns the whole-byte portion of this bit size, truncated toward zero. */
   @get:JvmName("inWholeBytes")
   override inline val inWholeBytes: Long
     get() = bits / BitsPerByte

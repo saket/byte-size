@@ -15,27 +15,52 @@ import me.saket.bytesize.internal.commonTimes
 import me.saket.bytesize.internal.hasFractionalPart
 import me.saket.bytesize.internal.toStringAsFixed
 
+/**
+ * Creates a [DecimalByteSize] from a raw number of bytes.
+ *
+ * Fractional values are rejected.
+ */
 @get:JvmSynthetic
 inline val Number.decimalBytes: DecimalByteSize
   get() = DecimalByteSize(this)
 
+/**
+ * Returns a [DecimalByteSize] equal to this number of kilobytes.
+ *
+ * `1.kilobytes` is `1000.decimalBytes`.
+ */
 @get:JvmSynthetic
 inline val Number.kilobytes: DecimalByteSize
   get() = DecimalByteSize(BytesPerKB) * this
 
+/**
+ * Returns a [DecimalByteSize] equal to this number of megabytes.
+ *
+ * `1.megabytes` is `1000.kilobytes`.
+ */
 @get:JvmSynthetic
 inline val Number.megabytes: DecimalByteSize
   get() = DecimalByteSize(BytesPerMB) * this
 
+/**
+ * Returns a [DecimalByteSize] equal to this number of gigabytes.
+ *
+ * `1.gigabytes` is `1000.megabytes`.
+ */
 @get:JvmSynthetic
 inline val Number.gigabytes: DecimalByteSize
   get() = DecimalByteSize(BytesPerGB) * this
 
+/** Returns this size without its sign. */
 @get:JvmSynthetic
 inline val DecimalByteSize.absoluteValue: DecimalByteSize
   get() = DecimalByteSize(inWholeBytes.absoluteValue)
 
-/** Represents power-of-ten byte sizes. */
+/**
+ * Represents a byte size in SI units.
+ *
+ * This type is typically used for manufacturer-reported storage units such as KB, MB, and GB.
+ */
 @JvmInline
 value class DecimalByteSize(
   @PublishedApi

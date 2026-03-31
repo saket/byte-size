@@ -15,27 +15,52 @@ import me.saket.bytesize.internal.commonTimes
 import me.saket.bytesize.internal.hasFractionalPart
 import me.saket.bytesize.internal.toStringAsFixed
 
+/**
+ * Creates a [BinaryByteSize] from a raw number of bytes.
+ *
+ * Fractional values are rejected.
+ */
 @get:JvmSynthetic
 inline val Number.binaryBytes: BinaryByteSize
   get() = BinaryByteSize(this)
 
+/**
+ * Returns a [BinaryByteSize] equal to this number of kibibytes.
+ *
+ * `1.kibibytes` is `1024.binaryBytes`.
+ */
 @get:JvmSynthetic
 inline val Number.kibibytes: BinaryByteSize
   get() = BinaryByteSize(BytesPerKiB) * this
 
+/**
+ * Returns a [BinaryByteSize] equal to this number of mebibytes.
+ *
+ * `1.mebibytes` is `1024.kibibytes`.
+ */
 @get:JvmSynthetic
 inline val Number.mebibytes: BinaryByteSize
   get() = BinaryByteSize(BytesPerMiB) * this
 
+/**
+ * Returns a [BinaryByteSize] equal to this number of gibibytes.
+ *
+ * `1.gibibytes` is `1024.mebibytes`.
+ */
 @get:JvmSynthetic
 inline val Number.gibibytes: BinaryByteSize
   get() = BinaryByteSize(BytesPerGiB) * this
 
+/** Returns this size without its sign. */
 @get:JvmSynthetic
 inline val BinaryByteSize.absoluteValue: BinaryByteSize
   get() = BinaryByteSize(inWholeBytes.absoluteValue)
 
-/** Represents power-of-two byte sizes. */
+/**
+ * Represents a byte size in binary units.
+ *
+ * This type is typically used for memory and operating system units such as KiB, MiB, and GiB.
+ */
 @JvmInline
 value class BinaryByteSize(
   @PublishedApi
