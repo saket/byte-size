@@ -11,16 +11,17 @@ import kotlin.test.Test
  * it — and the internal helpers those operators delegate to are extensions on an interface too, so
  * the receiver boxes as well. Two allocations to perform one addition.
  *
- * The same-precision operator overloads exist to avoid that. This test guards them by checking
- * compiled call sites for `box-impl`, the static factory Kotlin generates to box a value class.
- * That name is written to a class file's constant pool if and only if the class boxes a value
- * class somewhere, so its absence is proof that a call site allocates nothing.
+ * The same-precision operator overloads and the [Int]/[Long] receiver overloads of the unit
+ * properties exist to avoid that. This test guards them by checking compiled call sites for
+ * `box-impl`, the static factory Kotlin generates to box a value class. That name is written to a
+ * class file's constant pool if and only if the class boxes a value class somewhere, so its
+ * absence is proof that a call site allocates nothing.
  *
  * See https://github.com/saket/byte-size/issues/13 for the related companion object problem.
  */
 class AllocationFreeCallSitesTest {
 
-  @Test fun same_precision_operators_do_not_box() {
+  @Test fun same_precision_operators_and_primitive_receivers_do_not_box() {
     assertThat(boxesAValueClass<AllocationFree>()).isFalse()
   }
 
@@ -57,19 +58,19 @@ class AllocationFreeCallSitesTest {
     // The pattern that motivated these overloads: accumulate sizes over a hot loop.
     fun sumDecimal(sizes: LongArray): DecimalByteSize {
       var total = DecimalByteSize(0L)
-      for (size in sizes) total += DecimalByteSize(size)
+      for (size in sizes) total += size.decimalBytes
       return total
     }
 
     fun sumBinary(sizes: IntArray): BinaryByteSize {
       var total = BinaryByteSize(0L)
-      for (size in sizes) total += BinaryByteSize(size.toLong())
+      for (size in sizes) total += size.binaryBytes
       return total
     }
 
     fun sumBits(sizes: IntArray): DecimalBitSize {
       var total = DecimalBitSize(0L)
-      for (size in sizes) total += DecimalBitSize(size.toLong())
+      for (size in sizes) total += size.decimalBits
       return total
     }
 
@@ -81,6 +82,18 @@ class AllocationFreeCallSitesTest {
 
     fun bitOperators(a: DecimalBitSize, b: DecimalBitSize): Double =
       if (a > b) (a - b) / b else (a + b) / b
+
+    fun fromIntReceivers(n: Int): Long =
+      n.decimalBytes.inWholeBytes + n.kilobytes.inWholeBytes + n.megabytes.inWholeBytes +
+        n.gigabytes.inWholeBytes + n.binaryBytes.inWholeBytes + n.kibibytes.inWholeBytes +
+        n.mebibytes.inWholeBytes + n.gibibytes.inWholeBytes + n.decimalBits.inWholeBits +
+        n.kilobits.inWholeBits + n.megabits.inWholeBits + n.gigabits.inWholeBits
+
+    fun fromLongReceivers(n: Long): Long =
+      n.decimalBytes.inWholeBytes + n.kilobytes.inWholeBytes + n.megabytes.inWholeBytes +
+        n.gigabytes.inWholeBytes + n.binaryBytes.inWholeBytes + n.kibibytes.inWholeBytes +
+        n.mebibytes.inWholeBytes + n.gibibytes.inWholeBytes + n.decimalBits.inWholeBits +
+        n.kilobits.inWholeBits + n.megabits.inWholeBits + n.gigabits.inWholeBits
   }
 
   @Suppress("unused")
