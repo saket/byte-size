@@ -4,14 +4,18 @@ package me.saket.bytesize {
   @kotlin.jvm.JvmInline public final value class BinaryByteSize implements me.saket.bytesize.ByteSize {
     ctor public BinaryByteSize(Number bytes);
     ctor public BinaryByteSize(@kotlin.PublishedApi long bytes);
+    method public inline operator int compareTo(long other);
     method public inline int compareTo(me.saket.bytesize.ByteSize other);
     method public inline long div(Number other);
+    method public inline operator double div(long other);
     method public inline double div(me.saket.bytesize.ByteSize other);
     method public inline long inWholeBytes();
     method public inline long inWholeGibibytes();
     method public inline long inWholeKibibytes();
     method public inline long inWholeMebibytes();
+    method public inline operator long minus(long other);
     method public inline operator me.saket.bytesize.ByteSize minus(me.saket.bytesize.ByteSize other);
+    method public inline operator long plus(long other);
     method public inline operator long plus(me.saket.bytesize.ByteSize other);
     method public inline long times(Number other);
     method public inline String toString();
@@ -48,15 +52,19 @@ package me.saket.bytesize {
   @kotlin.jvm.JvmInline public final value class DecimalBitSize implements me.saket.bytesize.ByteSize {
     ctor public DecimalBitSize(Number bits);
     ctor public DecimalBitSize(@kotlin.PublishedApi long bits);
+    method public inline operator int compareTo(long other);
     method public inline int compareTo(me.saket.bytesize.ByteSize other);
     method public inline long div(Number other);
+    method public inline operator double div(long other);
     method public inline double div(me.saket.bytesize.ByteSize other);
     method public inline long inWholeBits();
     method public inline long inWholeBytes();
     method public inline long inWholeGigabits();
     method public inline long inWholeKilobits();
     method public inline long inWholeMegabits();
+    method public inline operator long minus(long other);
     method public inline long minus(me.saket.bytesize.ByteSize other);
+    method public inline operator long plus(long other);
     method public inline long plus(me.saket.bytesize.ByteSize other);
     method public inline long times(Number other);
     method public inline String toString();
@@ -75,14 +83,18 @@ package me.saket.bytesize {
   @kotlin.jvm.JvmInline public final value class DecimalByteSize implements me.saket.bytesize.ByteSize {
     ctor public DecimalByteSize(Number bytes);
     ctor public DecimalByteSize(@kotlin.PublishedApi long bytes);
+    method public inline operator int compareTo(long other);
     method public inline int compareTo(me.saket.bytesize.ByteSize other);
     method public inline long div(Number other);
+    method public inline operator double div(long other);
     method public inline double div(me.saket.bytesize.ByteSize other);
     method public inline long inWholeBytes();
     method public inline long inWholeGigabytes();
     method public inline long inWholeKilobytes();
     method public inline long inWholeMegabytes();
+    method public inline operator long minus(long other);
     method public inline operator long minus(me.saket.bytesize.ByteSize other);
+    method public inline operator long plus(long other);
     method public inline operator long plus(me.saket.bytesize.ByteSize other);
     method public inline long times(Number other);
     method public inline String toString();

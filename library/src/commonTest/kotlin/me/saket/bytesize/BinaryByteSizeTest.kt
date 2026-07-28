@@ -130,4 +130,34 @@ class BinaryByteSizeTest {
     val positiveTwelve = -negativeTwelve
     assertThat(positiveTwelve).isEqualTo(twelve)
   }
+
+  @Test fun maths_with_same_units() {
+    // Resolves to the same-precision operator overloads, which allocate nothing.
+    // See AllocationFreeCallSitesTest.
+    assertThat(3.mebibytes + 512.kibibytes).isEqualTo(3.5.mebibytes)
+    assertThat(7.gibibytes - 512.mebibytes).isEqualTo(6.5.gibibytes)
+    assertThat(5.mebibytes - 5.mebibytes).isEqualTo(0.binaryBytes)
+    assertThat(1.mebibytes / 2.binaryBytes).isEqualTo(524_288.0)
+
+    assertThat(3.mebibytes + 1.mebibytes).isInstanceOf<BinaryByteSize>()
+    assertThat(3.mebibytes - 1.mebibytes).isInstanceOf<BinaryByteSize>()
+  }
+
+  @Test fun comparison_with_same_units() {
+    assertThat(2.mebibytes > 1.mebibytes).isTrue()
+    assertThat(1.mebibytes >= 1.mebibytes).isTrue()
+    assertThat(1.mebibytes < 2.mebibytes).isTrue()
+    assertThat(2.mebibytes < 1.mebibytes).isFalse()
+  }
+
+  @Test fun throw_an_error_if_same_unit_addition_or_subtraction_will_cause_an_overflow() {
+    assertFailure {
+      BinaryByteSize(Long.MAX_VALUE) + 1.binaryBytes
+    }.isInstanceOf<ArithmeticException>()
+
+    assertFailure {
+      BinaryByteSize(Long.MIN_VALUE) - 1.binaryBytes
+    }.isInstanceOf<ArithmeticException>()
+  }
+
 }

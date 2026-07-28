@@ -2,6 +2,8 @@
 
 package me.saket.bytesize
 
+import dev.erikchristensen.javamath2kmp.minusExact
+import dev.erikchristensen.javamath2kmp.plusExact
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
@@ -98,8 +100,18 @@ value class DecimalBitSize(
     return DecimalBitSize(bits = commonPlus(other))
   }
 
+  /** Allocation-free overload of [plus] for same-precision operands. */
+  inline operator fun plus(other: DecimalBitSize): DecimalBitSize {
+    return DecimalBitSize(bits = bits.plusExact(other.bits))
+  }
+
   override inline fun minus(other: ByteSize): DecimalBitSize {
     return DecimalBitSize(bits = commonMinus(other))
+  }
+
+  /** Allocation-free overload of [minus] for same-precision operands. */
+  inline operator fun minus(other: DecimalBitSize): DecimalBitSize {
+    return DecimalBitSize(bits = bits.minusExact(other.bits))
   }
 
   override inline fun times(other: Number): DecimalBitSize {
@@ -108,6 +120,11 @@ value class DecimalBitSize(
 
   override inline fun div(other: ByteSize): Double {
     return commonDiv(other)
+  }
+
+  /** Allocation-free overload of [div] for same-precision operands. */
+  inline operator fun div(other: DecimalBitSize): Double {
+    return bits.toDouble() / other.bits
   }
 
   override inline fun div(other: Number): DecimalBitSize {
@@ -119,6 +136,11 @@ value class DecimalBitSize(
 
   override inline fun compareTo(other: ByteSize): Int {
     return commonCompareTo(other)
+  }
+
+  /** Allocation-free overload of [compareTo] for same-precision operands. */
+  inline operator fun compareTo(other: DecimalBitSize): Int {
+    return bits.compareTo(other.bits)
   }
 
   override inline fun toString(): String {

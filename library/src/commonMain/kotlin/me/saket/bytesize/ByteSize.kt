@@ -9,6 +9,12 @@ import me.saket.bytesize.internal.BitsPerByte
  * Represents a size that can be expressed in bytes.
  *
  * A [ByteSize] is one of [BinaryByteSize], [DecimalByteSize], or [DecimalBitSize].
+ *
+ * The operators declared here accept this interface so that sizes of different precisions can be
+ * mixed. That comes at a cost: a `value class` is only kept unboxed while its static type _is_ the
+ * value class, so passing one as a [ByteSize] boxes it. Each subtype therefore also declares
+ * same-precision overloads of these operators, which the compiler prefers when both operands have
+ * the same concrete type. Those overloads read the backing `Long` directly and allocate nothing.
  */
 sealed interface ByteSize : Comparable<ByteSize> {
   @get:JvmName("inWholeBytes")
