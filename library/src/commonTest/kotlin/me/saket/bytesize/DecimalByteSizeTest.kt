@@ -175,4 +175,34 @@ class DecimalByteSizeTest {
     val positiveTwelve = -negativeTwelve
     assertThat(positiveTwelve).isEqualTo(twelve)
   }
+
+  @Test fun maths_with_same_units() {
+    // Resolves to the same-precision operator overloads, which allocate nothing.
+    // See AllocationFreeCallSitesTest.
+    assertThat(3.megabytes + 200.kilobytes).isEqualTo(3.2.megabytes)
+    assertThat(7.gigabytes - 500.megabytes).isEqualTo(6_500.megabytes)
+    assertThat(5.megabytes - 5.megabytes).isEqualTo(0.decimalBytes)
+    assertThat(1.megabytes / 2.decimalBytes).isEqualTo(500_000.0)
+
+    assertThat(3.megabytes + 1.megabytes).isInstanceOf<DecimalByteSize>()
+    assertThat(3.megabytes - 1.megabytes).isInstanceOf<DecimalByteSize>()
+  }
+
+  @Test fun comparison_with_same_units() {
+    assertThat(2.megabytes > 1.megabytes).isTrue()
+    assertThat(1.megabytes >= 1.megabytes).isTrue()
+    assertThat(1.megabytes < 2.megabytes).isTrue()
+    assertThat(2.megabytes < 1.megabytes).isFalse()
+  }
+
+  @Test fun throw_an_error_if_same_unit_addition_or_subtraction_will_cause_an_overflow() {
+    assertFailure {
+      DecimalByteSize(Long.MAX_VALUE) + 1.decimalBytes
+    }.isInstanceOf<ArithmeticException>()
+
+    assertFailure {
+      DecimalByteSize(Long.MIN_VALUE) - 1.decimalBytes
+    }.isInstanceOf<ArithmeticException>()
+  }
+
 }

@@ -2,6 +2,9 @@
 
 package me.saket.bytesize
 
+import dev.erikchristensen.javamath2kmp.minusExact
+import dev.erikchristensen.javamath2kmp.plusExact
+import dev.erikchristensen.javamath2kmp.timesExact
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
@@ -25,6 +28,16 @@ import me.saket.bytesize.internal.toStringAsFixed
 inline val Number.decimalBits: DecimalBitSize
   get() = DecimalBitSize(this)
 
+/** Allocation-free overload of [decimalBits] for [Int] receivers. */
+@get:JvmSynthetic
+inline val Int.decimalBits: DecimalBitSize
+  get() = DecimalBitSize(bits = toLong())
+
+/** Allocation-free overload of [decimalBits] for [Long] receivers. */
+@get:JvmSynthetic
+inline val Long.decimalBits: DecimalBitSize
+  get() = DecimalBitSize(bits = this)
+
 /**
  * Returns a [DecimalBitSize] equal to this number of kilobits.
  *
@@ -33,6 +46,16 @@ inline val Number.decimalBits: DecimalBitSize
 @get:JvmSynthetic
 inline val Number.kilobits: DecimalBitSize
   get() = DecimalBitSize(BitsPerKb) * this
+
+/** Allocation-free overload of [kilobits] for [Int] receivers. */
+@get:JvmSynthetic
+inline val Int.kilobits: DecimalBitSize
+  get() = DecimalBitSize(bits = BitsPerKb.timesExact(toLong()))
+
+/** Allocation-free overload of [kilobits] for [Long] receivers. */
+@get:JvmSynthetic
+inline val Long.kilobits: DecimalBitSize
+  get() = DecimalBitSize(bits = BitsPerKb.timesExact(this))
 
 /**
  * Returns a [DecimalBitSize] equal to this number of megabits.
@@ -43,6 +66,16 @@ inline val Number.kilobits: DecimalBitSize
 inline val Number.megabits: DecimalBitSize
   get() = DecimalBitSize(BitsPerMb) * this
 
+/** Allocation-free overload of [megabits] for [Int] receivers. */
+@get:JvmSynthetic
+inline val Int.megabits: DecimalBitSize
+  get() = DecimalBitSize(bits = BitsPerMb.timesExact(toLong()))
+
+/** Allocation-free overload of [megabits] for [Long] receivers. */
+@get:JvmSynthetic
+inline val Long.megabits: DecimalBitSize
+  get() = DecimalBitSize(bits = BitsPerMb.timesExact(this))
+
 /**
  * Returns a [DecimalBitSize] equal to this number of gigabits.
  *
@@ -51,6 +84,16 @@ inline val Number.megabits: DecimalBitSize
 @get:JvmSynthetic
 inline val Number.gigabits: DecimalBitSize
   get() = DecimalBitSize(BitsPerGb) * this
+
+/** Allocation-free overload of [gigabits] for [Int] receivers. */
+@get:JvmSynthetic
+inline val Int.gigabits: DecimalBitSize
+  get() = DecimalBitSize(bits = BitsPerGb.timesExact(toLong()))
+
+/** Allocation-free overload of [gigabits] for [Long] receivers. */
+@get:JvmSynthetic
+inline val Long.gigabits: DecimalBitSize
+  get() = DecimalBitSize(bits = BitsPerGb.timesExact(this))
 
 /** Returns this size without its sign. */
 @get:JvmSynthetic
@@ -98,8 +141,18 @@ value class DecimalBitSize(
     return DecimalBitSize(bits = commonPlus(other))
   }
 
+  /** Allocation-free overload of [plus] for same-precision operands. */
+  inline operator fun plus(other: DecimalBitSize): DecimalBitSize {
+    return DecimalBitSize(bits = bits.plusExact(other.bits))
+  }
+
   override inline fun minus(other: ByteSize): DecimalBitSize {
     return DecimalBitSize(bits = commonMinus(other))
+  }
+
+  /** Allocation-free overload of [minus] for same-precision operands. */
+  inline operator fun minus(other: DecimalBitSize): DecimalBitSize {
+    return DecimalBitSize(bits = bits.minusExact(other.bits))
   }
 
   override inline fun times(other: Number): DecimalBitSize {
@@ -108,6 +161,11 @@ value class DecimalBitSize(
 
   override inline fun div(other: ByteSize): Double {
     return commonDiv(other)
+  }
+
+  /** Allocation-free overload of [div] for same-precision operands. */
+  inline operator fun div(other: DecimalBitSize): Double {
+    return bits.toDouble() / other.bits
   }
 
   override inline fun div(other: Number): DecimalBitSize {
@@ -119,6 +177,11 @@ value class DecimalBitSize(
 
   override inline fun compareTo(other: ByteSize): Int {
     return commonCompareTo(other)
+  }
+
+  /** Allocation-free overload of [compareTo] for same-precision operands. */
+  inline operator fun compareTo(other: DecimalBitSize): Int {
+    return bits.compareTo(other.bits)
   }
 
   override inline fun toString(): String {
