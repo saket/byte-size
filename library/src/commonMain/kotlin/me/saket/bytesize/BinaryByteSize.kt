@@ -4,6 +4,7 @@ package me.saket.bytesize
 
 import dev.erikchristensen.javamath2kmp.minusExact
 import dev.erikchristensen.javamath2kmp.plusExact
+import dev.erikchristensen.javamath2kmp.timesExact
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
@@ -26,6 +27,16 @@ import me.saket.bytesize.internal.toStringAsFixed
 inline val Number.binaryBytes: BinaryByteSize
   get() = BinaryByteSize(this)
 
+/** Allocation-free overload of [binaryBytes] for [Int] receivers. */
+@get:JvmSynthetic
+inline val Int.binaryBytes: BinaryByteSize
+  get() = BinaryByteSize(bytes = toLong())
+
+/** Allocation-free overload of [binaryBytes] for [Long] receivers. */
+@get:JvmSynthetic
+inline val Long.binaryBytes: BinaryByteSize
+  get() = BinaryByteSize(bytes = this)
+
 /**
  * Returns a [BinaryByteSize] equal to this number of kibibytes.
  *
@@ -34,6 +45,16 @@ inline val Number.binaryBytes: BinaryByteSize
 @get:JvmSynthetic
 inline val Number.kibibytes: BinaryByteSize
   get() = BinaryByteSize(BytesPerKiB) * this
+
+/** Allocation-free overload of [kibibytes] for [Int] receivers. */
+@get:JvmSynthetic
+inline val Int.kibibytes: BinaryByteSize
+  get() = BinaryByteSize(bytes = BytesPerKiB.timesExact(toLong()))
+
+/** Allocation-free overload of [kibibytes] for [Long] receivers. */
+@get:JvmSynthetic
+inline val Long.kibibytes: BinaryByteSize
+  get() = BinaryByteSize(bytes = BytesPerKiB.timesExact(this))
 
 /**
  * Returns a [BinaryByteSize] equal to this number of mebibytes.
@@ -44,6 +65,16 @@ inline val Number.kibibytes: BinaryByteSize
 inline val Number.mebibytes: BinaryByteSize
   get() = BinaryByteSize(BytesPerMiB) * this
 
+/** Allocation-free overload of [mebibytes] for [Int] receivers. */
+@get:JvmSynthetic
+inline val Int.mebibytes: BinaryByteSize
+  get() = BinaryByteSize(bytes = BytesPerMiB.timesExact(toLong()))
+
+/** Allocation-free overload of [mebibytes] for [Long] receivers. */
+@get:JvmSynthetic
+inline val Long.mebibytes: BinaryByteSize
+  get() = BinaryByteSize(bytes = BytesPerMiB.timesExact(this))
+
 /**
  * Returns a [BinaryByteSize] equal to this number of gibibytes.
  *
@@ -52,6 +83,16 @@ inline val Number.mebibytes: BinaryByteSize
 @get:JvmSynthetic
 inline val Number.gibibytes: BinaryByteSize
   get() = BinaryByteSize(BytesPerGiB) * this
+
+/** Allocation-free overload of [gibibytes] for [Int] receivers. */
+@get:JvmSynthetic
+inline val Int.gibibytes: BinaryByteSize
+  get() = BinaryByteSize(bytes = BytesPerGiB.timesExact(toLong()))
+
+/** Allocation-free overload of [gibibytes] for [Long] receivers. */
+@get:JvmSynthetic
+inline val Long.gibibytes: BinaryByteSize
+  get() = BinaryByteSize(bytes = BytesPerGiB.timesExact(this))
 
 /** Returns this size without its sign. */
 @get:JvmSynthetic
