@@ -55,7 +55,7 @@ private fun roundToHundredths(size: Long, unit: Long): Long {
 // The toStringAsFixed() functions below aren't called by this library any more, but code
 // compiled against byte-size 2.3.0 or earlier inlined toString() bodies that call them, so
 // removing them would break that code at runtime.
-
+@Suppress("unused")
 @PublishedApi
 internal fun Long.toStringAsFixed(): String {
   return this.toDouble().toStringAsFixed()
@@ -70,6 +70,7 @@ internal fun Double.toStringAsFixed(): String {
  * Adapted from [compose-ui](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-geometry/src/commonMain/kotlin/androidx/compose/ui/geometry/GeometryUtils.kt;drc=f246f23593ca89113a9023f61a32cdc7db09e99e).
  */
 @PublishedApi
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun Double.toStringAsFixed(digits: Int): String {
   val pow = 10f.pow(digits)
   val shifted = this * pow // shift the given value by the corresponding power of 10
