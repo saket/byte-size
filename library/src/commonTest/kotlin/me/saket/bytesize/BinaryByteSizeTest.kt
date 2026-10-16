@@ -27,6 +27,12 @@ class BinaryByteSizeTest {
     assertThat(max).hasToString("8192 PiB")
   }
 
+  @Test fun min_value() {
+    val min = BinaryByteSize(Long.MIN_VALUE)
+    assertThat(min.inWholeBytes).isEqualTo(Long.MIN_VALUE)
+    assertThat(min).hasToString("-8192 PiB")
+  }
+
   @Test fun unit_conversions() {
     assertThat(2048.binaryBytes.inWholeKibibytes).isEqualTo(2)
     assertThat(345.999.kibibytes.inWholeKibibytes).isEqualTo(345)
@@ -63,6 +69,12 @@ class BinaryByteSizeTest {
 
     assertThat((-1_636_186_211).binaryBytes).hasToString("-1.52 GiB")
     assertThat((-345).kibibytes).hasToString("-345 KiB")
+  }
+
+  @Test fun toString_moves_to_the_next_unit_when_rounding_reaches_it() {
+    assertThat(1_048_570.binaryBytes).hasToString("1023.99 KiB")
+    assertThat(1_048_571.binaryBytes).hasToString("1 MiB")
+    assertThat((-1_048_571).binaryBytes).hasToString("-1 MiB")
   }
 
   @Test fun conversion_to_other_units() {

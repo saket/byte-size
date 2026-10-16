@@ -8,15 +8,14 @@ import dev.erikchristensen.javamath2kmp.timesExact
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
-import kotlin.math.abs
 import kotlin.math.absoluteValue
 import me.saket.bytesize.internal.commonCompareTo
 import me.saket.bytesize.internal.commonDiv
 import me.saket.bytesize.internal.commonMinus
 import me.saket.bytesize.internal.commonPlus
 import me.saket.bytesize.internal.commonTimes
+import me.saket.bytesize.internal.formatSize
 import me.saket.bytesize.internal.hasFractionalPart
-import me.saket.bytesize.internal.toStringAsFixed
 
 /**
  * Creates a [DecimalByteSize] from a raw number of bytes.
@@ -169,24 +168,13 @@ value class DecimalByteSize(
     bytes.compareTo(other.bytes)
 
   override inline fun toString(): String {
-    val sign = if (inWholeBytes < 0) "-" else ""
-    val bytes = abs(inWholeBytes)
-    return when {
-      bytes < BytesPerKB -> "$sign${bytes.toStringAsFixed()} B"
-      bytes < BytesPerMB -> "$sign${(bytes / BytesPerKB.toDouble()).toStringAsFixed()} KB"
-      bytes < BytesPerGB -> "$sign${(bytes / BytesPerMB.toDouble()).toStringAsFixed()} MB"
-      bytes < BytesPerTB -> "$sign${(bytes / BytesPerGB.toDouble()).toStringAsFixed()} GB"
-      bytes < BytesPerPB -> "$sign${(bytes / BytesPerTB.toDouble()).toStringAsFixed()} TB"
-      else -> "$sign${(bytes / BytesPerPB.toDouble()).toStringAsFixed()} PB"
-    }
+    return formatSize(inWholeBytes, BytesPerKB, "B", "KB", "MB", "GB", "TB", "PB")
   }
 }
 
 @PublishedApi internal inline val BytesPerKB: Long get() = 1000L
 @PublishedApi internal inline val BytesPerMB: Long get() = 1000L * BytesPerKB
 @PublishedApi internal inline val BytesPerGB: Long get() = 1000L * BytesPerMB
-@PublishedApi internal inline val BytesPerTB: Long get() = 1000L * BytesPerGB
-@PublishedApi internal inline val BytesPerPB: Long get() = 1000L * BytesPerTB
 
 @JvmSynthetic
 inline operator fun Number.times(other: DecimalByteSize): DecimalByteSize {
