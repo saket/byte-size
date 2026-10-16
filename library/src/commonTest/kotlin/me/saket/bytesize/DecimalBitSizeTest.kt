@@ -29,6 +29,12 @@ class DecimalBitSizeTest {
     assertThat(max).hasToString("9223.37 Pb")
   }
 
+  @Test fun min_value() {
+    val min = DecimalBitSize(Long.MIN_VALUE)
+    assertThat(min.inWholeBits).isEqualTo(Long.MIN_VALUE)
+    assertThat(min).hasToString("-9223.37 Pb")
+  }
+
   @Test fun unit_conversions() {
     assertThat(4000.decimalBits.inWholeKilobits).isEqualTo(4)
     assertThat(839.123.kilobits.inWholeKilobits).isEqualTo(839)
@@ -67,6 +73,17 @@ class DecimalBitSizeTest {
 
     assertThat((-1_636_186_211).decimalBits).hasToString("-1.64 Gb")
     assertThat((-666).gigabits).hasToString("-666 Gb")
+  }
+
+  @Test fun toString_moves_to_the_next_unit_when_rounding_reaches_it() {
+    assertThat(999_994.decimalBits).hasToString("999.99 Kb")
+    assertThat(999_995.decimalBits).hasToString("1 Mb")
+    assertThat((-999_995).decimalBits).hasToString("-1 Mb")
+  }
+
+  @Test fun toString_rounds_half_up() {
+    assertThat(1_005.decimalBits).hasToString("1.01 Kb")
+    assertThat((-1_005).decimalBits).hasToString("-1.01 Kb")
   }
 
   @Test fun conversion_to_other_units() {

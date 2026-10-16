@@ -1,6 +1,60 @@
 package me.saket.bytesize.internal
 
+import kotlin.math.abs
 import kotlin.math.pow
+
+/**
+ * Formats [size], a count of the smallest of [units], in the largest unit it still reaches
+ * once rounded half up to two decimals, so that 999,995 bytes is "1 MB" rather than
+ * "1000 KB". Each unit is [unitStep] times the previous one.
+ *
+ * This is integer arithmetic so that the rounding is exact. 1.005 has no exact [Double]
+ * representation, so rounding 1,005 bytes through one prints "1 KB" rather than "1.01 KB".
+ *
+ * Unlike the `toString()` overrides that call it, this isn't inline, so that a fix here
+ * reaches code compiled against an earlier version of this library.
+ */
+@PublishedApi
+internal fun formatSize(size: Long, unitStep: Long, vararg units: String): String {
+  if (size > -unitStep && size < unitStep) {
+    return "$size ${units[0]}"
+  }
+  var unitIndex = 1
+  var unit = unitStep
+  var hundredths = roundToHundredths(size, unit)
+  while (hundredths >= unitStep * 100 && unitIndex < units.lastIndex) {
+    unitIndex++
+    unit *= unitStep
+    hundredths = roundToHundredths(size, unit)
+  }
+  val sign = if (size < 0) "-" else ""
+  val whole = hundredths / 100
+  val fraction = hundredths % 100
+  val decimals = when {
+    fraction == 0L -> ""
+    fraction % 10 == 0L -> ".${fraction / 10}"
+    fraction < 10 -> ".0$fraction"
+    else -> ".$fraction"
+  }
+  return "$sign$whole$decimals ${units[unitIndex]}"
+}
+
+/**
+ * Returns the magnitude of [size] / [unit] rounded half up to two decimals, in hundredths.
+ *
+ * Taking the magnitude of the quotient and the remainder rather than of [size] is what makes
+ * [Long.MIN_VALUE] work, as its own magnitude doesn't fit in a [Long]. `remainder * 100` can't
+ * overflow while [unit] stays below 2^56, and the largest unit, a pebibyte, is 2^50.
+ */
+private fun roundToHundredths(size: Long, unit: Long): Long {
+  val whole = abs(size / unit)
+  val remainder = abs(size % unit)
+  return whole * 100 + (remainder * 100 + unit / 2) / unit
+}
+
+// The toStringAsFixed() functions below aren't called by this library any more, but code
+// compiled against byte-size 2.3.0 or earlier inlined toString() bodies that call them, so
+// removing them would break that code at runtime.
 
 @PublishedApi
 internal fun Long.toStringAsFixed(): String {
