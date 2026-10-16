@@ -1,7 +1,7 @@
 # byte-size
 
 ```groovy
-implementation "me.saket.bytesize:bytesize:2.3.0"
+implementation "me.saket.bytesize:bytesize:2.4.0"
 ```
 
 ```kotlin
